@@ -1,0 +1,29 @@
+
+
+n = 0;
+if n
+   a = 5;
+   b = 9;
+   for m = (5+6)..a*b 
+	c = a+b*3;
+   endfor;
+endif;
+
+if (not (1 and 5+6 <= 5))
+	a = 5;
+    for l = 1 .. 5-9
+		a = 4 - i;
+		b = t;
+	endfor;
+	kl=6;
+else
+	a = 6;
+endif;
+
+print();
+
+println( 6, 9, p);
+n = 100;
+while not n==1 and  n+7 != 5
+  n = n -1;
+endwhile;
