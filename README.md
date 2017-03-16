@@ -28,6 +28,7 @@ Credits:
 | FB            | Fateev S.     | Bulanov D.     |
 | PC            | Paterikin A.  | Cherkasov V.   |
 | OE            | Ostapenko A.  | Ermolaev D.    |
+| AE            | Aliev M.      | Ermolinsky A.  |
 
 
 Scientific Advisor: Mikhalkovich S.
