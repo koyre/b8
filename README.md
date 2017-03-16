@@ -6,6 +6,7 @@ Credits:
 - Cherkasov V.
 - Ermolaev D.
 - Fateev S.
+- Bulanov D.
 - Koval N.
 - Ostapenko A.
 - Poterikin A.
