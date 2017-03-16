@@ -17,14 +17,14 @@ Credits:
 - Cherkasov V.
 
 
-| Team          | Dev1          | Dev2           | Task           |
-| ------------- |:-------------:| --------------:| --------------:|
-| RR            | Rogov D.      | Raskin A.      |                |
-| AN            | Avakyan G     | Nezhevsky N.   |                |
-| LK            | Limarev V.    | Koval N.       |                |
-| FB            | Fateev S.     | Bulanov D.     |                |
-| PC            | Paterikin A.  | Cherkasov V.   |                |
-| OE            | Ostapenko A.  | Ermolaev D.    |                |
+| Team          | Dev1          | Dev2           | 
+| ------------- |:-------------:| :-------------:| 
+| RR            | Rogov D.      | Raskin A.      |
+| AN            | Avakyan G     | Nezhevsky N.   |
+| LK            | Limarev V.    | Koval N.       |
+| FB            | Fateev S.     | Bulanov D.     |
+| PC            | Paterikin A.  | Cherkasov V.   |
+| OE            | Ostapenko A.  | Ermolaev D.    |
 
 
 Scientific Advisor: Mikhalkovich S.
