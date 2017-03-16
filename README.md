@@ -3,9 +3,11 @@ b8 compiler from MMCS SFedU
 
 
 Credits:
+- Aliev M.
 - Avakyan G.
 - Bulanov D.
 - Ermolaev D.
+- Ermolinsky A.
 - Fateev S.
 - Koval N.
 - Limarev V.
