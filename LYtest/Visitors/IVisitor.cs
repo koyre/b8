@@ -7,7 +7,7 @@ using ProgramTree;
 
 namespace LYtest.Visitors
 {
-    public interface IVsisitor
+    public interface IVisitor
     {
         void VisitIf(IfNode n);
 

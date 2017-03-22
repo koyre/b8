@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProgramTree;
-
+using LYtest.Visitors;
 
 namespace LYtest
 {
@@ -24,9 +24,15 @@ namespace LYtest
             MyLanguageParser p = new MyLanguageParser(s);
 
             var r = p.Parse();
-           
-
             Console.WriteLine(r);
+
+            if (!r) // ¯\_(ツ)_/¯
+                return;
+
+            // Генерация и получение трёхзначного кода
+            var linearCode = new LinearCodeVisitor();
+            p.root.AcceptVisit(linearCode);
+            var code = linearCode.code;
         }
 
 

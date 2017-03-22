@@ -9,7 +9,7 @@ namespace ProgramTree
 
     public abstract class Node
     {
-        public abstract void AcceptVisit(IVsisitor visitor);
+        public abstract void AcceptVisit(IVisitor visitor);
     }
 
     public abstract class StatementNode : Node
@@ -39,7 +39,7 @@ namespace ProgramTree
             Cond = cond;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitIf(this);
         }
@@ -64,7 +64,7 @@ namespace ProgramTree
             St = st;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitFor(this);
         }
@@ -80,7 +80,7 @@ namespace ProgramTree
             Expr = expr;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitAssign(this);
         }
@@ -106,7 +106,7 @@ namespace ProgramTree
             _sts.Add(node);
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitBlock(this);
         }
@@ -138,7 +138,7 @@ namespace ProgramTree
             _operands.Add(node);
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitProc(this);
         }
@@ -154,7 +154,7 @@ namespace ProgramTree
             Cond = cond;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitWhile(this);
         }
@@ -168,7 +168,7 @@ namespace ProgramTree
             Val = val;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitConst(this);
         }
@@ -183,7 +183,7 @@ namespace ProgramTree
             Name = name;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitId(this);
         }
@@ -202,7 +202,7 @@ namespace ProgramTree
             Rhs = b;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitBinOp(this);
         }
@@ -219,7 +219,7 @@ namespace ProgramTree
             Val = a;
         }
 
-        public override void AcceptVisit(IVsisitor visitor)
+        public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitUnOp(this);
         }
