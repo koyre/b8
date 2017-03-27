@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseBlocks\BaseBlock.cs" />
+    <Compile Include="BaseBlocks\BaseBlockBuilder.cs" />
     <Compile Include="GplexBuffers.cs" />
     <Compile Include="LinearRepr\IThreeAddressCode.cs" />
     <Compile Include="LinearRepr\LinearRepresentation.cs" />

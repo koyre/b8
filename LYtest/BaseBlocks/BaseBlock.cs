@@ -11,26 +11,39 @@ namespace LYtest.BaseBlocks
 {
     interface IBaseBlock
     {
-        IThreeAddressCode InsertAfter(LabelValue after, IThreeAddressCode newElem);
-        IThreeAddressCode Remove(LabelValue elem);
+        bool InsertAfter(IThreeAddressCode after, IThreeAddressCode newElem);
+        void Append(IThreeAddressCode newElem);
+        bool Remove(IThreeAddressCode elem);
         IEnumerable<IThreeAddressCode> Enumerate();
     }
-
+    
     class BaseBlock : IBaseBlock
     {
-        public IThreeAddressCode InsertAfter(LabelValue after, IThreeAddressCode newElem)
+        private readonly LinkedList<IThreeAddressCode> _elems = new LinkedList<IThreeAddressCode>();
+
+        public bool InsertAfter(IThreeAddressCode after, IThreeAddressCode newElem)
         {
-            throw new NotImplementedException();
+            var node = _elems.Find(after);
+            if (node == null)
+                return false;
+
+            _elems.AddAfter(node, newElem);
+            return true;
         }
 
-        public IThreeAddressCode Remove(LabelValue elem)
+        public void Append(IThreeAddressCode newElem)
         {
-            throw new NotImplementedException();
+            _elems.AddFirst(newElem);
+        }
+
+        public bool Remove(IThreeAddressCode elem)
+        {
+            return _elems.Remove(elem);
         }
 
         public IEnumerable<IThreeAddressCode> Enumerate()
         {
-            throw new NotImplementedException();
+            return _elems;
         }
     }
 }
