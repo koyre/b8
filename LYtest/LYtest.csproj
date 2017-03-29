@@ -70,6 +70,7 @@
     <Compile Include="LinearRepr\Values\NumericValue.cs" />
     <Compile Include="LinearRepr\Values\Operation.cs" />
     <Compile Include="LinearRepr\Values\Base\StringValue.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
