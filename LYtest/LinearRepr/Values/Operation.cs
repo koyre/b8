@@ -9,6 +9,15 @@ namespace LYtest.LinearRepr.Values
         Minus,
         Mult,
         Goto,
-        CondGoto
+        CondGoto,
+        Less,
+        LessOrEquals,
+        Great,
+        GreatOrEquals,
+        And,
+        NotEqual,
+
+        Print,
+        Println
     }
 }
