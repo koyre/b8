@@ -17,8 +17,21 @@ namespace LYtest.Visitors
             {
                 {Operator.Plus, Operation.Plus },
                 {Operator.Minus, Operation.Minus },
-                {Operator.Mult, Operation.Mult }
-                // todo: дополнить остальными значениями
+                {Operator.Mult, Operation.Mult },
+                {Operator.Lt, Operation.Less},
+                {Operator.Le, Operation.LessOrEquals},
+                {Operator.Ge, Operation.GreatOrEquals },
+                {Operator.Gt, Operation.Great},
+                {Operator.And, Operation.And },
+                {Operator.Neq, Operation.NotEqual }
+                // todo: по необходимости дополнить остальными значениями
+            };
+
+        private static readonly Dictionary<BuildOnProcedure, Operation> PROCEDURE_TO_OPERAITON =
+            new Dictionary<BuildOnProcedure, Operation>
+            {
+                {BuildOnProcedure.Print, Operation.Print },
+                {BuildOnProcedure.Println, Operation.Println }
             };
 
         public List<LinearRepresentation> code = new List<LinearRepresentation>();
@@ -40,7 +53,18 @@ namespace LYtest.Visitors
 
         public void VisitFor(ForNode n)
         {
-            // todo 22.03 ?
+            var beginLabel = new LabelValue(LABEL_PREFIX + labelCounter++);
+            var beforeEnd = new List<LinearRepresentation>();
+
+            n.ForVar.AcceptVisit(this);
+            beforeEnd.Add(new LinearRepresentation(Operation.Plus, (IdentificatorValue)idOrNum, idOrNum, new NumericValue(1)));
+            beforeEnd.Add(new LinearRepresentation(Operation.Goto, beginLabel));
+
+            n.Beg.AcceptVisit(this);
+            code.Add(new LinearRepresentation(beginLabel, Operation.NoOperation));
+           
+            ExprNode condition = new BinOp(n.ForVar, n.End, Operator.Le);
+            branchCondition(condition, n.St, null, beforeEnd);
         }
 
         public void VisitAssign(AssignNode n)
@@ -54,9 +78,7 @@ namespace LYtest.Visitors
                 --valueCounter;
             }
             else
-            {
                 resAssign = new LinearRepresentation(Operation.Assign, null, idOrNum);
-            }
             n.Id.AcceptVisit(this);
             resAssign.Destination = (IdentificatorValue)idOrNum;
             evaluatedExpression.Add(resAssign);
@@ -71,12 +93,26 @@ namespace LYtest.Visitors
 
         public void VisitProc(Procedure n)
         {
-            // todo 22.03 ?
+            Operation oper = procedureToOperation(n.Proc);
+            if (n.Operands.Count == 0)
+            {
+                code.Add(new LinearRepresentation(oper, null, null, null));
+            }
+                
+            foreach (var op in n.Operands)
+            {
+                op.AcceptVisit(this);
+                code.Add(new LinearRepresentation(oper, null, idOrNum, null));
+            }
+
         }
 
         public void VisitWhile(WhileNode n)
         {
-            // todo 22.03 ?
+            var beginLabel = new LabelValue(LABEL_PREFIX + labelCounter++);
+            var beforeEnd = new List<LinearRepresentation>();
+            beforeEnd.Add(new LinearRepresentation(Operation.Goto, beginLabel));
+            branchCondition(n.Cond, (BlockNode)n.Child, null, beforeEnd);
         }
 
         public void VisitConst(Const n)
@@ -111,6 +147,12 @@ namespace LYtest.Visitors
         /**
           * Вспомогательные методы
           */
+
+
+        private Operation procedureToOperation(BuildOnProcedure pr)
+        {
+            return PROCEDURE_TO_OPERAITON[pr];
+        }
 
         private Operation operatorToOperation(Operator op)
         {

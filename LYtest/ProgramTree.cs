@@ -117,6 +117,9 @@ namespace ProgramTree
     public class Procedure : StatementNode
     {
         public BuildOnProcedure Proc { get; }
+
+        public List<ExprNode> Operands { get { return _operands; } }
+         
         private List<ExprNode> _operands = new List<ExprNode>();
         public Procedure(BuildOnProcedure p)
         {
