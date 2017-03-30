@@ -45,7 +45,6 @@ Ident {Alpha}{AlphaDigit}*
 ">=" { return (int)Token.GE; }
 "or" { return (int)Token.OR; }
 "and" { return (int)Token.AND; }
-"not" { return (int)Token.NOT; }
 
 "-" { return (int)Token.MINUS; }
 "+" { return (int)Token.PLUS; }

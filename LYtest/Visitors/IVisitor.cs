@@ -26,8 +26,6 @@ namespace LYtest.Visitors
         void VisitId(IdentNode n);
 
         void VisitBinOp(BinOp n);
-
-        void VisitUnOp(UnOp n);
     }
 
 }

@@ -207,23 +207,4 @@ namespace ProgramTree
             visitor.VisitBinOp(this);
         }
     }
-
-    public enum UnaryOperator { Not }
-    public class UnOp : ExprNode
-    {
-        public ExprNode Val { get; }
-        public UnaryOperator Op { get; }
-        public UnOp(ExprNode a, UnaryOperator op)
-        {
-            Op = op;
-            Val = a;
-        }
-
-        public override void AcceptVisit(IVisitor visitor)
-        {
-            visitor.VisitUnOp(this);
-        }
-    }
-
-
 }

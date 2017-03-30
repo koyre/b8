@@ -103,11 +103,6 @@ namespace LYtest.Visitors
             evaluatedExpression.Add(result);
         }
 
-        public void VisitUnOp(UnOp n)
-        {
-            // Todo ?
-        }
-
         /**
           * Вспомогательные методы
           */

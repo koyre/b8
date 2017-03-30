@@ -10,7 +10,7 @@ if n
    }
 }
 
-if (not (1 and 5+6 <= 5))
+if ((1 and 5+6 <= 5))
 {
     for l = 1 .. 5-9 {
 	
@@ -24,6 +24,6 @@ print();
 
 println( 6, 9, p);
 n = 100;
-while not n==1 and  n+7 != 5 {
+while n==1 and  n+7 != 5 {
   n = n -1;
 }

@@ -27,7 +27,7 @@
 
 %token <iVal> NUMBER
 %token ASSIGN LPAREN RPAREN DDOT WHILE FOR IF BEGIN END SEMICOLON ELSE PRINTLN PRINT COMMA
-%token MINUS PLUS MULT DIV  EQ NEQ LT GT LE GE OR AND NOT
+%token MINUS PLUS MULT DIV  EQ NEQ LT GT LE GE OR AND
 
 %token <sVal> IDENT
 
@@ -116,7 +116,6 @@ logOp  : OR   { $$ = Operator.Or; }
 
 expr : logExpr { $$ = $1; }
       | expr logOp logExpr  { $$ = new BinOp($1 as ExprNode, $3 as ExprNode, $2); }
-	  | NOT logExpr { $$ = new UnOp($2 as ExprNode, UnaryOperator.Not); }   
 	  ;
 
 logExpr : arExpr { $$ = $1; }
