@@ -8,6 +8,7 @@ namespace LYtest.LinearRepr.Values
         Plus,
         Minus,
         Mult,
+        Div,
         Goto,
         CondGoto,
         Less,
@@ -15,8 +16,9 @@ namespace LYtest.LinearRepr.Values
         Great,
         GreatOrEquals,
         And,
+        Or,
         NotEqual,
-
+        Equals,
         Print,
         Println
     }

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace LYtest.Visitors
 {
-    class LinearCodeVisitor : IVisitor
+    public class LinearCodeVisitor : IVisitor
     {
 
         private static readonly string CONSTANT_PREFIX = "$const";
@@ -23,7 +23,10 @@ namespace LYtest.Visitors
                 {Operator.Ge, Operation.GreatOrEquals },
                 {Operator.Gt, Operation.Great},
                 {Operator.And, Operation.And },
-                {Operator.Neq, Operation.NotEqual }
+                {Operator.Neq, Operation.NotEqual },
+                {Operator.Eq, Operation.Equals },
+                {Operator.Or, Operation.Or },
+                {Operator.Div, Operation.Div }
                 // todo: по необходимости дополнить остальными значениями
             };
 

@@ -9,7 +9,7 @@ using LYtest.LinearRepr.Values;
 
 namespace LYtest.BaseBlocks
 {
-    interface IBaseBlock
+    public interface IBaseBlock
     {
         bool InsertAfter(IThreeAddressCode after, IThreeAddressCode newElem);
         void Append(IThreeAddressCode newElem);
@@ -33,7 +33,7 @@ namespace LYtest.BaseBlocks
 
         public void Append(IThreeAddressCode newElem)
         {
-            _elems.AddFirst(newElem);
+            _elems.AddLast(newElem);
         }
 
         public bool Remove(IThreeAddressCode elem)

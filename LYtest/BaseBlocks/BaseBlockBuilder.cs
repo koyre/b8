@@ -9,7 +9,7 @@ using LYtest.LinearRepr.Values;
 namespace LYtest.BaseBlocks
 {
 
-    class LinearToBaseBlock
+    public class LinearToBaseBlock
     {
         private class BaseBlockBuilder
         {

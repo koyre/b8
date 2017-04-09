@@ -3,7 +3,7 @@ using LYtest.LinearRepr.Values;
 
 namespace LYtest.LinearRepr
 {
-    class ThreeAddressCode: IThreeAddressCode
+    public class ThreeAddressCode: IThreeAddressCode
     {
         public Operation Operation { get; set; }
         public IValue LeftOperand { get; set; }
