@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ProgramTree;
 using LYtest.Visitors;
+using LYtest.BaseBlocks;
+using LYtest.CFG;
 
 namespace LYtest
 {
@@ -20,6 +22,11 @@ namespace LYtest
             var linearCode = new LinearCodeVisitor();
             root?.AcceptVisit(linearCode);
             var code = linearCode.code;
+            
+            var blocks = LinearToBaseBlock.Build(code);
+            
+
+            Console.ReadLine();
         }
 
 

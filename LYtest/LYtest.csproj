@@ -59,10 +59,14 @@
   <ItemGroup>
     <Compile Include="BaseBlocks\BaseBlock.cs" />
     <Compile Include="BaseBlocks\BaseBlockBuilder.cs" />
+    <Compile Include="CFG\CFGBuilder.cs" />
+    <Compile Include="CFG\CFGLookup.cs" />
+    <Compile Include="CFG\CFGNode.cs" />
     <Compile Include="GplexBuffers.cs" />
     <Compile Include="Helpers\UniqueIdGen.cs" />
     <Compile Include="LinearRepr\IThreeAddressCode.cs" />
     <Compile Include="LinearRepr\LinearRepresentation.cs" />
+    <Compile Include="LinearRepr\ProgramTreeToLinear.cs" />
     <Compile Include="LinearRepr\ThreeAddressCode.cs" />
     <Compile Include="LinearRepr\Values\Base\BaseValue.cs" />
     <Compile Include="LinearRepr\Values\IdentificatorValue.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LYtest;
+using LYtest.CFG;
 using LYtest.LinearRepr;
 using LYtest.LinearRepr.Values;
 using LYtest.Visitors;
@@ -47,28 +48,9 @@ namespace UnitTestProject1
         [TestMethod]
         public void LinearCodeTest()
         {
-            var root = Parser.ParseString("n=0;" +
-                                          "k = n + 5;" +
-                                          "if n >= 5 {" +
-                                          "x = 0;" +
-                                          "} else {" +
-                                          "x = 8;" +
-                                          "}" +
-                                          "n = x + 2 * k;" +
-                                          "for i = 0..n {" +
-                                          "t = t + i;" +
-                                          "k = k + i*3;" +
-                                          "}" +
-                                          //"while (3 <= n and n < 8) or flag {" +
-                                          "n = n /2;" +
-                                          "if n == 0 {" +
-                                          "flag = 1;" +
-                                          //"}" +
-                                          "}");
-
-            var linearCode = new LinearCodeVisitor();
-            root.AcceptVisit(linearCode);
-            var code = linearCode.code;
+            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
 
             var labels = code.Select(c => c.Label);
 
@@ -78,7 +60,6 @@ namespace UnitTestProject1
             // All labels different
             Assert.AreEqual(labels.Distinct().Count(), code.Count);
             
-            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
 
             // All elems in blocks
             Assert.AreEqual(blocks.Select(b => b.Enumerate().Count()).Sum(), code.Count);
@@ -111,5 +92,27 @@ namespace UnitTestProject1
                 Assert.IsTrue(firstLabels.Contains(d));
             }
         }
+
+
+        [TestMethod]
+        public void CFGTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+            Assert.AreEqual(cfg.ParentsNodes.Count, 0);
+
+            var cfgview = new CFGLookup(cfg);
+            while (cfgview.MoveDirect())
+            { }
+            Assert.AreEqual(cfgview.PathLen, 10);
+
+            while (cfgview.MoveBack())
+            { }
+            Assert.AreEqual(cfgview.Current, cfg);
+
+        }
+
     }
 }
