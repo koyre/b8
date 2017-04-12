@@ -5,28 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 
 using LYtest.BaseBlocks;
+using LYtest.LinearRepr.Values;
 
 namespace LYtest.CFG
-{   
-    class CFGBuilder
+{
+    public static class ListBlocksToCFG
     {
-        private List<IBaseBlock>_blocks;
-        private LinkedList<CFGNode> _nodes = new LinkedList<CFGNode>();
-
-        public CFGBuilder(List<IBaseBlock> blocks)
+        public static CFGNode Build(List<IBaseBlock> blocks)
         {
-            this._blocks = blocks;
-        }
+            CFGNode root = new CFGNode(blocks.First());
+            var currentNode = root;
 
-        public void Build()
-        {
-            var firstNode = new CFGNode();
-
-            for (int i = 0; i < this._blocks.Count; i++)
+            foreach (var block in blocks.Skip(1))
             {
-                
-            }
-        }
+                var directChild = new CFGNode(block);
+                currentNode.SetDirectChild(directChild);
 
-     }
+                var lastOp = currentNode.Value.Enumerate().Last();
+                if (lastOp.Operation == Operation.Goto || lastOp.Operation == Operation.CondGoto)
+                {
+                    var gotoBlock = blocks.First(b => b.Enumerate().First().Label.Equals(lastOp.Destination));
+                    var gotoChild = new CFGNode(gotoBlock);
+                    currentNode.SetGotoChild(gotoChild);
+                }
+                currentNode = directChild;
+            }
+            return root;
+        }
+    }
 }

@@ -8,16 +8,36 @@ using LYtest.BaseBlocks;
 
 namespace LYtest.CFG
 {
-    class CFGNode
+    public class CFGNode
     {
-        public CFGNode leftNode; // Will return left-hand side node 
-        public CFGNode rightNode; // Will return right-hand side node
+        public readonly List<CFGNode> ParentsNodes = new List<CFGNode>();
+        public CFGNode directChild; // Will return direct child node (nut null)
+        public CFGNode gotoNode; // Will return node following goto operator (may be null)
 
-        public IBaseBlock nodeBlock; // Will return the block which was assigned for current node
+        public IBaseBlock Value { get; }
 
-        public CFGNode()
+
+        public CFGNode(IBaseBlock val)
         {
+            Value = val;
+        }
 
+        private void AcceptChild(CFGNode child)
+        {
+            if (child.ParentsNodes.Contains(this))
+                return;
+            child.ParentsNodes.Add(this);
+        }
+
+        public void SetDirectChild(CFGNode child)
+        {
+            directChild = child;
+            AcceptChild(child);
+        }
+        public void SetGotoChild(CFGNode child)
+        {
+            gotoNode = child;
+            AcceptChild(child);
         }
 
     }
