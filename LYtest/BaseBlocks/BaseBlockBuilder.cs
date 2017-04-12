@@ -8,8 +8,7 @@ using LYtest.LinearRepr.Values;
 
 namespace LYtest.BaseBlocks
 {
-
-    class LinearToBaseBlock
+    public static class LinearToBaseBlock
     {
         private class BaseBlockBuilder
         {
@@ -60,7 +59,7 @@ namespace LYtest.BaseBlocks
             return controlPoints;
         }
 
-        public List<IBaseBlock> Build(List<LinearRepresentation> lst)
+        public static List<IBaseBlock> Build(List<LinearRepresentation> lst)
         {
             var controlPoints = FindControlPoints(lst);
             var bbuilder = new BaseBlockBuilder();

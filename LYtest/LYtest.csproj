@@ -62,6 +62,7 @@
     <Compile Include="CFG\CFGBuilder.cs" />
     <Compile Include="CFG\CFGNode.cs" />
     <Compile Include="GplexBuffers.cs" />
+    <Compile Include="Helpers\UniqueIdGen.cs" />
     <Compile Include="LinearRepr\IThreeAddressCode.cs" />
     <Compile Include="LinearRepr\LinearRepresentation.cs" />
     <Compile Include="LinearRepr\ThreeAddressCode.cs" />
