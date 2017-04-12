@@ -59,11 +59,11 @@ namespace UnitTestProject1
                                           "t = t + i;" +
                                           "k = k + i*3;" +
                                           "}" +
-                                          "while (3 <= n and n < 8) or flag {" +
+                                          //"while (3 <= n and n < 8) or flag {" +
                                           "n = n /2;" +
                                           "if n == 0 {" +
                                           "flag = 1;" +
-                                          "}" +
+                                          //"}" +
                                           "}");
 
             var linearCode = new LinearCodeVisitor();
@@ -78,7 +78,7 @@ namespace UnitTestProject1
             // All labels different
             Assert.AreEqual(labels.Distinct().Count(), code.Count);
             
-            var blocks = (new LYtest.BaseBlocks.LinearToBaseBlock()).Build(code);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
 
             // All elems in blocks
             Assert.AreEqual(blocks.Select(b => b.Enumerate().Count()).Sum(), code.Count);
