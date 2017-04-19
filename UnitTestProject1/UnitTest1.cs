@@ -106,7 +106,7 @@ namespace UnitTestProject1
             var cfgview = new CFGLookup(cfg);
             while (cfgview.MoveDirect())
             { }
-            Assert.AreEqual(cfgview.PathLen, 10);
+            Assert.AreEqual(cfgview.PathLen, 14);
 
             while (cfgview.MoveBack())
             { }

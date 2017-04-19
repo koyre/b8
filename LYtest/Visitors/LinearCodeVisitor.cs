@@ -113,6 +113,8 @@ namespace LYtest.Visitors
         public void VisitWhile(WhileNode n)
         {
             var beginLabel = new LabelValue(LABEL_PREFIX + labelCounter++);
+
+            code.Add(new LinearRepresentation(beginLabel, Operation.NoOperation));
             var beforeEnd = new List<LinearRepresentation>();
             beforeEnd.Add(new LinearRepresentation(Operation.Goto, beginLabel));
             branchCondition(n.Cond, (BlockNode)n.Child, null, beforeEnd);

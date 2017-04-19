@@ -22,11 +22,11 @@ namespace UnitTestProject1
                                      "t = t + i;" +
                                      "k = k + i*3;" +
                                      "}" +
-                                     //"while (3 <= n and n < 8) or flag {" +
+                                     "while (3 <= n and n < 8) or flag {" +
                                      "n = n /2;" +
                                      "if n == 0 {" +
                                      "flag = 1;" +
-                                     //"}" +
+                                     "}" +
                                      "}";
         }
     }
