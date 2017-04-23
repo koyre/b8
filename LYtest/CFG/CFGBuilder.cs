@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using LYtest.BaseBlocks;
+using LYtest.LinearRepr;
 using LYtest.LinearRepr.Values;
 
 namespace LYtest.CFG
@@ -22,7 +23,7 @@ namespace LYtest.CFG
                 currentNode.SetDirectChild(directChild);
 
                 var lastOp = currentNode.Value.Enumerate().Last();
-                if (lastOp.Operation == Operation.Goto || lastOp.Operation == Operation.CondGoto)
+                if (lastOp.IsGoto())
                 {
                     var gotoBlock = blocks.First(b => b.Enumerate().First().Label.Equals(lastOp.Destination));
                     var gotoChild = new CFGNode(gotoBlock);

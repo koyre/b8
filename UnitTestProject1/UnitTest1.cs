@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LYtest;
 using LYtest.CFG;
+using LYtest.Interpretator;
 using LYtest.LinearRepr;
 using LYtest.LinearRepr.Values;
 using LYtest.Visitors;
@@ -93,6 +94,52 @@ namespace UnitTestProject1
             }
         }
 
+
+        [TestMethod]
+        public void SimpleInterpret()
+        {
+            var root = Parser.ParseString("n = 666; print(n);");
+            var code = ProgramTreeToLinear.Build(root);
+            var res = LinearInterpretator.Run(code);
+            Assert.AreEqual(res[0], 666);
+            Assert.AreEqual(res.Count, 1);
+        }
+
+        [TestMethod]
+        public void SimpleInterpret2()
+        {
+            var root = Parser.ParseString("n = 1;" +
+                                          "k=n;" +
+                                          "z=k+1;" +
+                                          "print(z*2);" +
+                                          "" +
+                                          "");
+            var code = ProgramTreeToLinear.Build(root);
+            var res = LinearInterpretator.Run(code);
+            Assert.AreEqual(res[0], 4);
+            Assert.AreEqual(res.Count, 1);
+
+        }
+
+        [TestMethod]
+        public void SimpleInterpret3()
+        {
+            var root = Parser.ParseString("n = 1;" +
+                                          "k=n;" +
+                                          "z=k+1;" +
+                                          "print(z);" +
+                                          "t = 2*3;" +
+                                          "if (z > 0) {" +
+                                          "for x = 2..(z+1) {" +
+                                          "t = t + 1; }" +
+                                          "}" +
+                                          "print (t);");
+            var code = ProgramTreeToLinear.Build(root);
+            var res = LinearInterpretator.Run(code);
+            Assert.AreEqual(res[0], 9);
+            Assert.AreEqual(res.Count, 1);
+
+        }
 
         [TestMethod]
         public void CFGTest()

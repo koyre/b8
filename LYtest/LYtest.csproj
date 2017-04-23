@@ -64,7 +64,11 @@
     <Compile Include="CFG\CFGNode.cs" />
     <Compile Include="GplexBuffers.cs" />
     <Compile Include="Helpers\UniqueIdGen.cs" />
+    <Compile Include="Interpretator\LinearInterpretator.cs" />
+    <Compile Include="IterAlg\DominatorTree\DominatorAnalyzer.cs" />
+    <Compile Include="IterAlg\IterativeCommonAlg.cs" />
     <Compile Include="LinearRepr\IThreeAddressCode.cs" />
+    <Compile Include="LinearRepr\LinearHelper.cs" />
     <Compile Include="LinearRepr\LinearRepresentation.cs" />
     <Compile Include="LinearRepr\ProgramTreeToLinear.cs" />
     <Compile Include="LinearRepr\ThreeAddressCode.cs" />
