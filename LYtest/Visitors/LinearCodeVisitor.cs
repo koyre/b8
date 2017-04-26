@@ -60,6 +60,34 @@ namespace LYtest.Visitors
             var beforeEnd = new List<LinearRepresentation>();
 
             n.ForVar.AcceptVisit(this);
+            var iterVar = (IdentificatorValue)idOrNum;
+            n.Beg.AcceptVisit(this);
+            code.Add(new LinearRepresentation(Operation.Assign, iterVar, (NumericValue)idOrNum));
+//            beforeEnd.Add(new LinearRepresentation(Operation.Assign, (IdentificatorValue)idOrNum, n.Beg));
+            
+            beforeEnd.Add(new LinearRepresentation(Operation.Plus, (IdentificatorValue)iterVar, iterVar, new NumericValue(1)));
+            beforeEnd.Add(new LinearRepresentation(Operation.Goto, beginLabel));
+
+
+            n.Beg.AcceptVisit(this);
+
+            code.Add(new LinearRepresentation(beginLabel, Operation.NoOperation));
+
+            ExprNode condition = new BinOp(n.ForVar, n.End, Operator.Le);
+            branchCondition(condition, n.St, null, beforeEnd);
+
+            //ExprNode condition = new BinExprNode(forNode.LeftLimit.Id, BinSign.LS, forNode.RightLimit);
+
+            //            branchCondition(condition, forNode.BodyStatement, null, beforeEnd);
+
+            // for initialization
+            //n.LeftLimit.Accept(this);
+            //code.Add(new LinearRepresentation(beginLabel, Operation.NoOperation));
+            //ExprNode condition = new BinExprNode(forNode.LeftLimit.Id, BinSign.LS, forNode.RightLimit);
+
+            //branchCondition(condition, forNode.BodyStatement, null, beforeEnd);
+
+            /*
             beforeEnd.Add(new LinearRepresentation(Operation.Plus, (IdentificatorValue)idOrNum, idOrNum, new NumericValue(1)));
             beforeEnd.Add(new LinearRepresentation(Operation.Goto, beginLabel));
 
@@ -67,7 +95,7 @@ namespace LYtest.Visitors
             code.Add(new LinearRepresentation(beginLabel, Operation.NoOperation));
            
             ExprNode condition = new BinOp(n.ForVar, n.End, Operator.Le);
-            branchCondition(condition, n.St, null, beforeEnd);
+            branchCondition(condition, n.St, null, beforeEnd);*/
         }
 
         public void VisitAssign(AssignNode n)

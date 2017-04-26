@@ -22,8 +22,10 @@ namespace LYtest
             var linearCode = new LinearCodeVisitor();
             root?.AcceptVisit(linearCode);
             var code = linearCode.code;
-            
-            var blocks = LinearToBaseBlock.Build(code);
+
+            linearCode.ToString();
+
+           // var blocks = LinearToBaseBlock.Build(code);
             
 
             Console.ReadLine();
