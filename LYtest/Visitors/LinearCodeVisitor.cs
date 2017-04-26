@@ -62,7 +62,7 @@ namespace LYtest.Visitors
             n.ForVar.AcceptVisit(this);
             var iterVar = (IdentificatorValue)idOrNum;
             n.Beg.AcceptVisit(this);
-            code.Add(new LinearRepresentation(Operation.Assign, iterVar, (NumericValue)idOrNum));
+            code.Add(new LinearRepresentation(Operation.Assign, iterVar, idOrNum));
 //            beforeEnd.Add(new LinearRepresentation(Operation.Assign, (IdentificatorValue)idOrNum, n.Beg));
             
             beforeEnd.Add(new LinearRepresentation(Operation.Plus, (IdentificatorValue)iterVar, iterVar, new NumericValue(1)));
