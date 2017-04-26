@@ -111,7 +111,7 @@ namespace UnitTestProject1
             var root = Parser.ParseString("n = 1;" +
                                           "k=n;" +
                                           "z=k+1;" +
-                                          "print(z*2);" +
+                                          "print(2);" +
                                           "" +
                                           "");
             var code = ProgramTreeToLinear.Build(root);
