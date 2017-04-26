@@ -26,6 +26,10 @@ namespace LYtest.Visitors
         void VisitId(IdentNode n);
 
         void VisitBinOp(BinOp n);
+
+        void VisitGoto(Goto n);
+
+        void VisitLabelNode(LabelNode n);
     }
 
 }

@@ -59,7 +59,7 @@ Ident {Alpha}{AlphaDigit}*
 "}" { return (int)Token.END; }
 
 ";" { return (int)Token.SEMICOLON; }
-
+":" { return (int)Token.COLON; }
 
 "while" { return (int)Token.WHILE; }
 "for" { return (int)Token.FOR; }
@@ -67,6 +67,7 @@ Ident {Alpha}{AlphaDigit}*
 "else" { return (int)Token.ELSE; }
 "print" { return (int)Token.PRINT; }
 "println" { return (int)Token.PRINTLN; }
+"goto" { return (int)Token.GOTO; }
 
 {Ident} {   yylval.sVal = yytext;
 			return (int)Token.IDENT; }

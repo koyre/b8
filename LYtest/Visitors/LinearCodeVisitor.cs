@@ -130,6 +130,18 @@ namespace LYtest.Visitors
             idOrNum = new IdentificatorValue(n.Name);
         }
 
+        public void VisitLabelNode(LabelNode n)
+        {
+            var result = new LinearRepresentation(new LabelValue(n.Label), Operation.NoOperation);
+            evaluatedExpression.Add(result);
+        }
+
+        public void VisitGoto(Goto n)
+        {
+            var result = new LinearRepresentation(Operation.Goto, new LabelValue(n.Label));
+            evaluatedExpression.Add(result);
+        }
+
         public void VisitBinOp(BinOp n)
         {
             var result = new LinearRepresentation(operatorToOperation(n.Op));

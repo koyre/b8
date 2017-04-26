@@ -53,7 +53,7 @@ namespace ProgramTree
         public ExprNode Beg { get; }
 
         public ExprNode End { get; }
-    
+
         public BlockNode St { get; }
 
         public ForNode(IdentNode id, ExprNode beg, ExprNode end, BlockNode st)
@@ -119,13 +119,13 @@ namespace ProgramTree
         public BuildOnProcedure Proc { get; }
 
         public List<ExprNode> Operands { get { return _operands; } }
-         
+
         private List<ExprNode> _operands = new List<ExprNode>();
         public Procedure(BuildOnProcedure p)
         {
             Proc = p;
         }
-        public Procedure(BuildOnProcedure p, List<Node> lst )
+        public Procedure(BuildOnProcedure p, List<Node> lst)
         {
             Proc = p;
             foreach (var node in lst)
@@ -208,6 +208,36 @@ namespace ProgramTree
         public override void AcceptVisit(IVisitor visitor)
         {
             visitor.VisitBinOp(this);
+        }
+    }
+
+    public class Goto : StatementNode
+    {
+        public string Label { get; set; }
+
+        public Goto(string label)
+        {
+            Label = label;
+        }
+
+        public override void AcceptVisit(IVisitor visitor)
+        {
+            visitor.VisitGoto(this);
+        }
+    }
+
+    public class LabelNode : StatementNode
+    {
+        public string Label { get; set; }
+
+        public LabelNode(string label)
+        {
+            Label = label;
+        }
+
+        public override void AcceptVisit(IVisitor visitor)
+        {
+            visitor.VisitLabelNode(this);
         }
     }
 }

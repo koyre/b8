@@ -26,12 +26,12 @@
 %start main
 
 %token <iVal> NUMBER
-%token ASSIGN LPAREN RPAREN DDOT WHILE FOR IF BEGIN END SEMICOLON ELSE PRINTLN PRINT COMMA
+%token ASSIGN LPAREN RPAREN DDOT WHILE FOR IF BEGIN END SEMICOLON ELSE PRINTLN PRINT COMMA GOTO COLON
 %token MINUS PLUS MULT DIV  EQ NEQ LT GT LE GE OR AND
 
 %token <sVal> IDENT
 
-%type <nVal> term expr factor statement ifst whilest statement forst id assign cycle arExpr logExpr proc
+%type <nVal> term expr factor statement ifst whilest forst id assign cycle arExpr logExpr proc label goto
 %type <blVal> stlist block
 %type <opVal> addOp mulOp eqOp logOp 
 %type <lnVal> explist
@@ -62,7 +62,15 @@ explist :  { $$ = new List<Node>(); }
 statement : assign SEMICOLON { $$ = $1; }
           | proc SEMICOLON { $$ = $1; }
 		  | cycle { $$ = $1; }
+          | goto SEMICOLON { $$ = $1; }
+          | label { $$ = $1; }
 		  ;
+          
+goto : GOTO IDENT { $$ = new Goto($2 as string); }
+     ;
+     
+label : IDENT COLON { $$ = new LabelNode($1 as string); }
+      ;
 
 cycle     : ifst { $$ = $1; }
 		  | forst { $$ = $1; }
