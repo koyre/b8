@@ -57,5 +57,33 @@ namespace LYtest.BaseBlocks
             }
             return str;
         }
+
+        public override bool Equals(object obj)
+        {
+            var second = obj as BaseBlock;
+            if (!(this._elems.Count == second._elems.Count))
+            {
+                return false;
+            }
+
+            var this_f = _elems.First;
+            var sec_f = second._elems.First;
+            while (this_f != null)
+            {
+                if (this_f.Value.Label != sec_f.Value.Label)
+                {
+                    return false;
+                }
+                this_f = this_f.Next;
+                sec_f = sec_f.Next;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

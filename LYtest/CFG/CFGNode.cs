@@ -46,5 +46,16 @@ namespace LYtest.CFG
             return Value.ToString();
         }
 
+        public override bool Equals(object obj)
+        {
+            var second = obj as CFGNode;
+            return this.Value.Equals(second.Value);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
     }
 }
