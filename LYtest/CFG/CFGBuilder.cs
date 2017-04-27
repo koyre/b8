@@ -12,7 +12,7 @@ namespace LYtest.CFG
 {
     public static class ListBlocksToCFG
     {
-        public static CFGNode Build(List<IBaseBlock> blocks)
+        public static CFGraph Build(List<IBaseBlock> blocks)
         {
             CFGNode root = new CFGNode(blocks.First());
             var currentNode = root;
@@ -31,7 +31,9 @@ namespace LYtest.CFG
                 }
                 currentNode = directChild;
             }
-            return root;
+
+            var graph = new CFGraph(root, blocks.Count);
+            return graph;
         }
     }
 }

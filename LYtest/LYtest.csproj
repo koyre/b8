@@ -47,6 +47,22 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QuickGraph.Data, Version=3.6.61114.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QuickGraph.Graphviz, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Graphviz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QuickGraph.Serialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Serialization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,9 +75,11 @@
   <ItemGroup>
     <Compile Include="BaseBlocks\BaseBlock.cs" />
     <Compile Include="BaseBlocks\BaseBlockBuilder.cs" />
+    <Compile Include="CFG\CFGraph.cs" />
     <Compile Include="CFG\CFGBuilder.cs" />
     <Compile Include="CFG\CFGLookup.cs" />
     <Compile Include="CFG\CFGNode.cs" />
+    <Compile Include="CFG\DepthSpanningTree.cs" />
     <Compile Include="GplexBuffers.cs" />
     <Compile Include="Helpers\UniqueIdGen.cs" />
     <Compile Include="Interpretator\LinearInterpretator.cs" />

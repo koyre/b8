@@ -77,5 +77,15 @@ namespace LYtest.CFG
         {
             return this.Move(_current.directChild) != null;
         }
+
+        public bool CanMoveGoto()
+        {
+            return _current.gotoNode != null;
+        }
+
+        public bool CanMoveDirect()
+        {
+            return _current.directChild != null;
+        }
     }
 }

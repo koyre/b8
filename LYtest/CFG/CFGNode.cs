@@ -34,10 +34,16 @@ namespace LYtest.CFG
             directChild = child;
             AcceptChild(child);
         }
+        
         public void SetGotoChild(CFGNode child)
         {
             gotoNode = child;
             AcceptChild(child);
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
 
     }
