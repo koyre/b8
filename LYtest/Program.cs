@@ -23,10 +23,12 @@ namespace LYtest
             root?.AcceptVisit(linearCode);
             var code = linearCode.code;
 
-            linearCode.ToString();
-
-           // var blocks = LinearToBaseBlock.Build(code);
             
+            var blocks = LinearToBaseBlock.Build(code);
+            foreach (var block in blocks)
+            {
+                Console.WriteLine(block.ToString());
+            }
 
             Console.ReadLine();
         }

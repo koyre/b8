@@ -15,6 +15,7 @@ namespace LYtest.BaseBlocks
         void Append(IThreeAddressCode newElem);
         bool Remove(IThreeAddressCode elem);
         IEnumerable<IThreeAddressCode> Enumerate();
+        string ToString();
     }
     
     class BaseBlock : IBaseBlock
@@ -44,6 +45,17 @@ namespace LYtest.BaseBlocks
         public IEnumerable<IThreeAddressCode> Enumerate()
         {
             return _elems;
+        }
+
+        public override string ToString()
+        {
+            string str = "";
+            foreach (var line in _elems)
+            {
+                str += line.ToString();
+                str += '\n';
+            }
+            return str;
         }
     }
 }
