@@ -5,47 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 using LYtest.BaseBlocks;
 using LYtest.CFG;
+using LYtest.IterAlg;
 using LYtest.LinearRepr.Values;
 
 namespace LYtest.ReachingDefs
 {
-    public class ReachingDefsIterAlg
+
+    public sealed class ReachingDefsIterAlg : IterativeCommonAlg<HashSet<LabelValue>>
     {
+        protected override HashSet<LabelValue> Top => new HashSet<LabelValue>();
 
-        public Dictionary<IBaseBlock, HashSet<LabelValue>> Out = new Dictionary<IBaseBlock, HashSet<LabelValue>>();
-        public Dictionary<IBaseBlock, HashSet<LabelValue>> In = new Dictionary<IBaseBlock, HashSet<LabelValue>>();
+        private readonly GenKillBuilder GenKill;
 
-        public ReachingDefsIterAlg(CFGraph graph)
+        public ReachingDefsIterAlg(CFGraph g) : base(g)
         {
-            var genKill = new GenKillBuilder(graph.Blocks);
-            foreach (var b in graph.Blocks)
-            {
-                Out[b] = new HashSet<LabelValue>();
-            }
+            GenKill = new GenKillBuilder(g.Blocks);
+            Run();
+        }
 
-            var nodes = CFGNodeSet.GetNodes(graph);
-            nodes.Remove(graph.root);
-            var outModified = true;
+        protected override bool ContCond(HashSet<LabelValue> a, HashSet<LabelValue> b)
+        {
+            return !a.SetEquals(b);
+        }
 
-            while (outModified)
-            {
-                outModified = false;
+        protected override HashSet<LabelValue> TransferFunc(IBaseBlock b)
+        {
+            var res = GenKill.GenLabels(b);
+            res.UnionWith(In[b].Except(GenKill.KillLabels(b)));
+            return res;
+        }
 
-                foreach (var node in nodes)
-                {
-                    var b = node.Value;
-                    In[b] = new HashSet<LabelValue>(node.ParentsNodes.SelectMany(n => Out[n.Value]));
-
-                    var oldOut = Out[b];
-                    var outt = genKill.GenLabels(b);
-                    outt.UnionWith(In[b].Except(genKill.KillLabels(b)));
-                    Out[b] = outt;
-                    if (!outt.SetEquals(oldOut))
-                    {
-                        outModified = true;
-                    }
-                }
-            }
+        protected override HashSet<LabelValue> MeetOp(List<CFGNode> nodes)
+        {
+            return new HashSet<LabelValue>(nodes.SelectMany(n => Out[n.Value]));
         }
     }
 }
