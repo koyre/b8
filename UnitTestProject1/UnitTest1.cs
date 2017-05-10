@@ -112,12 +112,13 @@ namespace UnitTestProject1
                                           "k=n;" +
                                           "z=k+1;" +
                                           "print(2);" +
-                                          "" +
+                                          "print(z);" +
                                           "");
             var code = ProgramTreeToLinear.Build(root);
             var res = LinearInterpretator.Run(code);
-            Assert.AreEqual(res[0], 4);
-            Assert.AreEqual(res.Count, 1);
+            Assert.AreEqual(res.Count, 2);
+            Assert.AreEqual(res[0], 2);
+            Assert.AreEqual(res[1], 2);
 
         }
 
@@ -130,14 +131,16 @@ namespace UnitTestProject1
                                           "print(z);" +
                                           "t = 2*3;" +
                                           "if (z > 0) {" +
-                                          "for x = 2..(z+1) {" +
+                                          "for x = 2..(z+2) {" +
                                           "t = t + 1; }" +
                                           "}" +
                                           "print (t);");
             var code = ProgramTreeToLinear.Build(root);
             var res = LinearInterpretator.Run(code);
-            Assert.AreEqual(res[0], 9);
-            Assert.AreEqual(res.Count, 1);
+            
+            Assert.AreEqual(res.Count, 2);
+            Assert.AreEqual(res[0], 2);
+            Assert.AreEqual(res[1], 9);
 
         }
 
@@ -148,16 +151,16 @@ namespace UnitTestProject1
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
-            Assert.AreEqual(cfg.ParentsNodes.Count, 0);
+            Assert.AreEqual(cfg.root.ParentsNodes.Count, 0);
 
-            var cfgview = new CFGLookup(cfg);
+            var cfgview = new CFGLookup(cfg.root);
             while (cfgview.MoveDirect())
             { }
             Assert.AreEqual(cfgview.PathLen, 14);
 
             while (cfgview.MoveBack())
             { }
-            Assert.AreEqual(cfgview.Current, cfg);
+            Assert.AreEqual(cfgview.Current, cfg.root);
 
         }
 

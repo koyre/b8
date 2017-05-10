@@ -57,7 +57,13 @@ namespace LYtest.Interpretator
             if (cur.Operation == Operation.Print || cur.Operation == Operation.Println)
             {
                 var name = cur.LeftOperand as StringValue;
-                printBuf.Add(variables[name.Value]);
+                if (name != null)
+                    printBuf.Add(variables[name.Value]);
+                else
+                {
+                    var constant = cur.LeftOperand as NumericValue;
+                    printBuf.Add(constant.Value);
+                }
             }
             if (
 
