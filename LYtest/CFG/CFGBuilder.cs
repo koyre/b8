@@ -32,7 +32,7 @@ namespace LYtest.CFG
                 currentNode = directChild;
             }
 
-            var graph = new CFGraph(root, blocks.Count);
+            var graph = new CFGraph(root, blocks);
             return graph;
         }
     }

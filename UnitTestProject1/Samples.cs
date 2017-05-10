@@ -28,6 +28,18 @@ namespace UnitTestProject1
                                      "flag = 1;" +
                                      "}" +
                                      "}";
+
+            public static readonly string sample2 = "i= m -1;" +
+                                                    "j = n;" +
+                                                    "a = u1;" +
+
+                                                    "while 1 {" +
+                                                    " i = i +1;" +
+                                                    "j = j -1;" +
+
+                                                    "if 5 { a = u2; }" +
+                                                    "i = u3;" +
+                                                    "}";
         }
     }
 }

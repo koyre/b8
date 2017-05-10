@@ -16,6 +16,16 @@ namespace LYtest.ReachingDefs
 
         public readonly Dictionary<IBaseBlock, List<Definition>> Kill = new Dictionary<IBaseBlock, List<Definition>>();
 
+        public HashSet<LabelValue> GenLabels(IBaseBlock b)
+        {
+            return new HashSet<LabelValue>(Gen[b].Select(d => d.Item1));
+        }
+
+        public HashSet<LabelValue> KillLabels(IBaseBlock b)
+        {
+            return new HashSet<LabelValue>(Kill[b].Select(d => d.Item1));
+        }
+
         public GenKillBuilder(List<IBaseBlock> blocks)
         {
             foreach (var block in blocks)

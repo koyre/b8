@@ -183,17 +183,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void GenKillTest()
         {
-            var root = Parser.ParseString("i= m -1;" +
-                                          "j = n;" +
-                                          "a = u1;" +
-
-                                          "while 1 {" +
-                                          " i = i +1;" +
-                                          "j = j -1;" +
-
-                                          "if 5 { a = u2; }" +
-                                          "i = u3;"+
-                                          "}");
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
 
@@ -209,6 +199,49 @@ namespace UnitTestProject1
             Assert.AreEqual(genKill.Kill[blocks[6]].Count, 2);
 
         }
+
+        [TestMethod]
+        public void CFGNodeSetTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+
+            var nodes = CFGNodeSet.GetNodes(cfg).Select(n => n.Value);
+            Assert.AreEqual(nodes.Count(), blocks.Count());
+
+            foreach (var b in blocks)
+            {
+                Assert.IsTrue(nodes.Contains(b));
+            }
+        }
+
+        [TestMethod]
+        public void ReachingDefsIterTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+
+
+            var defs = new ReachingDefsIterAlg(cfg);
+
+            foreach (var block in blocks)
+            {
+                Console.Write(block);
+                foreach (var labelValue in defs.Out[block])
+                {
+                    Console.Write(labelValue);
+                    Console.Write(", ");
+                }
+                Console.WriteLine();
+                Console.WriteLine("-----------------------");
+            }
+        }
+        
+
 
     }
 }
