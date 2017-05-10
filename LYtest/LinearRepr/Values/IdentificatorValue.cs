@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LYtest.LinearRepr.Values
 {
-    class IdentificatorValue: StringValue
+    public class IdentificatorValue: StringValue
     {
         public IdentificatorValue(string value): base(value) { }
     }

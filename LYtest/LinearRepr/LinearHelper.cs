@@ -52,6 +52,18 @@ namespace LYtest.LinearRepr
             }
         }
 
+        public static IdentificatorValue AsDefinition(this IThreeAddressCode t)
+        {
+            if (t.IsBinOp() || t.Operation == Operation.Assign)
+            {
+                var res = t.Destination as IdentificatorValue;
+                if (res == null)
+                    throw new Exception("Asserion error");
+                return res;
+            }
+            return null;
+        }
+
         public static Func<int, int, int> ExecBinOp(this IThreeAddressCode t)
         {
             var ops = new Dictionary<Operation, Func<int, int, int>>

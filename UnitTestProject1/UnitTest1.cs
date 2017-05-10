@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LYtest;
 using LYtest.CFG;
 using LYtest.Interpretator;
 using LYtest.LinearRepr;
 using LYtest.LinearRepr.Values;
+using LYtest.ReachingDefs;
 using LYtest.Visitors;
 using ProgramTree;
 
@@ -175,6 +177,37 @@ namespace UnitTestProject1
             foreach (var threeAddressCode in code)
                 Console.WriteLine(threeAddressCode);
             Assert.AreEqual(code.Count, 3);
+        }
+
+
+        [TestMethod]
+        public void GenKillTest()
+        {
+            var root = Parser.ParseString("i= m -1;" +
+                                          "j = n;" +
+                                          "a = u1;" +
+
+                                          "while 1 {" +
+                                          " i = i +1;" +
+                                          "j = j -1;" +
+
+                                          "if 5 { a = u2; }" +
+                                          "i = u3;"+
+                                          "}");
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+
+            blocks.ForEach(Console.WriteLine);
+            
+            var genKill = new GenKillBuilder(blocks);
+
+            Assert.AreEqual(genKill.Gen[blocks[0]].Count, 3);
+            Assert.AreEqual(genKill.Kill[blocks[0]].Count, 4);
+
+
+            Assert.AreEqual(genKill.Gen[blocks[6]].Count, 1);
+            Assert.AreEqual(genKill.Kill[blocks[6]].Count, 2);
+
         }
 
     }
