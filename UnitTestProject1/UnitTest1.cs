@@ -164,14 +164,14 @@ namespace UnitTestProject1
         [TestMethod]
         public void LabelGotoTest()
         {
-            var root = Parser.ParseString("n = 1;" +
-                                          "label1 :" +
+            var root = Parser.ParseString("label1 :" +
+                                          "n = 1;" +
                                           "goto label1;");
             var code = ProgramTreeToLinear.Build(root);
 
             foreach (var threeAddressCode in code)
                 Console.WriteLine(threeAddressCode);
-            Assert.AreEqual(code.Count, 0);
+            Assert.AreEqual(code.Count, 3);
         }
 
     }

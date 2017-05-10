@@ -91,7 +91,12 @@ namespace LYtest.Visitors
 
         public void VisitBlock(BlockNode n)
         {
-            n.Childs.ToList().ForEach(c => c.AcceptVisit(this));
+            var childs = n.Childs.ToList();
+
+            foreach (var child in childs)
+            {
+                child.AcceptVisit(this);
+            }
         }
 
         public void VisitProc(Procedure n)
@@ -133,13 +138,13 @@ namespace LYtest.Visitors
         public void VisitLabelNode(LabelNode n)
         {
             var result = new LinearRepresentation(new LabelValue(n.Label), Operation.NoOperation);
-            evaluatedExpression.Add(result);
+            code.Add(result);
         }
 
         public void VisitGoto(Goto n)
         {
             var result = new LinearRepresentation(Operation.Goto, new LabelValue(n.Label));
-            evaluatedExpression.Add(result);
+            code.Add(result);
         }
 
         public void VisitBinOp(BinOp n)
