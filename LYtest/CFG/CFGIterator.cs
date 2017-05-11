@@ -21,19 +21,19 @@ namespace LYtest.CFG
         public HashSet<CFGNode> Visited = new HashSet<CFGNode>();
         public CFGIterator(CFGraph g)
         {
-            Visit(g.root);
+            Visit(g.GetRoot());
         }
         
-        private void Visit(CFGNode g)
+        private void Visit(CFGNode bl)
         {
-            if (g == null) return;
+            if (bl == null) return;
 
-            Visit(g.directChild);
+            Visit(bl.directChild);
 
-            if (Visited.Contains(g)) return;
-            Visit(g.gotoNode);
+            if (Visited.Contains(bl)) return;
+            Visit(bl.gotoNode);
 
-            Visited.Add(g);
+            Visited.Add(bl);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace LYtest
             }
 
             // Get graph and made DepthSpanningTree
-            var cfg = ListBlocksToCFG.Build(blocks);
+            var cfg = new CFGraph(blocks);
             var dst = new DepthSpanningTree(cfg);
             string dst_viz = dst.ToString();
             Console.WriteLine(dst_viz);

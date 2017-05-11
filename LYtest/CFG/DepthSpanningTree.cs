@@ -14,51 +14,53 @@ namespace LYtest.CFG
         public Dictionary<CFGNode, int> Numbers { get; }
         public BidirectionalGraph<CFGNode, Edge<CFGNode>> SpanningTree { get; }
 
+        private HashSet<CFGNode> visited = null;
+
         public DepthSpanningTree(CFGraph cfg)
         {
-            int numberOfVertices = cfg.num_of_vertexes - 1;
+            int numberOfVertices = cfg.NumberOfVertices() - 1;
+            visited = new HashSet<CFGNode>();
             SpanningTree = new BidirectionalGraph<CFGNode, Edge<CFGNode>>();
             Numbers = new Dictionary<CFGNode, int>();
-            
-            BuildTree(cfg.root, ref numberOfVertices);
+
+            var root = cfg.GetRoot();
+            BuildTree(root, ref numberOfVertices);
         }
 
         private void BuildTree(CFGNode node, ref int currentNumber)
         {
             if (node == null)
                 return;
-            CFGLookup lookup = new CFGLookup(node);
-
-            if (!lookup.CanMoveDirect() && !lookup.CanMoveGoto())
+            visited.Add(node);
+            if (node.directChild == null && node.gotoNode == null)
             {
-                Numbers[lookup.Current] = currentNumber;
+                Numbers[node] = currentNumber;
                 return;
             }
 
             var children = new List<CFGNode>();
-            if (lookup.CanMoveDirect())
+            if (node.directChild != null)
             {
-                lookup.MoveDirect();
-                children.Add(lookup.Current);
-                lookup.MoveBack();
+                children.Add(node.directChild);
             }
-            if (lookup.CanMoveGoto())
+            if (node.gotoNode != null)
             {
-                lookup.MoveGoto();
-                children.Add(lookup.Current);
-                lookup.MoveBack();
+                children.Add(node.gotoNode);
             }
 
             foreach (var child in children)
             {
-                if (!SpanningTree.Vertices.Contains(node))
-                    SpanningTree.AddVertex(node);
+                if (!visited.Contains(child))
+                {
+                    if (!SpanningTree.Vertices.Contains(node))
+                        SpanningTree.AddVertex(node);
 
-                if (!SpanningTree.Vertices.Contains(child))
-                    SpanningTree.AddVertex(child);
+                    if (!SpanningTree.Vertices.Contains(child))
+                        SpanningTree.AddVertex(child);
 
-                SpanningTree.AddEdge(new Edge<CFGNode>(node, child));
-                BuildTree(child, ref currentNumber);
+                    SpanningTree.AddEdge(new Edge<CFGNode>(node, child));
+                    BuildTree(child, ref currentNumber);
+                }
 
                 Numbers[node] = currentNumber;
                 currentNumber -= 1;

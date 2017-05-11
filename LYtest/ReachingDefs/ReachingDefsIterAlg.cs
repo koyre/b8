@@ -28,16 +28,16 @@ namespace LYtest.ReachingDefs
             return !a.SetEquals(b);
         }
 
-        protected override HashSet<LabelValue> TransferFunc(IBaseBlock b)
+        protected override HashSet<LabelValue> TransferFunc(CFGNode node)
         {
-            var res = GenKill.GenLabels(b);
-            res.UnionWith(In[b].Except(GenKill.KillLabels(b)));
+            var res = GenKill.GenLabels(node.Value);
+            res.UnionWith(In[node].Except(GenKill.KillLabels(node.Value)));
             return res;
         }
 
         protected override HashSet<LabelValue> MeetOp(List<CFGNode> nodes)
         {
-            return new HashSet<LabelValue>(nodes.SelectMany(n => Out[n.Value]));
+            return new HashSet<LabelValue>(nodes.SelectMany(n => Out[n]));
         }
     }
 }

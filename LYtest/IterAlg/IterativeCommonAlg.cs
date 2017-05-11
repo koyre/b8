@@ -11,8 +11,8 @@ namespace LYtest.IterAlg
 {
     public abstract class IterativeCommonAlg<T>
     {
-        public readonly Dictionary<IBaseBlock, T> Out = new Dictionary<IBaseBlock, T>();
-        public readonly Dictionary<IBaseBlock, T> In = new Dictionary<IBaseBlock, T>();
+        public readonly Dictionary<CFGNode, T> Out = new Dictionary<CFGNode, T>();
+        public readonly Dictionary<CFGNode, T> In = new Dictionary<CFGNode, T>();
 
         private CFGraph graph;
 
@@ -25,11 +25,11 @@ namespace LYtest.IterAlg
 
         public virtual void Run()
         {
-            foreach (var b in graph.Blocks)
+            foreach (var b in graph.GetVertices())
                 Out[b] = Top;
             
             var nodes = CFGNodeSet.GetNodes(graph);
-            nodes.Remove(graph.root);
+            nodes.Remove(graph.GetRoot());
 
             var cont = true;
 
@@ -38,10 +38,9 @@ namespace LYtest.IterAlg
                 cont = false;
                 foreach (var node in nodes)
                 {
-                    var b = node.Value;
-                    In[b] = MeetOp(node.ParentsNodes);
-                    var prevOut = Out[b];
-                    var newOut = Out[b] = TransferFunc(b);
+                    In[node] = MeetOp(node.ParentsNodes);
+                    var prevOut = Out[node];
+                    var newOut = Out[node] = TransferFunc(node);
                     if (ContCond(prevOut, newOut))
                         cont = true;
                 }
@@ -49,7 +48,7 @@ namespace LYtest.IterAlg
         }
 
         protected abstract bool ContCond(T a, T b);
-        protected abstract T TransferFunc(IBaseBlock b);
+        protected abstract T TransferFunc(CFGNode node);
         protected abstract T MeetOp(List<CFGNode> nodes);
     }
 

@@ -81,6 +81,7 @@
     <Compile Include="CFG\CFGLookup.cs" />
     <Compile Include="CFG\CFGNode.cs" />
     <Compile Include="CFG\DepthSpanningTree.cs" />
+    <Compile Include="CFG\EdgeTypes.cs" />
     <Compile Include="GplexBuffers.cs" />
     <Compile Include="Helpers\UniqueIdGen.cs" />
     <Compile Include="Interpretator\LinearInterpretator.cs" />
