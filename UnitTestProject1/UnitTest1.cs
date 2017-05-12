@@ -207,8 +207,8 @@ namespace UnitTestProject1
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
-
-            var nodes = CFGNodeSet.GetNodes(cfg).Select(n => n.Value);
+            
+            var nodes = cfg.graph.Vertices.Select(n => n.Value);
             Assert.AreEqual(nodes.Count(), blocks.Count());
 
             foreach (var b in blocks)
@@ -220,25 +220,26 @@ namespace UnitTestProject1
         [TestMethod]
         public void ReachingDefsIterTest()
         {
-            //var root = Parser.ParseString(Samples.SampleProgramText.sample2);
-            //var code = ProgramTreeToLinear.Build(root);
-            //var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
-            //var cfg = ListBlocksToCFG.Build(blocks);
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+            
+
+            var defs = new ReachingDefsIterAlg(cfg);
 
 
-            //var defs = new ReachingDefsIterAlg(cfg);
-
-            //foreach (var block in blocks)
-            //{
-            //    Console.Write(block);
-            //    foreach (var labelValue in defs.Out[block])
-            //    {
-            //        Console.Write(labelValue);
-            //        Console.Write(", ");
-            //    }
-            //    Console.WriteLine();
-            //    Console.WriteLine("-----------------------");
-            //}
+            foreach (var block in cfg.graph.Vertices)
+            {
+                Console.Write(block);
+                foreach (var labelValue in defs.Out[block])
+                {
+                    Console.Write(labelValue);
+                    Console.Write(", ");
+                }
+                Console.WriteLine();
+                Console.WriteLine("-----------------------");
+            }
         }
         
 
