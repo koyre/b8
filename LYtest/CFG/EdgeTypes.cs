@@ -19,7 +19,7 @@ namespace LYtest.CFG
     {
         public override string ToString()
         {
-            return string.Join("\n", this.Select(ed => $"[{ed.Key.Source.ToString()} -> {ed.Key.Target.ToString()}]: {ed.Value}"));
+            return string.Join("\n\n", this.Select(ed => $"[{ed.Key.ToString()} -> {ed.Value.ToString()}]: {ed.Value}"));
         }
     }
 }

@@ -59,12 +59,12 @@ namespace LYtest.CFG
                 Tree.AddVertex(node);
             foreach (var child in children)
             {
-                if (!Tree.Vertices.Contains(child))
-                    Tree.AddVertex(child);
-                Tree.AddEdge(new Edge<CFGNode>(node, child));
-
                 if (!visited.Contains(child))
                 {
+                    if (!Tree.Vertices.Contains(child))
+                        Tree.AddVertex(child);
+                    Tree.AddEdge(new Edge<CFGNode>(node, child));
+
                     BuildTree(child, ref currentNumber);
                 }
 

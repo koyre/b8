@@ -38,6 +38,8 @@ namespace LYtest
             string dst_viz = dst.ToString();
             Console.WriteLine(dst_viz);
 
+            Console.WriteLine(cfg.EdgeTypes.ToString());
+
 
             Console.ReadLine();
         }

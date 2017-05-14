@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LYtest.BaseBlocks;
 using QuickGraph;
+using QuickGraph.Graphviz;
 
 namespace LYtest.CFG
 {
@@ -23,8 +24,9 @@ namespace LYtest.CFG
         // Constructor from list of blocks
         public CFGraph(List<IBaseBlock> blocks)
         {
-            this.Blocks = blocks;
-            
+            Blocks = blocks;
+            EdgeTypes = new EdgeTypes();
+
             // First step - construct
             List<CFGNode> cfg_nodes = new List<CFGNode>(blocks.Count);
             for (int i = 0; i < blocks.Count; i++)
@@ -67,6 +69,8 @@ namespace LYtest.CFG
                     graph.AddEdge(new Edge<CFGNode>(node, node.gotoNode));
                 }
             }
+
+            ClassificateEdges();
         }
 
         public CFGNode GetRoot()
@@ -105,6 +109,12 @@ namespace LYtest.CFG
                     EdgeTypes.Add(edge, EdgeType.Cross);
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            var graphviz = new GraphvizAlgorithm<CFGNode, Edge<CFGNode>>(graph);
+            return graphviz.Generate();
         }
     }
 }
