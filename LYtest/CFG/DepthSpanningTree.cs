@@ -11,22 +11,28 @@ namespace LYtest.CFG
 {
     public class DepthSpanningTree
     {
+        // Verteces numeration
         public Dictionary<CFGNode, int> Numbers { get; }
-        public BidirectionalGraph<CFGNode, Edge<CFGNode>> SpanningTree { get; }
 
+        // Tree
+        public BidirectionalGraph<CFGNode, Edge<CFGNode>> Tree { get; }
+
+        // visited verteces array
         private HashSet<CFGNode> visited = null;
 
+        // Constructor from CFGraph
         public DepthSpanningTree(CFGraph cfg)
         {
             int numberOfVertices = cfg.NumberOfVertices() - 1;
             visited = new HashSet<CFGNode>();
-            SpanningTree = new BidirectionalGraph<CFGNode, Edge<CFGNode>>();
+            Tree = new BidirectionalGraph<CFGNode, Edge<CFGNode>>();
             Numbers = new Dictionary<CFGNode, int>();
 
             var root = cfg.GetRoot();
             BuildTree(root, ref numberOfVertices);
         }
 
+        // Build tree
         private void BuildTree(CFGNode node, ref int currentNumber)
         {
             if (node == null)
@@ -49,13 +55,13 @@ namespace LYtest.CFG
             }
 
 
-            if (!SpanningTree.Vertices.Contains(node))
-                SpanningTree.AddVertex(node);
+            if (!Tree.Vertices.Contains(node))
+                Tree.AddVertex(node);
             foreach (var child in children)
             {
-                if (!SpanningTree.Vertices.Contains(child))
-                    SpanningTree.AddVertex(child);
-                SpanningTree.AddEdge(new Edge<CFGNode>(node, child));
+                if (!Tree.Vertices.Contains(child))
+                    Tree.AddVertex(child);
+                Tree.AddEdge(new Edge<CFGNode>(node, child));
 
                 if (!visited.Contains(child))
                 {
@@ -67,9 +73,32 @@ namespace LYtest.CFG
             }
         }
 
+        // Finds back path from source to target, true if it is.
+        public bool FindBackwardPath(CFGNode source, CFGNode target)
+        {
+            var result = false;
+
+            var incomingEdges = Tree.InEdges(source);
+            while (incomingEdges.Count() > 0)
+            {
+                var edge = incomingEdges.First();
+                if (edge.Source.Equals(target))
+                {
+                    result = true;
+                    break;
+                }
+                else
+                {
+                    incomingEdges = Tree.InEdges(edge.Source);
+                }
+            }
+
+            return result;
+        }
+
         public override string ToString()
         {
-            var graphviz = new GraphvizAlgorithm<CFGNode, Edge<CFGNode>>(SpanningTree);
+            var graphviz = new GraphvizAlgorithm<CFGNode, Edge<CFGNode>>(Tree);
             return graphviz.Generate();
         }
     }
