@@ -48,17 +48,17 @@ namespace LYtest.CFG
                 children.Add(node.gotoNode);
             }
 
+
+            if (!SpanningTree.Vertices.Contains(node))
+                SpanningTree.AddVertex(node);
             foreach (var child in children)
             {
+                if (!SpanningTree.Vertices.Contains(child))
+                    SpanningTree.AddVertex(child);
+                SpanningTree.AddEdge(new Edge<CFGNode>(node, child));
+
                 if (!visited.Contains(child))
                 {
-                    if (!SpanningTree.Vertices.Contains(node))
-                        SpanningTree.AddVertex(node);
-
-                    if (!SpanningTree.Vertices.Contains(child))
-                        SpanningTree.AddVertex(child);
-
-                    SpanningTree.AddEdge(new Edge<CFGNode>(node, child));
                     BuildTree(child, ref currentNumber);
                 }
 
