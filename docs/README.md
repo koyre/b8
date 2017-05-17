@@ -68,20 +68,6 @@ for (int i = 0 ; i < 10; i++)
 
 
 
-
-## Распределение между командами
-
-| Team          | Dev1          | Dev2           |
-| ------------- |:-------------:| :-------------:|
-| RR            | Rogov D.      | Raskin A.      |
-| AN            | Avakyan G     | Nezhevsky N.   |
-| LK            | Limarev V.    | Koval N.       |
-| FB            | Fateev S.     | Bulanov D.     |
-| PC            | Paterikin A.  | Cherkasov V.   |
-| OE            | Ostapenko A.  | Ermolaev D.    |
-| AE            | Aliev M.      | Ermolinsky A.  |
-
-
 ## Полезные ссылки
 * [Справка по markdown](https://guides.github.com/features/mastering-markdown/)
 * [Документация github markdown](https://help.github.com/categories/writing-on-github/)
