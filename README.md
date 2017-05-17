@@ -21,15 +21,15 @@ Credits:
 1. Cherkasov V.
 
 
-| Team          | Dev1          | Dev2           |
-| ------------- |:-------------:| :-------------:|
-| RR            | ~~Rogov D.~~      | ~~Raskin A.~~      |
-| AN            | ~~Avakyan G.~~     | Nezhevsky N.   |
-| LK            | ~~Limarev V.~~    | Koval N.       |
-| FB            | Fateev S.     | ~~Bulanov D.~~     |
-| PC            | Paterikin A.  | Cherkasov V.   |
-| OE            | ~~Ostapenko A.~~  | Ermolaev D.    |
-| AE            | Aliev M.      | ~~Ermolinsky A.~~  |
+| Team          | Dev1             | Dev2              |
+| ------------- |:----------------:| :----------------:|
+| RR            | ~~Rogov D.~~     | ~~Raskin A.~~     |
+| AN            | ~~Avakyan G.~~   | Nezhevsky N.      |
+| LK            | ~~Limarev V.~~   | Koval N.          |
+| FB            | Fateev S.        | ~~Bulanov D.~~    |
+| PC            | Paterikin A.     | Cherkasov V.      |
+| OE            | ~~Ostapenko A.~~ | Ermolaev D.       |
+| AE            | Aliev M.         | ~~Ermolinsky A.~~ |
 
 
 Scientific Advisor: Mikhalkovich S.
@@ -46,18 +46,17 @@ Koval N.
 - [ ] Формирование поседовательности областей R1,...,Rn в восходящем порядке
 - [ ] Нисходящая часть алгоритма анализа на основе областей
 
-FB  Fateev S.
+Fateev S.
 - [ ] **Живые переменные между ББЛ, множества use_B и def_B**
 - [ ] **Достигающие выражения, итерационный алгоритм***
 - [ ] Разработка класса "область" с разновидностями "область тела" и "область цикла"
 
 PC  Paterikin A.    Cherkasov V.
-- [x] Разбиение на базовые блоки
 - [x] Создание CFG из базовых блоков
 - [x] Поддержка goto и меток
 - [x] Достигающие определения: вычисление gen_B и kill_B
 - [x] Итерационный алгоритм для достигающих определений
-- [ ]  Дерево доминаторов
+- [ ] Дерево доминаторов
 
 Ermolaev D.
 - [x]  Построение DST
