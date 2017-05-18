@@ -9,6 +9,7 @@ using LYtest.Interpretator;
 using LYtest.LinearRepr;
 using LYtest.LinearRepr.Values;
 using LYtest.ReachingDefs;
+using LYtest.ActiveVars;
 using LYtest.Visitors;
 using ProgramTree;
 
@@ -241,7 +242,6 @@ namespace UnitTestProject1
                 Console.WriteLine("-----------------------");
             }
         }
-        
 
 
     }

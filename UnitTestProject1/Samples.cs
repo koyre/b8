@@ -40,6 +40,18 @@ namespace UnitTestProject1
                                                     "if 5 { a = u2; }" +
                                                     "i = u3;" +
                                                     "}";
+
+            public static readonly string sample3 = "i = m - 1;" +
+                                                    "j = n;" +
+                                                    "n = i;" +
+
+                                                    "while 1 {" +
+                                                    "  j = i + 1;" +
+                                                    "  i = j - 1;" +
+
+                                                    "if 5 { m = b; }" +
+                                                    "j = u3;" +
+                                                    "}";
         }
     }
 }
