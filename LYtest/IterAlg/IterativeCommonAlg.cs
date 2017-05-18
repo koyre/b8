@@ -47,6 +47,35 @@ namespace LYtest.IterAlg
             }
         }
 
+        public virtual void ReverseRun()
+        {
+            foreach (var b in graph.GetVertices().Reverse())
+                In[b] = Top;
+
+            var nodes = new HashSet<CFGNode>(graph.GetVertices().Reverse());
+
+            var cont = true;
+
+            while (cont)
+            {
+                cont = false;
+                foreach (var node in nodes)
+                {
+                    var childNodes = new List<CFGNode>();
+                    if (node.directChild != null)
+                    {
+                        childNodes.Add(node.directChild);
+                    }
+                    Out[node] = MeetOp(childNodes);
+                    var prevIn = In[node];
+                    var newIn = In[node] = TransferFunc(node);
+
+                    if (ContCond(prevIn, newIn))
+                        cont = true;
+                }
+            }
+        }
+
         protected abstract bool ContCond(T a, T b);
         protected abstract T TransferFunc(CFGNode node);
         protected abstract T MeetOp(List<CFGNode> nodes);
