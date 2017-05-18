@@ -243,6 +243,30 @@ namespace UnitTestProject1
             }
         }
 
+        [TestMethod]
+        public void ActiveVarsIterTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample3);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+
+
+            var DefUse = new ActiveVarsIterAlg(cfg);
+
+
+            foreach (var block in cfg.graph.Vertices)
+            {
+                Console.Write(block);
+                foreach (var labelValue in DefUse.In[block])
+                {
+                    Console.Write(labelValue);
+                    Console.Write(", ");
+                }
+                Console.WriteLine();
+                Console.WriteLine("-----------------------");
+            }
+        }
 
     }
 }

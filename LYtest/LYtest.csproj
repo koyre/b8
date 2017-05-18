@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveVars\ActiveVarsIterAlg.cs" />
     <Compile Include="ActiveVars\DefUseBuilder.cs" />
     <Compile Include="BaseBlocks\BaseBlock.cs" />
     <Compile Include="BaseBlocks\BaseBlockBuilder.cs" />
