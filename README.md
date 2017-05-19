@@ -15,8 +15,8 @@ Credits:
 1. Nezhevsky N.
 1. ~~Ostapenko A.~~
 1. Paterikin A.
-1. ~~Raskin A.~~
-1. ~~Rogov D.~~
+1. Raskin A.
+1. Rogov D.
 1. ~~Silnyagin Y.~~
 1. Cherkasov V.
 
