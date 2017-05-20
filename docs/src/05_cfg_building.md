@@ -2,6 +2,21 @@
 
 Был создан класс ```CFGraph```, который представляет собой граф потока управления. Он базируется на библиотеке [QuickGraph](https://quickgraph.codeplex.com/), которая предоставляет понятный и многофункциональный интерфейс работы с графами.
 
+```
+public class CFGraph
+{
+    public BidirectionalGraph<CFGNode, Edge<CFGNode>> graph =
+        new BidirectionalGraph<CFGNode, Edge<CFGNode>>();
+        
+    public readonly List<IBaseBlock> Blocks;
+        
+    public CFGraph(List<IBaseBlock> blocks);
+    public CFGNode GetRoot();
+    public int NumberOfVertices();
+    public IEnumerable<CFGNode> GetVertices();
+}
+```
+
 Граф потока управления строится из базовых блоков следующим образом:
 1. Для каждого базового блока строим узел его содержащий: ```CFGNode```. В отличии от базового блока, узлы хранят ссылка на следующие базовые блоки.
 1. Добавляем в граф все узлы
