@@ -68,5 +68,34 @@ namespace UnitTestProject1
             }
         }
 
+
+        [TestMethod]
+        public void GenKillTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            
+            var genKill = new GenKillBuilder(blocks);
+
+            foreach (var b in blocks)
+            {
+                Console.WriteLine(b);
+                Console.Write("Gen: ");
+                Console.WriteLine(string.Join(",", genKill.Gen[b]));
+                Console.Write("Kill: ");
+                Console.WriteLine(string.Join(",", genKill.Kill[b]));
+                Console.WriteLine("-------------------------");
+            }
+            Assert.AreEqual(genKill.Gen[blocks[0]].Count, 3);
+            Assert.AreEqual(genKill.Kill[blocks[0]].Count, 4);
+
+
+            Assert.AreEqual(genKill.Gen[blocks[6]].Count, 1);
+            Assert.AreEqual(genKill.Kill[blocks[6]].Count, 2);
+
+        }
+
+
     }
 }
