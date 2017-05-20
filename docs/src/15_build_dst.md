@@ -10,8 +10,7 @@
       public DepthSpanningTree(CFGraph cfg);
       
       // Finds back path from source to target, true if it is.
-      public bool FindBackwardPath(CFGNode source,
-							       CFGNode target);
+      public bool FindBackwardPath(CFGNode source, CFGNode target);
 
       public override string ToString();
    }
