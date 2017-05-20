@@ -2,7 +2,7 @@
 
 Был создан класс ```CFGraph```, который представляет собой граф потока управления. Он базируется на библиотеке [QuickGraph](https://quickgraph.codeplex.com/), которая предоставляет понятный и многофункциональный интерфейс работы с графами.
 
-```
+```cs
 public class CFGraph
 {
     public BidirectionalGraph<CFGNode, Edge<CFGNode>> graph =
@@ -23,7 +23,7 @@ public class CFGraph
 2. Основываясь на связях в узлах, добавляем в граф ребра
 
 
-```
+```cs
 List<CFGNode> cfg_nodes = new List<CFGNode>(blocks.Count);
 for (int i = 0; i < blocks.Count; i++)
 {
@@ -59,7 +59,7 @@ foreach (var node in cfg_nodes)
 
 #### Пример применения  
 
-```
+```cs
 var blocks = LinearToBaseBlock.Build(code);
 var cfg = new CFGraph(blocks);
 ```
