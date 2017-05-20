@@ -219,8 +219,6 @@ namespace UnitTestProject1
                 Assert.IsTrue(nodes.Contains(b));
             }
         }
-<<<<<<< HEAD
-=======
 
         [TestMethod]
         public void ReachingDefsIterTest()
@@ -285,6 +283,5 @@ namespace UnitTestProject1
             var node = dt.GetRoot();
             Assert.AreEqual(dt.NumberOfVertices(), 4);
         }
->>>>>>> master
     }
 }
