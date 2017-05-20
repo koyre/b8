@@ -64,6 +64,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#выходные-данные-1">Выходные данные</a></li>
 <li><a href="#пример-применения-1">Пример применения</a></li>
 </ul></li>
+<li><a href="#классификация-ребер-графа-наступающие-отступающие-поперечные">Классификация ребер графа: наступающие, отступающие, поперечные</a><ul>
+<li><a href="#входные-данные-2">Входные данные</a></li>
+<li><a href="#выходные-данные-2">Выходные данные</a></li>
+<li><a href="#пример-применения-2">Пример применения</a></li>
+</ul></li>
 <li><a href="#построение-дерева-доминаторов">Построение дерева доминаторов</a><ul>
 <li><a href="#общие-сведения-1">Общие сведения</a></li>
 <li><a href="#реализация">Реализация</a></li>
@@ -233,6 +238,36 @@ graph.<span class="fu">AddVertexRange</span>(cfg_nodes);
 <pre><code>var blocks = LinearToBaseBlock.Build(code);
 var cfg = new CFGraph(blocks);
 var dst = new DepthSpanningTree(cfg);</code></pre>
+<h2 id="классификация-ребер-графа-наступающие-отступающие-поперечные">Классификация ребер графа: наступающие, отступающие, поперечные</h2>
+<p>Задача заключается в том, чтобы классифицировать все ребра <code>CFGraph</code>.</p>
+<p>Ребра бывают трех типов: 1. Наступающее ребро: если в <a href="https://github.com/DeKoyre/b8/blob/master/docs/src/15-build_dst.md">DST</a> существует такое же ребро 2. Отступающее ребро: если <a href="https://github.com/DeKoyre/b8/blob/master/docs/src/15-build_dst.md">DST</a> существует прямой путь из target в source 3. Поперечное ребро в иных случаях</p>
+<p>Для решения этой задачи были созданы следующие классы:</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">enum</span> EdgeType
+{
+   Coming = <span class="dv">1</span>,
+   Retreating = <span class="dv">2</span>,
+   Cross = <span class="dv">3</span>
+}
+
+<span class="kw">public</span> <span class="kw">class</span> EdgeTypes : Dictionary&lt;Edge&lt;CFGNode&gt;, EdgeType&gt;
+{
+   <span class="kw">public</span> <span class="kw">override</span> <span class="dt">string</span> <span class="fu">ToString</span>();
+}</code></pre></div>
+<p>Класс <code>CFGraph</code> был расширен:</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">class</span> CFGraph
+{
+    ...
+    <span class="kw">public</span> EdgeTypes EdgeTypes { <span class="kw">get</span>; }
+    ...
+}</code></pre></div>
+<p>Классификация ребер <code>CFGraph</code> происходит следующим образом: 1. Строим глубинное островное дерево для <code>CFGraph</code> 2. Проходим по всем ребрам в <code>CFGraph</code> и классифицируем их согласно определению</p>
+<p>Она вызывается в конструкторе CFGraph.</p>
+<h4 id="входные-данные-2">Входные данные</h4>
+<p>Конструктору класса <code>CFGraph</code> подаётся на вход список базовых блоков трёхадресного кода (<code>List&lt;IBaseBlock&gt; blocks</code>).</p>
+<h4 id="выходные-данные-2">Выходные данные</h4>
+<p>Экземпляр класса <code>CFGraph</code> хранит в себе граф из библиотеки - <code>BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; graph</code>, а также прочую служебную информацию необходимую для дальнейших преобразований. В том числе поле <code>EdgeTypes</code>, содержащее словарь с классификацией ребер.</p>
+<h4 id="пример-применения-2">Пример применения</h4>
+<p>```cs var blocks = LinearToBaseBlock.Build(code); var cfg = new CFGraph(blocks); Console.WriteLine(cfg.EdgeTypes.ToString());</p>
 <h2 id="построение-дерева-доминаторов">Построение дерева доминаторов</h2>
 <h3 id="общие-сведения-1">Общие сведения</h3>
 <p><strong>Определение</strong> <em>Дерево доминаторов</em> -- это дерево, в котором входной узел является корнем, а каждый узел <code>d</code>доминирует только над своими потомками в дереве.</p>
