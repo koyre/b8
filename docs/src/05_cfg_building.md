@@ -29,7 +29,9 @@ for (int i = 0; i < blocks.Count; i++)
 {
     cfg_nodes.Add(new CFGNode(blocks[i]));
 }
+
 /// Create connections between CFGNode
+/// ...
 
 /// Create graph
 graph.AddVertexRange(cfg_nodes);
