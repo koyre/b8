@@ -19,9 +19,15 @@ namespace LYtest
             string inp = File.ReadAllText("a.txt");
             var root = Parser.ParseString(inp);
 
+            if (root == null)
+            {
+                Console.WriteLine("Error");
+                return;
+            }
+
             // Генерация и получение трёхзначного кода
             var linearCode = new LinearCodeVisitor();
-            root?.AcceptVisit(linearCode);
+            root.AcceptVisit(linearCode);
             var code = linearCode.code;
 
             
@@ -34,16 +40,21 @@ namespace LYtest
 
             // Get graph and made DepthSpanningTree
             var cfg = new CFGraph(blocks);
+
+//           var ncg = new NaturalCycleGraph(cfg);
+//           var res = ncg.findBetween(6, 1);
+
             var dst = new DepthSpanningTree(cfg);
             string dst_viz = dst.ToString();
             Console.WriteLine(dst_viz);
+
+            Console.WriteLine("");
 
             Console.WriteLine(cfg.EdgeTypes.ToString());
 
 
             Console.ReadLine();
         }
-
 
     }
 }

@@ -11,8 +11,7 @@ namespace LYtest.CFG
     {
         Coming = 1,
         Retreating = 2,
-        Cross = 3,
-        Backward = 4
+        Cross = 3
     }
 
     public class EdgeTypes : Dictionary<Edge<CFGNode>, EdgeType>
