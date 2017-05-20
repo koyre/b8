@@ -14,7 +14,7 @@ namespace LYtest.IterAlg
         public readonly Dictionary<CFGNode, T> Out = new Dictionary<CFGNode, T>();
         public readonly Dictionary<CFGNode, T> In = new Dictionary<CFGNode, T>();
 
-        private CFGraph graph;
+        protected CFGraph graph;
 
         protected abstract T Top { get; }
 

@@ -52,6 +52,24 @@ namespace UnitTestProject1
                                                     "if 5 { m = b; }" +
                                                     "j = u3;" +
                                                     "}";
+
+            public static readonly string domSampleTrivial = "i = 1;" +
+
+                                                             "if 5 { m = b; }" +
+                                                             "j = u3;";
+
+            public static readonly string domSample = "a = 1;" +
+                                                      "if 5 {" +
+                                                      "  b = 1;" +
+                                                      "if 5 {" +
+                                                      "  b = 1;" +
+                                                      "} else {" +
+                                                      "  c = 2;" +
+                                                      "}" +
+                                                      "} else {" +
+                                                      "  c = 2;" +
+                                                      "}" +
+                                                      "d = a;";
         }
     }
 }

@@ -268,5 +268,18 @@ namespace UnitTestProject1
             }
         }
 
+
+        [TestMethod]
+        public void DominatorTreeTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.domSampleTrivial);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+
+            var dt = new LYtest.DominatorTree.DominatorTree(cfg);
+            var node = dt.GetRoot();
+            Assert.AreEqual(dt.NumberOfVertices(), 4);
+        }
     }
 }
