@@ -37,15 +37,17 @@ namespace LYtest.CFG
             // Second step - make connections
             for (int i = 0; i < cfg_nodes.Count; i++)
             {
-                if (i != cfg_nodes.Count - 1)
+                var lastOp = cfg_nodes[i].Value.Enumerate().Last();
+                if (i != cfg_nodes.Count - 1 &&
+                    lastOp.Operation != LinearRepr.Values.Operation.Goto)
                 {
                     cfg_nodes[i].SetDirectChild(cfg_nodes[i + 1]);
                 }
 
-                var lastOp = cfg_nodes[i].Value.Enumerate().Last();
-                if (lastOp.Operation == LinearRepr.Values.Operation.Goto)
+                if (lastOp.Operation == LinearRepr.Values.Operation.Goto ||
+                    lastOp.Operation == LinearRepr.Values.Operation.CondGoto)
                 {
-                    var gotoBlock = blocks.First(b => b.Enumerate().First().Label.Equals(lastOp.Destination));
+                    var gotoBlock = blocks.FirstOrDefault(b => b.Enumerate().First().Label.Equals(lastOp.Destination));
                     CFGNode goto_node = cfg_nodes.Find(el => el.Value == gotoBlock);
                     cfg_nodes[i].SetGotoChild(goto_node);
                 }
