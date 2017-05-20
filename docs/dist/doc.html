@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="github-pandoc.css" type="text/css" />
+</head>
+<body>
+<div id="TOC">
+<ul>
+<li><a href="#разбиение-на-базовые-блоки">Разбиение на базовые блоки</a><ul>
+<li><a href="#общие-сведения">Общие сведения</a></li>
+<li><a href="#алгоритм-построения">Алгоритм построения</a></li>
+</ul></li>
+<li><a href="#создание-из-ббл-cfg">Создание из ББЛ CFG</a><ul>
+<li><a href="#входные-данные">Входные данные</a></li>
+<li><a href="#выходные-данные">Выходные данные</a></li>
+<li><a href="#пример-применения">Пример применения</a></li>
+</ul></li>
+<li><a href="#достигающие-определения-вычисление-gen-и-kill">Достигающие определения: вычисление <code>gen</code> и <code>kill</code></a></li>
+<li><a href="#итерационный-алгоритм-для-достигающих-определений">Итерационный алгоритм для достигающих определений</a></li>
+<li><a href="#построить-на-cfg-глубинное-остовное-дерево-перенумеровав-элементы-в-порядке-обратном-посфиксному">Построить на CFG глубинное остовное дерево, перенумеровав элементы в порядке обратном посфиксному</a><ul>
+<li><a href="#входные-данные-1">Входные данные</a></li>
+<li><a href="#выходные-данные-1">Выходные данные</a></li>
+<li><a href="#пример-применения-1">Пример применения</a></li>
+</ul></li>
+<li><a href="#построение-дерева-доминаторов">Построение дерева доминаторов</a><ul>
+<li><a href="#общие-сведения-1">Общие сведения</a></li>
+<li><a href="#реализация">Реализация</a></li>
+<li><a href="#пример-использования">Пример использования</a></li>
+</ul></li>
+</ul>
+</div>
+<h2 id="разбиение-на-базовые-блоки">Разбиение на базовые блоки</h2>
+<h3 id="общие-сведения">Общие сведения</h3>
+<p><strong>Определение</strong> <em>Базовый блок</em> -- это последовательность инструкций трехадресного кода, имеющая одну точку входа (первая инструкция) и одну точку выхода (последняя инструкция).</p>
+<p>Базовый блок реализует интерфейс <code>IBaseBlock</code></p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">interface</span> IBaseBlock
+{
+    <span class="dt">bool</span> <span class="fu">InsertAfter</span>(IThreeAddressCode after, IThreeAddressCode newElem);
+    <span class="dt">void</span> <span class="fu">Append</span>(IThreeAddressCode newElem);
+    <span class="dt">bool</span> <span class="fu">Remove</span>(IThreeAddressCode elem);
+    IEnumerable&lt;IThreeAddressCode&gt; <span class="fu">Enumerate</span>();
+    <span class="dt">string</span> <span class="fu">ToString</span>();
+}</code></pre></div>
+<p>В реализации для хранения команд трехадресного кода использовался <code>LinkedList&lt;IThreeAddressCode&gt;</code> для быстрого удаления(/вставки) из(/на) произвольной позиции в середине списка.</p>
+<h3 id="алгоритм-построения">Алгоритм построения</h3>
+<p>Для построения базовых блоков из необходимо выделить команды-лидеры.</p>
+<p><strong>Определение</strong> <em>Команда-лидер</em> -- это: 1. Первая команда 2. Команда, на которую есть переход 3. Команда, следующая за переходом.</p>
+<p>Получаем второе определение базового блока:</p>
+<p><strong>Определение</strong> <em>Базовый блок</em> -- это последовательность команд от лидера (включая) до лидера (исключая).</p>
+<p>Пользуясь этим определением легко реализовать алгоритм разбиения последовательности команд трехадресного кода на базовые блоки.</p>
+<p>Для этого первым проходом по последовательности находим команды лидеры:</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="dt">var</span> controlPoints = <span class="kw">new</span> HashSet&lt;LabelValue&gt;();
+<span class="kw">foreach</span> (var lin <span class="kw">in</span> lst)
+{
+    <span class="kw">if</span> (forceAdd)
+        controlPoints.<span class="fu">Add</span>(lin.<span class="fu">Label</span>);
+    forceAdd = <span class="kw">false</span>;
+
+    <span class="dt">var</span> op = lin.<span class="fu">Operation</span>;
+
+    <span class="kw">if</span> (op == Operation.<span class="fu">Goto</span> || op == Operation.<span class="fu">CondGoto</span>)
+    {
+        forceAdd = <span class="kw">true</span>;
+        controlPoints.<span class="fu">Add</span>(lin.<span class="fu">Destination</span> <span class="kw">as</span> LabelValue);
+    }
+}</code></pre></div>
+<p>После этого еще одним проходом собираем команды между лидерами в блоки. На этом разбиение на базовые блоки закончено.</p>
+<h2 id="создание-из-ббл-cfg">Создание из ББЛ CFG</h2>
+<p>Был создан класс <code>CFGraph</code>, который представляет собой граф потока управления. Он базируется на библиотеке <a href="https://quickgraph.codeplex.com/">QuickGraph</a>, которая предоставляет понятный и многофункциональный интерфейс работы с графами.</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">class</span> CFGraph
+{
+    <span class="kw">public</span> BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; graph =
+        <span class="kw">new</span> BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt;();
+        
+    <span class="kw">public</span> <span class="kw">readonly</span> List&lt;IBaseBlock&gt; Blocks;
+        
+    <span class="kw">public</span> <span class="fu">CFGraph</span>(List&lt;IBaseBlock&gt; blocks);
+    <span class="kw">public</span> CFGNode <span class="fu">GetRoot</span>();
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">NumberOfVertices</span>();
+    <span class="kw">public</span> IEnumerable&lt;CFGNode&gt; <span class="fu">GetVertices</span>();
+}</code></pre></div>
+<p>Граф потока управления строится из базовых блоков следующим образом: 1. Для каждого базового блока строим узел его содержащий: <code>CFGNode</code>. В отличии от базового блока, узлы хранят ссылка на следующие базовые блоки. 1. Добавляем в граф все узлы 2. Основываясь на связях в узлах, добавляем в граф ребра</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">List&lt;CFGNode&gt; cfg_nodes = <span class="kw">new</span> List&lt;CFGNode&gt;(blocks.<span class="fu">Count</span>);
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; blocks.<span class="fu">Count</span>; i++)
+{
+    cfg_nodes.<span class="fu">Add</span>(<span class="kw">new</span> <span class="fu">CFGNode</span>(blocks[i]));
+}
+
+<span class="co">/// Create connections between CFGNode</span>
+<span class="co">/// ...</span>
+
+<span class="co">/// Create graph</span>
+graph.<span class="fu">AddVertexRange</span>(cfg_nodes);
+<span class="kw">foreach</span> (var node <span class="kw">in</span> cfg_nodes)
+{
+    <span class="kw">if</span> (node.<span class="fu">directChild</span> != <span class="kw">null</span>)
+    {
+        graph.<span class="fu">AddEdge</span>(<span class="kw">new</span> Edge&lt;CFGNode&gt;(node, node.<span class="fu">directChild</span>));
+    }
+    
+    <span class="kw">if</span> (node.<span class="fu">gotoNode</span> != <span class="kw">null</span>)
+    {
+        graph.<span class="fu">AddEdge</span>(<span class="kw">new</span> Edge&lt;CFGNode&gt;(node, node.<span class="fu">gotoNode</span>));
+    }
+}</code></pre></div>
+<h4 id="входные-данные">Входные данные</h4>
+<p>Конструктору класса <code>CFGraph</code> подаётся на вход список базовых блоков трёхадресного кода (<code>List&lt;IBaseBlock&gt; blocks</code>).</p>
+<h4 id="выходные-данные">Выходные данные</h4>
+<p>Экземпляр класса <code>CFGraph</code> хранит в себе граф из библиотеки - <code>BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; graph</code>, а также прочую служебную информацию необходимую для дальнейших преобразований.</p>
+<h4 id="пример-применения">Пример применения</h4>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="dt">var</span> blocks = LinearToBaseBlock.<span class="fu">Build</span>(code);
+<span class="dt">var</span> cfg = <span class="kw">new</span> <span class="fu">CFGraph</span>(blocks);</code></pre></div>
+<h2 id="достигающие-определения-вычисление-gen-и-kill">Достигающие определения: вычисление <code>gen</code> и <code>kill</code></h2>
+<p><strong>Определение</strong> <em>Множеством <code>gen_B</code></em> называется множество определений, генерируемых в базовом блоке <code>B</code>. <em>Множеством <code>kill_B</code></em> называется множество всех прочих определений тех же переменный во всей остальной программе.</p>
+<p>Эти множества входят в передаточную функцию для задачи о достигающих определениях, поэтому перед запуском итерационного алгоритма для нее необходимо вычислить эти множества для каждого блока.</p>
+<p>Определения хранятся в виде пары, где первый элемент -- метка команды с определением, вторая -- имя определяемой переменной.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">using</span> Definition = Tuple&lt;LabelValue, IdentificatorValue&gt;;
+
+<span class="kw">public</span> <span class="kw">readonly</span> Dictionary&lt;IBaseBlock, List&lt;Definition&gt;&gt; Gen;
+
+<span class="kw">public</span> <span class="kw">readonly</span> Dictionary&lt;IBaseBlock, List&lt;Definition&gt;&gt; Kill;</code></pre></div>
+<p>Сначала реализуем функцию для выбора всех определений из блока:</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">static</span> IEnumerable&lt;Tuple&lt;LabelValue, IdentificatorValue&gt;&gt; <span class="fu">CalcGen</span>(IBaseBlock block)
+{
+    <span class="kw">return</span> block.<span class="fu">Enumerate</span>()
+        .<span class="fu">Where</span>(IsDefinition)
+        .<span class="fu">Select</span>(t =&gt; Tuple.<span class="fu">Create</span>(t.<span class="fu">Label</span>, t.<span class="fu">AsDefinition</span>()));
+}</code></pre></div>
+<p>Тогда алгоритм построения множеств <code>gen</code> и <code>kill</code> будет прямо следовать из определений:</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">foreach</span> (var block <span class="kw">in</span> blocks)
+{
+    <span class="dt">var</span> gen = <span class="fu">CalcGen</span>(block).<span class="fu">ToList</span>();
+
+    <span class="dt">var</span> vars = <span class="kw">new</span> HashSet&lt;IdentificatorValue&gt;(gen.<span class="fu">Select</span>(e =&gt; e.<span class="fu">Item2</span>));
+    <span class="dt">var</span> kill = blocks.<span class="fu">Where</span>(b =&gt; b != block).<span class="fu">SelectMany</span>(CalcGen).<span class="fu">Where</span>(e =&gt; vars.<span class="fu">Contains</span>(e.<span class="fu">Item2</span>));
+
+    Gen[block] = gen.<span class="fu">ToList</span>();
+    Kill[block] = kill.<span class="fu">ToList</span>();
+}</code></pre></div>
+<h2 id="итерационный-алгоритм-для-достигающих-определений">Итерационный алгоритм для достигающих определений</h2>
+<p>Задача поиска достигающих определений важна в задаче анализа потоков данных и полезна при проведении многих оптимизаций, таких как поиск неинициализированных переменных или констант в конкретных точках программы.</p>
+<p><strong>Определение</strong> Определение <code>d</code> <em>достигает</em> точки <code>p</code>, если существует путь от непосредственно следующей за <code>d</code> точкой к <code>p</code> на котором <code>d</code> не уничтожается</p>
+<p>Для поиска достигающих определений используется итеративный алгоритм для прямой задачи потока данных, на вход которому подается граф потока управления и множества <code>gen</code> (генерирующиеся определения) и <code>kill</code> (уничтожение определеий) для каждого блока.</p>
+<p>Для хранения достигающих определений используется структура данных <code>HashSet&lt;LabelValue&gt;</code></p>
+<p>Передаточная функция имеет вид <span class="math inline"><em>f</em>(<em>x</em>)=<em>g</em><em>e</em><em>n</em><sub><em>b</em></sub> ∪ (<em>x</em> \ <em>k</em><em>i</em><em>l</em><em>l</em><sub><em>b</em></sub>)</span></p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">protected</span> <span class="kw">override</span> HashSet&lt;LabelValue&gt; <span class="fu">TransferFunc</span>(CFGNode node)
+{
+    <span class="dt">var</span> res = GenKill.<span class="fu">GenLabels</span>(node.<span class="fu">Value</span>);
+    res.<span class="fu">UnionWith</span>(In[node].<span class="fu">Except</span>(GenKill.<span class="fu">KillLabels</span>(node.<span class="fu">Value</span>)));
+    <span class="kw">return</span> res;
+}</code></pre></div>
+<p>Оператор сбора для итерационного алгоритма -- объединение:</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">protected</span> <span class="kw">override</span> HashSet&lt;LabelValue&gt; <span class="fu">MeetOp</span>(List&lt;CFGNode&gt; nodes)
+{
+    <span class="kw">return</span> <span class="kw">new</span> HashSet&lt;LabelValue&gt;(nodes.<span class="fu">SelectMany</span>(n =&gt; Out[n]));
+}</code></pre></div>
+<p>Таким образом, на выходе мы имеем множества <code>In</code> и <code>Out</code> достигающих опрелений для входа и выхода каждого блока.</p>
+<h2 id="построить-на-cfg-глубинное-остовное-дерево-перенумеровав-элементы-в-порядке-обратном-посфиксному">Построить на CFG глубинное остовное дерево, перенумеровав элементы в порядке обратном посфиксному</h2>
+<p>Был создан класс <code>DepthSpanningTree</code>, который представляет собой остовное дерево CFG. Он базируется на библиотеке <a href="https://quickgraph.codeplex.com/">QuickGraph</a>, которая предоставляет понятный и многофункциональный интерфейс работы с графами.</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">  <span class="kw">public</span> <span class="kw">class</span> DepthSpanningTree
+  {
+      <span class="kw">public</span> Dictionary&lt;CFGNode, <span class="dt">int</span>&gt; Numbers { <span class="kw">get</span>; }
+      <span class="kw">public</span> BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; Tree { <span class="kw">get</span>; }
+      <span class="kw">public</span> <span class="fu">DepthSpanningTree</span>(CFGraph cfg);
+      
+      <span class="co">// Finds back path from source to target, true if it is.</span>
+      <span class="kw">public</span> <span class="dt">bool</span> <span class="fu">FindBackwardPath</span>(CFGNode source, CFGNode target);
+
+      <span class="kw">public</span> <span class="kw">override</span> <span class="dt">string</span> <span class="fu">ToString</span>();
+   }
+}</code></pre></div>
+<p>Остовное дерево CFG строится из <code>CFGraph</code> следующим образом: узлы графа потока управления обходятся в прямом порядке, в процессе прохода они нумеруются.</p>
+<p>Конструктор остова запускает рекурсивную функцию от корня <code>CFGraph</code>:</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">private</span> <span class="dt">void</span> <span class="fu">BuildTree</span>(CFGNode текущий_узел, <span class="kw">ref</span> <span class="dt">int</span> счетчик)
+{
+    <span class="dv">1</span>. Пометить текущий узел как просмотренный
+    <span class="dv">2</span>. Если нет потомков, то занумеровать и выйти
+    <span class="dv">3</span>. Добавить в остов текущий узел
+    <span class="dv">4</span>. Для каждого потомка:
+        <span class="dv">1</span>. Если он не посещен:
+            <span class="dv">1</span>. Если его нет в остове, добавить его
+            <span class="dv">2</span>. Добавить ребро к потомку
+            <span class="dv">3</span>. <span class="fu">BuildTree</span>(потомок, счетчик)
+        <span class="dv">2</span>. Занумеровать потомка
+}</code></pre></div>
+<h4 id="входные-данные-1">Входные данные</h4>
+<p>Конструктору класса <code>DepthSpanningTree</code> подаётся на вход <code>CFGraph</code></p>
+<h4 id="выходные-данные-1">Выходные данные</h4>
+<p>Экземпляр класса <code>DepthSpanningTree</code> хранит в себе граф из библиотеки - <code>BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; Tree</code>, а также прочую служебную информацию необходимую для дальнейших преобразований.</p>
+<h4 id="пример-применения-1">Пример применения</h4>
+<pre><code>var blocks = LinearToBaseBlock.Build(code);
+var cfg = new CFGraph(blocks);
+var dst = new DepthSpanningTree(cfg);</code></pre>
+<h2 id="построение-дерева-доминаторов">Построение дерева доминаторов</h2>
+<h3 id="общие-сведения-1">Общие сведения</h3>
+<p><strong>Определение</strong> <em>Дерево доминаторов</em> -- это дерево, в котором входной узел является корнем, а каждый узел <code>d</code>доминирует только над своими потомками в дереве.</p>
+<p>Для каждого узла графа потока управления при помощи итерационного алгоритма для задачи потока данных находятся все <em>доминаторы</em> -- такие узлы графа, которые присутствуют в любом пути от начала программы до данного узла. Далее, для каждого узла (кроме корня графа потока управления) выбирается непосредственный доминатор, который и объявляется родителем в дереве доминаторов.</p>
+<p>Таким образом, для построения дерева доминаторов на вход алгоритму необходимо подать только граф потока управления.</p>
+<h3 id="реализация">Реализация</h3>
+<p>В реализации данного модуля был использован пакет NuGet QuickGraph.</p>
+<p>Узлами дерева доминаторов являются объекты класса <code>DominatorTreeNode</code>:</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"> <span class="kw">public</span> <span class="kw">class</span> DominatorTreeNode
+ {
+    <span class="kw">public</span> DominatorTreeNode ParentNode;
+    <span class="kw">public</span> List&lt;DominatorTreeNode&gt; ChildrenNodes;
+    <span class="kw">public</span> CFGNode CFGNode;
+    
+    ...
+}</code></pre></div>
+<p>Сама реализация алгоритма построения дерева выглядит следующим образом:</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="fu">DominatorTree</span>(CFGraph cfg)
+{
+    <span class="dt">var</span> doms = <span class="kw">new</span> <span class="fu">DominatorsIterAlg</span>(cfg).<span class="fu">Dom</span>; <span class="co">// 1</span>
+    <span class="dt">var</span> vertices = doms.<span class="fu">Keys</span>.<span class="fu">Select</span>(x =&gt; <span class="kw">new</span> <span class="fu">DominatorTreeNode</span>(x)).<span class="fu">ToList</span>();
+    graph.<span class="fu">AddVertexRange</span>(vertices); <span class="co">// 2</span>
+            
+    <span class="kw">foreach</span> (var node <span class="kw">in</span> vertices) <span class="co">// 3</span>
+    {
+        <span class="dt">var</span> dominatedBy = doms[node.<span class="fu">CFGNode</span>].<span class="fu">ToList</span>();
+        dominatedBy.<span class="fu">Reverse</span>();
+        <span class="dt">var</span> cfgClosestDominator = dominatedBy.<span class="fu">Skip</span>(<span class="dv">1</span>).<span class="fu">FirstOrDefault</span>(); <span class="co">// 3.1</span>
+        <span class="kw">if</span> (cfgClosestDominator != <span class="kw">null</span>)
+        {
+            <span class="dt">var</span> domClosestDominator = vertices
+                .<span class="fu">FirstOrDefault</span>(x =&gt; x.<span class="fu">CFGNode</span> == cfgClosestDominator);
+
+            node.<span class="fu">ParentNode</span> = domClosestDominator; <span class="co">// 3.2</span>
+            domClosestDominator.<span class="fu">AddChild</span>(node);
+
+            graph.<span class="fu">AddEdge</span>(<span class="kw">new</span> Edge&lt;DominatorTreeNode&gt; <span class="co">// 3.3</span>
+                            (domClosestDominator, node));
+        }
+    }
+}</code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Используется итерационный алгоритм нахождения доминаторов.</li>
+<li>Преобразованные вершины графа потока управления объявляются вершинами дерева доминаторов.</li>
+<li>Для каждой вершины: 1) находится ближайший доминатор (непосредственный) 2) доминатор объявляется предком текущей вершины, а сама вершина -- потомком доминатора 3) построенная дуга добавляется в дерево доминаторов</li>
+</ol>
+<h3 id="пример-использования">Пример использования</h3>
+<p>Для использования дерева доминаторов достаточно лишь передать в конструктор класса <code>DominatorTree</code> в качестве аргумента граф потока управления программы:</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="dt">var</span> dt = <span class="kw">new</span> LYtest.<span class="fu">DominatorTree</span>.<span class="fu">DominatorTree</span>(cfg);</code></pre></div>
+<p>Класс <code>DominatorTree</code> предоставляет доступ к корню и вершинам дерева, а также к самой структуре <code>QuickGraph.BidirectionalGraph</code>, поэтому можно использовать все реализованные для этого класса алгоритмы. Кроме того, так как информация о предках и потомках узлов дерева хранится в самих узлах, то можно передвигаться по дереву непосредственно.</p>
+</body>
+</html>
