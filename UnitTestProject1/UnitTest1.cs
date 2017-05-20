@@ -239,56 +239,5 @@ namespace UnitTestProject1
                 Assert.IsTrue(nodes.Contains(b));
             }
         }
-
-        [TestMethod]
-        public void ReachingDefsIterTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
-            var code = ProgramTreeToLinear.Build(root);
-            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
-            var cfg = ListBlocksToCFG.Build(blocks);
-            
-
-            var defs = new ReachingDefsIterAlg(cfg);
-
-
-            foreach (var block in cfg.graph.Vertices)
-            {
-                Console.Write(block);
-                foreach (var labelValue in defs.Out[block])
-                {
-                    Console.Write(labelValue);
-                    Console.Write(", ");
-                }
-                Console.WriteLine();
-                Console.WriteLine("-----------------------");
-            }
-        }
-
-        [TestMethod]
-        public void ActiveVarsIterTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample3);
-            var code = ProgramTreeToLinear.Build(root);
-            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
-            var cfg = ListBlocksToCFG.Build(blocks);
-
-
-            var DefUse = new ActiveVarsIterAlg(cfg);
-
-
-            foreach (var block in cfg.graph.Vertices)
-            {
-                Console.Write(block);
-                foreach (var labelValue in DefUse.In[block])
-                {
-                    Console.Write(labelValue);
-                    Console.Write(", ");
-                }
-                Console.WriteLine();
-                Console.WriteLine("-----------------------");
-            }
-        }
-
     }
 }
