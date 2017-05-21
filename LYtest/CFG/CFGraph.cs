@@ -122,7 +122,7 @@ namespace LYtest.CFG
         {
             return EdgeTypes.Where(edgeType => edgeType.Value == EdgeType.Retreating)
                 .Select(edgeType => edgeType.Key).ToList()
-                .Any(edge => isDominate(edge.Target, edge.Source));
+                .All(edge => isDominate(edge.Target, edge.Source));
         }
 
         private bool isDominate(CFGNode from, CFGNode to)
