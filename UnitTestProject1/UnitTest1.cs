@@ -340,9 +340,24 @@ namespace UnitTestProject1
             {
                 Console.WriteLine(v.Value + ":" + v.Key);
             }
+        }
 
-            //var s = string.Join("\n\n", dst.Tree.Edges.Select(ed => $"[{ed.Source.ToString()} -> {ed.Target.ToString()}]"));
-            //Console.WriteLine(s);
+        [TestMethod]
+        public void EdgesTypesTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
+            var linearCode = new LinearCodeVisitor();
+            root.AcceptVisit(linearCode);
+
+            var code = linearCode.code;
+            var blocks = LinearToBaseBlock.Build(code);
+            foreach (var block in blocks)
+            {
+                Console.WriteLine(block.ToString());
+            }
+
+            var cfg = new CFGraph(blocks);
+            Console.WriteLine(cfg.EdgeTypes.ToString());
         }
     }
 }

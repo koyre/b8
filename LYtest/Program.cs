@@ -16,19 +16,6 @@ namespace LYtest
     {
         static void Main(string[] args)
         {
-            string inp = "i= m -1;" +
-                        "j = n;" +
-                        "a = u1;" +
-
-                        "while 1 {" +
-                        " i = i +1;" +
-                        "j = j -1;" +
-
-                        "if 5 { a = u2; }" +
-                        "i = u3;" +
-                        "}";
-//            var root = Parser.ParseString(inp);
-
             var text = File.ReadAllText("a.txt");
             var root = Parser.ParseString(text);
 
