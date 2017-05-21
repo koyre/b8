@@ -177,12 +177,12 @@ namespace UnitTestProject1
 
             var res = ncg.findBetween(6, 4);
             res.Sort();
-            var expected = new List<int>() { 4, 5, 6 };
+            var expected = new List<int>() { 4, 6 };
             CollectionAssert.AreEqual(res, expected);
 
             var res1 = ncg.findBetween(13, 8);
             res1.Sort();
-            var expected1 = new List<int>() { 8, 9, 10, 11, 12, 13 };
+            var expected1 = new List<int>() { 8, 10, 11, 12, 13 };
             CollectionAssert.AreEqual(res1, expected1);
 
         }
