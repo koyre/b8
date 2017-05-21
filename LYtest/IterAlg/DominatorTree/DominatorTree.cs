@@ -60,5 +60,31 @@ namespace LYtest.DominatorTree
             var graphviz = new GraphvizAlgorithm<DominatorTreeNode, Edge<DominatorTreeNode>>(graph);
             return graphviz.Generate();
         }
+
+        public bool isDominate(CFGNode from, CFGNode to)
+        {
+            var domNodeFrom = graph.Vertices.First(dtn => dtn.CFGNode.Equals(from));
+            var domNodeTo = graph.Vertices.First(dtn => dtn.CFGNode.Equals(to));
+            return isWayExists(domNodeFrom, domNodeTo);
+        }
+
+        private List<DominatorTreeNode> visited = new List<DominatorTreeNode>();
+
+        private bool isWayExists(DominatorTreeNode from, DominatorTreeNode to)
+        {
+            if (from.Equals(to))
+                return true;
+            visited.Add(from);
+
+            var nodes = graph.Edges.Where(dtn => dtn.Source.Equals(from))
+                            .Select(dtn => dtn.Target)
+                            .Where(dtn => !visited.Contains(dtn)).ToList();
+
+            foreach (var node in nodes)
+                if (isWayExists(node, to))
+                    return true;
+            return false;
+            
+        }
     }
 }

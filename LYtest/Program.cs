@@ -41,8 +41,9 @@ namespace LYtest
             // Get graph and made DepthSpanningTree
             var cfg = new CFGraph(blocks);
 
-//           var ncg = new NaturalCycleGraph(cfg);
-//           var res = ncg.findBetween(6, 1);
+            //var ncg = new NaturalCycleGraph(cfg);
+            //var res = ncg.findBetween(11, 3);
+
 
             var dst = new DepthSpanningTree(cfg);
             string dst_viz = dst.ToString();
@@ -52,6 +53,8 @@ namespace LYtest
 
             Console.WriteLine(cfg.EdgeTypes.ToString());
 
+
+            var f = cfg.allRetreatingEdgesAreBackwards();
 
             Console.ReadLine();
         }

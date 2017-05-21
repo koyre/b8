@@ -21,6 +21,8 @@ namespace LYtest.CFG
         // Raw blocks
         public readonly List<IBaseBlock> Blocks;
 
+        private DominatorTree.DominatorTree dominatorTree = null;
+
         // Constructor from list of blocks
         public CFGraph(List<IBaseBlock> blocks)
         {
@@ -73,6 +75,8 @@ namespace LYtest.CFG
             }
 
             ClassificateEdges();
+
+            buildDominatorTree();
         }
 
         public CFGNode GetRoot()
@@ -111,6 +115,29 @@ namespace LYtest.CFG
                     EdgeTypes.Add(edge, EdgeType.Cross);
                 }
             }
+        }
+
+
+        public bool allRetreatingEdgesAreBackwards()
+        {
+            return EdgeTypes.Where(edgeType => edgeType.Value == EdgeType.Retreating)
+                .Select(edgeType => edgeType.Key).ToList()
+                .Any(edge => isDominate(edge.Target, edge.Source));
+        }
+
+        private bool isDominate(CFGNode from, CFGNode to)
+        {
+            return dominatorTree.isDominate(from, to);
+        }
+
+        private int getNodeIndex(CFGNode node)
+        {
+            return graph.Vertices.ToList().IndexOf(node);
+        }
+
+        private void buildDominatorTree()
+        {
+            dominatorTree = new DominatorTree.DominatorTree(this);
         }
 
         public override string ToString()
