@@ -151,21 +151,18 @@ namespace UnitTestProject1
         [TestMethod]
         public void CFGTest()
         {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
-            var code = ProgramTreeToLinear.Build(root);
+            var tree = Parser.ParseString(Samples.SampleProgramText.sample1);
+            var code = ProgramTreeToLinear.Build(tree);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
             Assert.AreEqual(cfg.GetRoot().ParentsNodes.Count, 0);
 
-            var cfgview = new CFGLookup(cfg.GetRoot());
-            while (cfgview.MoveDirect())
-            { }
-            Assert.AreEqual(cfgview.PathLen, 14);
+            Assert.AreEqual(cfg.Blocks.Count, 15);
 
-            while (cfgview.MoveBack())
-            { }
-            Assert.AreEqual(cfgview.Current, cfg.GetRoot());
+            Assert.IsNotNull(cfg.GetRoot().directChild);
+            Assert.IsNotNull(cfg.GetRoot().gotoNode);
 
+            cfg.Blocks.ForEach(Console.WriteLine);
         }
 
         [TestMethod]
