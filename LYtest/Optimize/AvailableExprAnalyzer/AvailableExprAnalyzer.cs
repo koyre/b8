@@ -8,7 +8,7 @@ using LYtest.CFG;
 
 namespace LYtest.Optimize.AvailableExprAnalyzer
 {
-    class AvailableExprAnalyzer
+    public class AvailableExprAnalyzer
 
     {
         public readonly Dictionary<IBaseBlock, List<Expression>> InBlocks = new Dictionary<IBaseBlock, List<Expression>>();
