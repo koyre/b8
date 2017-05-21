@@ -17,8 +17,7 @@ namespace LYtest.DominatorTree
         public DominatorTree(CFGraph cfg)
         {
             var doms = new DominatorsIterAlg(cfg).Dom;
-
-            // Make IList and add as vertexes
+            
             var vertices = doms.Keys.Select(x => new DominatorTreeNode(x)).ToList();
             graph.AddVertexRange(vertices);
             

@@ -23,13 +23,13 @@ namespace LYtest.CFG
         // Constructor from CFGraph
         public DepthSpanningTree(CFGraph cfg)
         {
-            int numberOfVertices = cfg.NumberOfVertices() - 1;
             visited = new HashSet<CFGNode>();
             Tree = new BidirectionalGraph<CFGNode, Edge<CFGNode>>();
             Numbers = new Dictionary<CFGNode, int>();
 
             var root = cfg.GetRoot();
-            BuildTree(root, ref numberOfVertices);
+            int start = 0;
+            BuildTree(root, ref start);
         }
 
         // Build tree
@@ -38,9 +38,10 @@ namespace LYtest.CFG
             if (node == null)
                 return;
             visited.Add(node);
+            Numbers[node] = currentNumber;
+
             if (node.directChild == null && node.gotoNode == null)
             {
-                Numbers[node] = currentNumber;
                 return;
             }
 
@@ -65,11 +66,10 @@ namespace LYtest.CFG
                         Tree.AddVertex(child);
                     Tree.AddEdge(new Edge<CFGNode>(node, child));
 
+                    currentNumber += 1;
+                    Console.WriteLine(currentNumber);
                     BuildTree(child, ref currentNumber);
                 }
-
-                Numbers[node] = currentNumber;
-                currentNumber -= 1;
             }
         }
 
