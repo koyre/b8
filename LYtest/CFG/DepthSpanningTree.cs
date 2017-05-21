@@ -85,6 +85,7 @@ namespace LYtest.CFG
             catch (KeyNotFoundException exc)
             {
                 Console.WriteLine(exc.ToString());
+                return false;
             }
 
             while (incomingEdges.Count() > 0)
