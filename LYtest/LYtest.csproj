@@ -80,7 +80,6 @@
     <Compile Include="CFG\CFGIterator.cs" />
     <Compile Include="CFG\CFGraph.cs" />
     <Compile Include="CFG\CFGBuilder.cs" />
-    <Compile Include="CFG\CFGLookup.cs" />
     <Compile Include="CFG\CFGNode.cs" />
     <Compile Include="CFG\DepthSpanningTree.cs" />
     <Compile Include="CFG\EdgeTypes.cs" />

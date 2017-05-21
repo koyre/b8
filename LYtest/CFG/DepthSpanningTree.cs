@@ -67,7 +67,7 @@ namespace LYtest.CFG
                     Tree.AddEdge(new Edge<CFGNode>(node, child));
 
                     currentNumber += 1;
-                    Console.WriteLine(currentNumber);
+                    //Console.WriteLine(currentNumber);
                     BuildTree(child, ref currentNumber);
                 }
             }
