@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LYtest;
+using LYtest.BaseBlocks;
 using LYtest.CFG;
 using LYtest.Interpretator;
 using LYtest.LinearRepr;
@@ -282,6 +283,53 @@ namespace UnitTestProject1
             var dt = new LYtest.DominatorTree.DominatorTree(cfg);
             var node = dt.GetRoot();
             Assert.AreEqual(dt.NumberOfVertices(), 4);
+        }
+
+
+        [TestMethod]
+        public void CFGraphTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
+            var linearCode = new LinearCodeVisitor();
+            root.AcceptVisit(linearCode);
+
+            var code = linearCode.code;
+            var blocks = LinearToBaseBlock.Build(code);
+            foreach (var block in blocks)
+            {
+                Console.WriteLine(block.ToString());
+            }
+
+            var cfg = new CFGraph(blocks);
+
+            Console.WriteLine(cfg.ToString());
+        }
+
+        [TestMethod]
+        public void DSTTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
+            var linearCode = new LinearCodeVisitor();
+            root.AcceptVisit(linearCode);
+
+            var code = linearCode.code;
+            var blocks = LinearToBaseBlock.Build(code);
+            foreach (var block in blocks)
+            {
+                Console.WriteLine(block.ToString());
+            }
+
+            var cfg = new CFGraph(blocks);
+            var dst = new DepthSpanningTree(cfg);
+
+            Console.WriteLine(dst.ToString());
+            foreach(var v in dst.Numbers)
+            {
+                Console.WriteLine(v.Value + ":" + v.Key);
+            }
+
+            //var s = string.Join("\n\n", dst.Tree.Edges.Select(ed => $"[{ed.Source.ToString()} -> {ed.Target.ToString()}]"));
+            //Console.WriteLine(s);
         }
     }
 }

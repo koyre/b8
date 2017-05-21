@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace LYtest.Visitors
 {
-    class LinearCodeVisitor : IVisitor
+    public class LinearCodeVisitor : IVisitor
     {
 
         private static readonly string CONSTANT_PREFIX = "$const";
