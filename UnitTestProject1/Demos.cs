@@ -96,6 +96,27 @@ namespace UnitTestProject1
 
         }
 
+        [TestMethod]
+        public void DominatorTreeDemo()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.domSampleTrivial);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+            
+            Console.WriteLine(string.Join("\n", code));
 
+            for (int i = 0; i < blocks.Count(); i++)
+            {
+                Console.WriteLine(String.Format("\nBlock #{0}:", i));
+                Console.WriteLine(string.Join("\n", blocks[i].Enumerate()));
+            }
+
+            var dt = new LYtest.DominatorTree.DominatorTree(cfg);
+            var node = dt.GetRoot();
+
+            Console.WriteLine("\nDominator tree:");
+            Console.WriteLine(dt.ToString());
+        }
     }
 }
