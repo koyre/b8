@@ -28,6 +28,9 @@ namespace LYtest.CFG
 
             backDFS(from);
 
+            if (visitedNodes.Count == 1)
+                return new List<CFGNode>();
+
             return visitedNodes;
         }
 

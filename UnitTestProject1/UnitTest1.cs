@@ -164,13 +164,30 @@ namespace UnitTestProject1
 
             cfg.Blocks.ForEach(Console.WriteLine);
         }
+        
+        [TestMethod]
+        public void allRetreatingEdgesAreBackwardsTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+            Assert.AreEqual(cfg.allRetreatingEdgesAreBackwards(), true);
+
+            root = Parser.ParseString(Samples.SampleProgramText.veryStrangeCode);
+            code = ProgramTreeToLinear.Build(root);
+            blocks = LinearToBaseBlock.Build(code);
+            cfg = ListBlocksToCFG.Build(blocks);
+            Assert.AreEqual(cfg.allRetreatingEdgesAreBackwards(), false);
+
+        }
 
         [TestMethod]
         public void naturalCycleTest()
         {
             var root = Parser.ParseString(Samples.SampleProgramText.sample1);
             var code = ProgramTreeToLinear.Build(root);
-            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var blocks = LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
 
             var ncg = new NaturalCycleGraph(cfg);

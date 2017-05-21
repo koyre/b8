@@ -70,6 +70,17 @@ namespace UnitTestProject1
                                                       "  c = 2;" +
                                                       "}" +
                                                       "d = a;";
-        }
+        
+
+        public static readonly string veryStrangeCode = "n = 0;" +
+                                                        "if n {" +
+                                                        "custom_label1:" +
+                                                        "goto custom_label2;" +
+                                                        "}" +
+                                                        "else {" +
+                                                        "custom_label2:" +
+                                                        "goto custom_label1;" +
+                                                        "}";
+    }
     }
 }
