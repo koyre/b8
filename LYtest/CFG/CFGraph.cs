@@ -20,7 +20,6 @@ namespace LYtest.CFG
 
         // Raw blocks
         public readonly List<IBaseBlock> Blocks;
-        public readonly Dictionary<IBaseBlock, List<IBaseBlock>> Outputs = new Dictionary<IBaseBlock, List<IBaseBlock>>();
 
         private DominatorTree.DominatorTree dominatorTree = null;
 
@@ -37,7 +36,6 @@ namespace LYtest.CFG
             for (int i = 0; i < blocks.Count; i++)
             {
                 cfg_nodes.Add(new CFGNode(blocks[i]));
-                Outputs[blocks[i]] = new List<IBaseBlock>();
             }
 
             // Second step - make connections
@@ -69,13 +67,11 @@ namespace LYtest.CFG
             {
                 if (node.directChild != null)
                 {
-                    Outputs[node.directChild.Value].Add(node.Value);
                     graph.AddEdge(new Edge<CFGNode>(node, node.directChild));
                 }
                 
                 if (node.gotoNode != null)
                 {
-                    Outputs[node.gotoNode.Value].Add(node.Value);
                     graph.AddEdge(new Edge<CFGNode>(node, node.gotoNode));
                 }
             }
@@ -89,11 +85,6 @@ namespace LYtest.CFG
         public CFGNode GetRoot()
         {
             return (NumberOfVertices() > 0) ? graph.Vertices.ElementAt(0) : null;
-        }
-
-        public List<IBaseBlock> GetParentsForBlock(IBaseBlock block)
-        {
-            return Outputs[block];
         }
 
         public int NumberOfVertices()
