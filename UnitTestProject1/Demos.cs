@@ -12,6 +12,7 @@ using LYtest.ReachingDefs;
 using LYtest.ActiveVars;
 using LYtest.Visitors;
 using ProgramTree;
+using LYtest.Optimize.AvailableExprAnalyzer;
 
 namespace UnitTestProject1
 {
@@ -64,6 +65,46 @@ namespace UnitTestProject1
                     Console.Write(", ");
                 }
                 Console.WriteLine();
+                Console.WriteLine("-----------------------");
+            }
+        }
+
+        [TestMethod]
+        public void AvailableExpressionsTest()
+        {
+            Console.Write("----------- Available Expressions Analyzer ---------- \n");
+            var root = Parser.ParseString(Samples.SampleProgramText.AvailableExprsSample);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+
+
+            var exprsAnalizer = new AvailableExprAnalyzer(cfg);
+            exprsAnalizer.analyze();
+
+
+            foreach (var block in blocks)
+            {
+                Console.Write("Block: " + block);
+
+                Console.Write("\n");
+
+                Console.Write("IN: \t");
+                foreach (var expr in exprsAnalizer.InBlocks[block])
+                {
+                    Console.Write(expr);
+                    Console.Write(", ");
+                }
+                Console.Write("\n");
+
+                Console.Write("Out: \t");
+                foreach (var expr in exprsAnalizer.OutBlocks[block])
+                {
+                    Console.Write(expr);
+                    Console.Write(", ");
+                }
+                Console.Write("\n");
+
                 Console.WriteLine("-----------------------");
             }
         }

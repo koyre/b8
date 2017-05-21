@@ -8,7 +8,7 @@ using ProgramTree;
 using LYtest.Visitors;
 using LYtest.BaseBlocks;
 using LYtest.CFG;
-using QuickGraph;
+using LYtest.Optimize.AvailableExprAnalyzer;
 
 namespace LYtest
 {
@@ -40,6 +40,10 @@ namespace LYtest
 
             // Get graph and made DepthSpanningTree
             var cfg = new CFGraph(blocks);
+
+
+            var exprsAnalizer = new AvailableExprAnalyzer(cfg);
+            exprsAnalizer.analyze();
 
             var dst = new DepthSpanningTree(cfg);
             string dst_viz = dst.ToString();

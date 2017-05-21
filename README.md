@@ -10,7 +10,7 @@ Credits:
 1. ~~Ermolinsky A.~~
 1. Fateev S.
 1. Koval N.
-1. ~~Kubesh. E.~~
+1. Kubesh. E.
 1. ~~Limarev V.~~
 1. Nezhevsky N.
 1. ~~Ostapenko A.~~
@@ -25,7 +25,7 @@ Credits:
 | ------------- |:----------------:| :----------------:|
 | RR            | Rogov D.         | Raskin A.         |
 | AN            | ~~Avakyan G.~~   | Nezhevsky N.      |
-| LK            | ~~Limarev V.~~   | Koval N.          |
+| LK            | Kubesh. E.	   | Koval N.          |
 | FB            | Fateev S.        | ~~Bulanov D.~~    |
 | PC            | Paterikin A.     | Cherkasov V.      |
 | OE            | ~~Ostapenko A.~~ | Ermolaev D.       |
@@ -45,8 +45,8 @@ Nezhevsky N.
 - [ ] Для каждого обратного ребра найти естественный цикл
 - [ ] Установить, все ли отступающие ребра обратные
 
-Koval N.
-- [ ] **Доступные выражения внутри ББЛ(+оптимизации)**
+Koval N.	Kubesh. E.
+- [x] **Доступные выражения внутри ББЛ(+оптимизации)**
 - [ ] Формирование поседовательности областей R1,...,Rn в восходящем порядке
 - [ ] Нисходящая часть алгоритма анализа на основе областей
 
