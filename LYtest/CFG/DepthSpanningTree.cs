@@ -77,8 +77,16 @@ namespace LYtest.CFG
         public bool FindBackwardPath(CFGNode source, CFGNode target)
         {
             var result = false;
+            List<Edge<CFGNode>> incomingEdges = new List<Edge<CFGNode>>();
+            try
+            {
+                incomingEdges = Tree.InEdges(source).ToList();
+            }
+            catch (KeyNotFoundException exc)
+            {
+                Console.WriteLine(exc.ToString());
+            }
 
-            var incomingEdges = Tree.InEdges(source);
             while (incomingEdges.Count() > 0)
             {
                 var edge = incomingEdges.First();
@@ -89,7 +97,7 @@ namespace LYtest.CFG
                 }
                 else
                 {
-                    incomingEdges = Tree.InEdges(edge.Source);
+                    incomingEdges = Tree.InEdges(edge.Source).ToList();
                 }
             }
 

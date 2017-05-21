@@ -27,7 +27,10 @@ namespace LYtest
                         "if 5 { a = u2; }" +
                         "i = u3;" +
                         "}";
-            var root = Parser.ParseString(inp);
+//            var root = Parser.ParseString(inp);
+
+            var text = File.ReadAllText("a.txt");
+            var root = Parser.ParseString(text);
 
             if (root == null)
             {
