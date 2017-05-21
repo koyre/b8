@@ -62,6 +62,7 @@ namespace LYtest.DominatorTree
 
         public bool isDominate(CFGNode from, CFGNode to)
         {
+            visited.Clear();
             var domNodeFrom = graph.Vertices.First(dtn => dtn.CFGNode.Equals(from));
             var domNodeTo = graph.Vertices.First(dtn => dtn.CFGNode.Equals(to));
             return isWayExists(domNodeFrom, domNodeTo);
@@ -73,6 +74,7 @@ namespace LYtest.DominatorTree
         {
             if (from.Equals(to))
                 return true;
+
             visited.Add(from);
 
             var nodes = graph.Edges.Where(dtn => dtn.Source.Equals(from))
@@ -83,7 +85,6 @@ namespace LYtest.DominatorTree
                 if (isWayExists(node, to))
                     return true;
             return false;
-            
         }
     }
 }

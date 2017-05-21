@@ -23,6 +23,8 @@ namespace LYtest.CFG
 
         private DominatorTree.DominatorTree dominatorTree = null;
 
+        private NaturalCycleGraph naturalCycleGraph = null;
+
         // Constructor from list of blocks
         public CFGraph(List<IBaseBlock> blocks)
         {
@@ -75,8 +77,9 @@ namespace LYtest.CFG
             }
 
             ClassificateEdges();
-
             buildDominatorTree();
+
+            naturalCycleGraph = new NaturalCycleGraph(this);
         }
 
         public CFGNode GetRoot()
@@ -122,7 +125,20 @@ namespace LYtest.CFG
         {
             return EdgeTypes.Where(edgeType => edgeType.Value == EdgeType.Retreating)
                 .Select(edgeType => edgeType.Key).ToList()
-                .All(edge => isDominate(edge.Target, edge.Source));
+                .All(edge => isBackwardEdge(edge));
+        }
+
+        public List<List<CFGNode>> getNaturalCyclesForBackwardEdges()
+        {
+            return EdgeTypes.Where(edgeType => edgeType.Value == EdgeType.Retreating)
+                .Select(edgeType => edgeType.Key)
+                .Where(edge => isBackwardEdge(edge))
+                .Select(edge => naturalCycleGraph.findBetween(edge.Source, edge.Target)).ToList();
+        }
+
+        private bool isBackwardEdge(Edge<CFGNode> edge)
+        {
+            return isDominate(edge.Target, edge.Source);
         }
 
         private bool isDominate(CFGNode from, CFGNode to)
