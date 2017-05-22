@@ -13,7 +13,7 @@ Credits:
 1. Kubesh. E.
 1. ~~Limarev V.~~
 1. Nezhevsky N.
-1. ~~Ostapenko A.~~
+1. Ostapenko A.
 1. Paterikin A.
 1. Raskin A.
 1. Rogov D.
@@ -28,7 +28,7 @@ Credits:
 | LK            | Kubesh. E.	   | Koval N.          |
 | FB            | Fateev S.        | ~~Bulanov D.~~    |
 | PC            | Paterikin A.     | Cherkasov V.      |
-| OE            | ~~Ostapenko A.~~ | Ermolaev D.       |
+| OE            | Ostapenko A.	   | Ermolaev D.       |
 | AE            | Aliev M.         | ~~Ermolinsky A.~~ |
 
 
