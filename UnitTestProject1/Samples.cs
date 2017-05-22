@@ -81,6 +81,21 @@ namespace UnitTestProject1
                                                         "custom_label2:" +
                                                         "goto custom_label1;" +
                                                         "}";
-    }
+
+        public static readonly string AvailableExprsSample = "a = b + c;" +
+                                                "b = a - d;" +
+                                                "c = b + c;" +
+                                                "n = 0;" +
+
+                                                "if n {" +
+                                                "  d = a - d;" +
+                                                "  a = 5;" +
+                                                "  b = 9;" +
+                                                "  for m = (5+6)..a*b {" +
+                                                "  c = a+b*3;" +
+
+                                                " }" +
+                                                "}";
+        }
     }
 }

@@ -13,6 +13,7 @@ using LYtest.ReachingDefs;
 using LYtest.ActiveVars;
 using LYtest.Visitors;
 using ProgramTree;
+using LYtest.Optimize.AvailableExprAnalyzer;
 
 namespace UnitTestProject1
 {
@@ -283,6 +284,24 @@ namespace UnitTestProject1
                 Console.WriteLine();
                 Console.WriteLine("-----------------------");
             }
+        }
+
+        [TestMethod]
+        public void AvailableExpressionsTest()
+        {
+            Console.Write("----------- Available Expressions Analyzer ---------- \n");
+            var root = Parser.ParseString(Samples.SampleProgramText.AvailableExprsSample);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+
+
+            var exprsAnalizer = new AvailableExprAnalyzer(cfg);
+            exprsAnalizer.analyze();
+
+            Assert.IsTrue(exprsAnalizer.OutBlocks[blocks[0]].Count == 1);
+            Assert.IsTrue(exprsAnalizer.InBlocks[blocks[2]].Count == 1);
+            Assert.IsTrue(exprsAnalizer.OutBlocks[blocks[2]].Count == 0);
         }
 
 

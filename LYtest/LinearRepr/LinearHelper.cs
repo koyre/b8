@@ -52,6 +52,40 @@ namespace LYtest.LinearRepr
             }
         }
 
+        public static bool IsBinOp(Operation op)
+        {
+            switch (op)
+            {
+                case Operation.NoOperation:
+                case Operation.Assign:
+                case Operation.Goto:
+                case Operation.CondGoto:
+                case Operation.Print:
+                case Operation.Println:
+                    return false;
+                case Operation.Plus:
+                case Operation.Minus:
+                case Operation.Mult:
+                case Operation.Div:
+                case Operation.Less:
+                case Operation.LessOrEquals:
+                case Operation.Great:
+                case Operation.GreatOrEquals:
+                case Operation.And:
+                case Operation.Or:
+                case Operation.NotEqual:
+                case Operation.Equals:
+                    return true;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static bool isExpression(this IThreeAddressCode t)
+        {
+            return (t.Operation != Operation.CondGoto && t.Operation != Operation.Goto && t.Operation != Operation.NoOperation);
+        }
+
         public static IdentificatorValue AsDefinition(this IThreeAddressCode t)
         {
             if (t.IsBinOp() || t.Operation == Operation.Assign)
