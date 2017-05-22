@@ -29,7 +29,7 @@ namespace LYtest.IterAlg
                 Out[b] = Top;
 
             var nodes = new HashSet<CFGNode>(graph.GetVertices());
-            nodes.Remove(graph.GetRoot());
+            //nodes.Remove(graph.GetRoot());
 
             var cont = true;
 

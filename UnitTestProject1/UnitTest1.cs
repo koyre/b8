@@ -167,23 +167,6 @@ namespace UnitTestProject1
         }
         
         [TestMethod]
-        public void allRetreatingEdgesAreBackwardsTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
-            var code = ProgramTreeToLinear.Build(root);
-            var blocks = LinearToBaseBlock.Build(code);
-            var cfg = ListBlocksToCFG.Build(blocks);
-            Assert.AreEqual(cfg.allRetreatingEdgesAreBackwards(), true);
-
-            root = Parser.ParseString(Samples.SampleProgramText.veryStrangeCode);
-            code = ProgramTreeToLinear.Build(root);
-            blocks = LinearToBaseBlock.Build(code);
-            cfg = ListBlocksToCFG.Build(blocks);
-            Assert.AreEqual(cfg.allRetreatingEdgesAreBackwards(), false);
-
-        }
-
-        [TestMethod]
         public void naturalCycleTest()
         {
             var root = Parser.ParseString(Samples.SampleProgramText.sample1);
@@ -237,31 +220,6 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
-        public void ReachingDefsIterTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
-            var code = ProgramTreeToLinear.Build(root);
-            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
-            var cfg = ListBlocksToCFG.Build(blocks);
-            
-
-            var defs = new ReachingDefsIterAlg(cfg);
-
-
-            foreach (var block in cfg.graph.Vertices)
-            {
-                Console.Write(block);
-                foreach (var labelValue in defs.Out[block])
-                {
-                    Console.Write(labelValue);
-                    Console.Write(", ");
-                }
-                Console.WriteLine();
-                Console.WriteLine("-----------------------");
-            }
-        }
-
-        [TestMethod]
         public void ActiveVarsIterTest()
         {
             var root = Parser.ParseString(Samples.SampleProgramText.sample3);
@@ -269,9 +227,7 @@ namespace UnitTestProject1
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
 
-
             var DefUse = new ActiveVarsIterAlg(cfg);
-
 
             foreach (var block in cfg.graph.Vertices)
             {
@@ -316,67 +272,6 @@ namespace UnitTestProject1
             var dt = new LYtest.DominatorTree.DominatorTree(cfg);
             var node = dt.GetRoot();
             Assert.AreEqual(dt.NumberOfVertices(), 4);
-        }
-
-        [TestMethod]
-        public void CFGraphTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
-            var linearCode = new LinearCodeVisitor();
-            root.AcceptVisit(linearCode);
-
-            var code = linearCode.code;
-            var blocks = LinearToBaseBlock.Build(code);
-            foreach (var block in blocks)
-            {
-                Console.WriteLine(block.ToString());
-            }
-
-            var cfg = new CFGraph(blocks);
-
-            Console.WriteLine(cfg.ToString());
-        }
-
-        [TestMethod]
-        public void DSTTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
-            var linearCode = new LinearCodeVisitor();
-            root.AcceptVisit(linearCode);
-
-            var code = linearCode.code;
-            var blocks = LinearToBaseBlock.Build(code);
-            foreach (var block in blocks)
-            {
-                Console.WriteLine(block.ToString());
-            }
-
-            var cfg = new CFGraph(blocks);
-            var dst = new DepthSpanningTree(cfg);
-
-            Console.WriteLine(dst.ToString());
-            foreach(var v in dst.Numbers)
-            {
-                Console.WriteLine(v.Value + ":" + v.Key);
-            }
-        }
-
-        [TestMethod]
-        public void EdgesTypesTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
-            var linearCode = new LinearCodeVisitor();
-            root.AcceptVisit(linearCode);
-
-            var code = linearCode.code;
-            var blocks = LinearToBaseBlock.Build(code);
-            foreach (var block in blocks)
-            {
-                Console.WriteLine(block.ToString());
-            }
-
-            var cfg = new CFGraph(blocks);
-            Console.WriteLine(cfg.EdgeTypes.ToString());
         }
     }
 }

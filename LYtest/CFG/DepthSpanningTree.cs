@@ -84,7 +84,7 @@ namespace LYtest.CFG
             }
             catch (KeyNotFoundException exc)
             {
-                Console.WriteLine(exc.ToString());
+                //Console.WriteLine(exc.ToString());
                 return false;
             }
 
@@ -108,6 +108,9 @@ namespace LYtest.CFG
         public override string ToString()
         {
             var graphviz = new GraphvizAlgorithm<CFGNode, Edge<CFGNode>>(Tree);
+            graphviz.FormatVertex +=
+                (sender, args) => args.VertexFormatter.Label = args.Vertex.Value.Enumerate().First().Label.Value;
+            
             return graphviz.Generate();
         }
     }

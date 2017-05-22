@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LYtest.BaseBlocks;
+using LYtest.ReachingDefs;
 using QuickGraph;
 using QuickGraph.Graphviz;
 
@@ -156,9 +157,16 @@ namespace LYtest.CFG
             dominatorTree = new DominatorTree.DominatorTree(this);
         }
 
+        public Func<CFGNode, String> InfoFunc = null;
+
         public override string ToString()
         {
             var graphviz = new GraphvizAlgorithm<CFGNode, Edge<CFGNode>>(graph);
+            graphviz.FormatVertex += (sender, args) =>
+            {
+                args.VertexFormatter.Label = "\n" + args.Vertex.ToString();
+                if (InfoFunc != null) args.VertexFormatter.Comment = InfoFunc(args.Vertex);
+            };
             return graphviz.Generate();
         }
     }
