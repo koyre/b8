@@ -158,13 +158,17 @@ namespace LYtest.CFG
         }
 
         public Func<CFGNode, String> InfoFunc = null;
-
+        public bool ShowCompact = false;
         public override string ToString()
         {
             var graphviz = new GraphvizAlgorithm<CFGNode, Edge<CFGNode>>(graph);
             graphviz.FormatVertex += (sender, args) =>
             {
-                args.VertexFormatter.Label = "\n" + args.Vertex.ToString();
+                if (ShowCompact)
+                    args.VertexFormatter.Label = args.Vertex.Value.Enumerate().First().Label.Value;
+                else
+                    args.VertexFormatter.Label = "\n" + args.Vertex.ToString();
+
                 if (InfoFunc != null) args.VertexFormatter.Comment = InfoFunc(args.Vertex);
             };
             return graphviz.Generate();

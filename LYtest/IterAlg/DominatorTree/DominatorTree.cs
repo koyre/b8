@@ -57,6 +57,9 @@ namespace LYtest.DominatorTree
         public override string ToString()
         {
             var graphviz = new GraphvizAlgorithm<DominatorTreeNode, Edge<DominatorTreeNode>>(graph);
+
+            graphviz.FormatVertex +=
+                (sender, args) => args.VertexFormatter.Label = args.Vertex.CFGNode.Value.Enumerate().First().Label.Value;
             return graphviz.Generate();
         }
 

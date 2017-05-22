@@ -65,6 +65,7 @@ namespace UnitTestProject1
             var cfg = new CFGraph(blocks);
             var dst = new DepthSpanningTree(cfg);
 
+            cfg.ShowCompact = true;
             Console.WriteLine(cfg.ToString());
             Console.WriteLine(dst.ToString());
         }
@@ -91,6 +92,7 @@ namespace UnitTestProject1
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
+            cfg.ShowCompact = true;
             Console.WriteLine(cfg);
             Console.WriteLine("allRetreatingEdgesAreBackwards: " + cfg.allRetreatingEdgesAreBackwards());
             Assert.AreEqual(cfg.allRetreatingEdgesAreBackwards(), true);
@@ -99,6 +101,7 @@ namespace UnitTestProject1
             code = ProgramTreeToLinear.Build(root);
             blocks = LinearToBaseBlock.Build(code);
             cfg = ListBlocksToCFG.Build(blocks);
+            cfg.ShowCompact = true;
             Console.WriteLine(cfg);
             Console.WriteLine("allRetreatingEdgesAreBackwards: " + cfg.allRetreatingEdgesAreBackwards());
             Assert.AreEqual(cfg.allRetreatingEdgesAreBackwards(), false);
@@ -199,21 +202,15 @@ namespace UnitTestProject1
         [TestMethod]
         public void DominatorTreeDemo()
         {
-            var root = Parser.ParseString(Samples.SampleProgramText.domSampleTrivial);
+            var root = Parser.ParseString(Samples.SampleProgramText.sample2);
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
-            
-            Console.WriteLine(string.Join("\n", code));
-
-            for (int i = 0; i < blocks.Count(); i++)
-            {
-                Console.WriteLine(String.Format("\nBlock #{0}:", i));
-                Console.WriteLine(blocks[i]);
-            }
-
+ 
             var dt = new LYtest.DominatorTree.DominatorTree(cfg);
             var node = dt.GetRoot();
+            cfg.ShowCompact = true;
+            Console.WriteLine(cfg);
 
             Console.WriteLine("\nDominator tree:");
             Console.WriteLine(dt.ToString());
