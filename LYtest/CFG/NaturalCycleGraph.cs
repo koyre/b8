@@ -23,7 +23,7 @@ namespace LYtest.CFG
 
         public List<CFGNode> findBetween(CFGNode from, CFGNode to)
         {
-            visitedNodes.Clear();
+            visitedNodes = new List<CFGNode>();
             visitedNodes.Add(to);
 
             backDFS(from);
