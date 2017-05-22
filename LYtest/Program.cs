@@ -17,6 +17,15 @@ namespace LYtest
         static void Main(string[] args)
         {
             var text = File.ReadAllText("a.txt");
+            //text = "n = 0;" +
+            //        "if n {" +
+            //        "custom_label1:" +
+            //        "goto custom_label2;" +
+            //        "}" +
+            //        "else {" +
+            //        "custom_label2:" +
+            //        "goto custom_label1;" +
+            //        "}";
             var root = Parser.ParseString(text);
 
             if (root == null)
@@ -40,6 +49,7 @@ namespace LYtest
 
             // Get graph and made DepthSpanningTree
             var cfg = new CFGraph(blocks);
+            Console.WriteLine(cfg.ToString());
 
 
             var exprsAnalizer = new AvailableExprAnalyzer(cfg);
