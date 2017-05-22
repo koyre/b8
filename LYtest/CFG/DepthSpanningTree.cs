@@ -76,33 +76,29 @@ namespace LYtest.CFG
         // Finds back path from source to target, true if it is.
         public bool FindBackwardPath(CFGNode source, CFGNode target)
         {
-            var result = false;
-            List<Edge<CFGNode>> incomingEdges = new List<Edge<CFGNode>>();
-            try
+            List<Edge<CFGNode>> incoming_edges = null;
+            if (Tree.ContainsVertex(source) && !Tree.IsInEdgesEmpty(source))
             {
-                incomingEdges = Tree.InEdges(source).ToList();
-            }
-            catch (KeyNotFoundException exc)
+                incoming_edges = Tree.InEdges(source).ToList();
+            } else
             {
-                //Console.WriteLine(exc.ToString());
                 return false;
             }
 
-            while (incomingEdges.Count() > 0)
+            while (incoming_edges.Count() > 0)
             {
-                var edge = incomingEdges.First();
+                var edge = incoming_edges.First();
                 if (edge.Source.Equals(target))
                 {
-                    result = true;
-                    break;
+                    return true;
                 }
                 else
                 {
-                    incomingEdges = Tree.InEdges(edge.Source).ToList();
+                    incoming_edges = Tree.InEdges(edge.Source).ToList();
                 }
             }
 
-            return result;
+            return false;
         }
 
         public override string ToString()
