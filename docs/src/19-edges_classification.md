@@ -42,10 +42,10 @@ public class CFGraph
 
 #### Входные данные
 
-Конструктору класса ```CFGraph``` подаётся на вход список базовых блоков 
+Конструктору класса ```CFGraph``` подаётся на вход список базовых блоков
 трёхадресного кода (`List<IBaseBlock> blocks`).
 
-#### Выходные данные 
+#### Выходные данные
 
 Экземпляр класса ```CFGraph``` хранит в себе граф из библиотеки - ```BidirectionalGraph<CFGNode, Edge<CFGNode>> graph```, а также прочую служебную информацию необходимую для дальнейших преобразований. В том числе поле ```EdgeTypes```, содержащее словарь с классификацией ребер.
 
@@ -55,3 +55,4 @@ public class CFGraph
 var blocks = LinearToBaseBlock.Build(code);
 var cfg = new CFGraph(blocks);
 Console.WriteLine(cfg.EdgeTypes.ToString());
+```

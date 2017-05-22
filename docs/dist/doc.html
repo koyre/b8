@@ -48,6 +48,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <body>
 <div id="TOC">
 <ul>
+<li><a href="#генерация-трехадресного-кода">Генерация трехадресного кода</a><ul>
+<li><a href="#линейный-код">Линейный код</a></li>
+<li><a href="#условный-оператор">Условный оператор</a></li>
+<li><a href="#циклы">Циклы</a></li>
+</ul></li>
 <li><a href="#разбиение-на-базовые-блоки">Разбиение на базовые блоки</a><ul>
 <li><a href="#общие-сведения">Общие сведения</a></li>
 <li><a href="#алгоритм-построения">Алгоритм построения</a></li>
@@ -69,13 +74,87 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#выходные-данные-2">Выходные данные</a></li>
 <li><a href="#пример-применения-2">Пример применения</a></li>
 </ul></li>
-<li><a href="#построение-дерева-доминаторов">Построение дерева доминаторов</a><ul>
+<li><a href="#являются-ли-все-ли-отступающие-ребра-обратными">Являются ли все ли отступающие ребра обратными</a><ul>
 <li><a href="#общие-сведения-1">Общие сведения</a></li>
+<li><a href="#постановка-задачи">Постановка задачи</a></li>
+<li><a href="#входные-данные-3">Входные данные</a></li>
+<li><a href="#выходные-данные-3">Выходные данные</a></li>
+<li><a href="#решение-задачи">Решение задачи</a></li>
+</ul></li>
+<li><a href="#для-каждого-обратного-ребра-найти-естественный-цикл">Для каждого обратного ребра найти естественный цикл</a><ul>
+<li><a href="#общие-сведения-2">Общие сведения</a></li>
+<li><a href="#постановка-задачи-1">Постановка задачи</a></li>
+<li><a href="#входные-данные-4">Входные данные</a></li>
+<li><a href="#выходные-данные-4">Выходные данные</a></li>
+<li><a href="#решение-задачи-1">Решение задачи</a></li>
+</ul></li>
+<li><a href="#построение-дерева-доминаторов">Построение дерева доминаторов</a><ul>
+<li><a href="#общие-сведения-3">Общие сведения</a></li>
 <li><a href="#реализация">Реализация</a></li>
 <li><a href="#пример-использования">Пример использования</a></li>
 </ul></li>
 </ul>
 </div>
+<h2 id="генерация-трехадресного-кода">Генерация трехадресного кода</h2>
+<p>Интерфейс команды в трехадресном коде</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">    <span class="kw">public</span> <span class="kw">interface</span> IThreeAddressCode
+    {
+        Operation Operation { <span class="kw">get</span>; <span class="kw">set</span>; }
+        IValue LeftOperand { <span class="kw">get</span>; <span class="kw">set</span>; }
+        IValue RightOperand { <span class="kw">get</span>; <span class="kw">set</span>; }
+        StringValue Destination { <span class="kw">get</span>; <span class="kw">set</span>; }
+        LabelValue Label { <span class="kw">get</span>; <span class="kw">set</span>; }
+    }</code></pre></div>
+<ul>
+<li>Operation - бинарная операция или процедура (Print/Println)</li>
+<li>LeftOperand:</li>
+<li>Левый операнд бинарной операции</li>
+<li>Присваиваемое значение в случае операции Assign</li>
+<li>RightOperand</li>
+<li>Правый операнд бинарной операции</li>
+<li>Destination</li>
+<li>Переменная, которой присваивается значения</li>
+<li>Команда, к которой будет осуществлён переход</li>
+<li>Label - метка</li>
+</ul>
+<p>Генерация трехадресного кода осуществляется с помощью обхода LinearCodeVisitor</p>
+<h3 id="линейный-код">Линейный код</h3>
+<pre><code>a = b + (c + 1);</code></pre>
+<p>переводится в</p>
+<pre><code>%ulabel1: $const0 := c + 1
+%ulabel0: a := b + $const0</code></pre>
+<h3 id="условный-оператор">Условный оператор</h3>
+<pre><code>if &lt;условие&gt; 
+{
+    oper1;
+}
+else
+{
+    oper2;
+}</code></pre>
+<p>переводится в</p>
+<pre><code>%ulabel0: IF &lt;условие&gt; THEN GOTO %label0
+%ulabel1: oper1
+%ulabel2: GOTO %label1
+%label0: NOP
+%ulabel3: oper2
+%label1: NOP</code></pre>
+<h3 id="циклы">Циклы</h3>
+<pre><code>for i = 1..n {
+    a = 1;
+}
+</code></pre>
+<p>переводится в</p>
+<pre><code>%ulabel0: i := 1
+%label0: NOP
+%ulabel3: $const0 := i &lt;= n
+%ulabel4: IF $const0 THEN GOTO %label1
+%ulabel5: GOTO %label2
+%label1: NOP
+%ulabel6: a := 1
+%ulabel1: i := i + 1
+%ulabel2: GOTO %label0
+%label2: NOP</code></pre>
 <h2 id="разбиение-на-базовые-блоки">Разбиение на базовые блоки</h2>
 <h3 id="общие-сведения">Общие сведения</h3>
 <p><strong>Определение</strong> <em>Базовый блок</em> -- это последовательность инструкций трехадресного кода, имеющая одну точку входа (первая инструкция) и одну точку выхода (последняя инструкция).</p>
@@ -239,8 +318,8 @@ graph.<span class="fu">AddVertexRange</span>(cfg_nodes);
 var cfg = new CFGraph(blocks);
 var dst = new DepthSpanningTree(cfg);</code></pre>
 <h2 id="классификация-ребер-графа-наступающие-отступающие-поперечные">Классификация ребер графа: наступающие, отступающие, поперечные</h2>
-<p>Задача заключается в том, чтобы классифицировать все ребра <code>CFGraph</code>.</p>
-<p>Ребра бывают трех типов: 1. Наступающее ребро: если в <a href="https://github.com/DeKoyre/b8/blob/master/docs/src/15-build_dst.md">DST</a> существует такое же ребро 2. Отступающее ребро: если <a href="https://github.com/DeKoyre/b8/blob/master/docs/src/15-build_dst.md">DST</a> существует прямой путь из target в source 3. Поперечное ребро в иных случаях</p>
+<p>Задача заключается в том, чтобы классифицировать все ребра <code>CFGraph</code>. Для решения данной задачи необходимо <a href="https://github.com/DeKoyre/b8/blob/master/docs/src/15-build_dst.md">DST</a></p>
+<p>Ребра бывают трех типов: 1. Наступающее ребро: если в существует такое же ребро в DST 2. Отступающее ребро: если в DST существует прямой путь из target в source 3. Поперечное ребро в иных случаях</p>
 <p>Для решения этой задачи были созданы следующие классы:</p>
 <div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">enum</span> EdgeType
 {
@@ -267,9 +346,89 @@ var dst = new DepthSpanningTree(cfg);</code></pre>
 <h4 id="выходные-данные-2">Выходные данные</h4>
 <p>Экземпляр класса <code>CFGraph</code> хранит в себе граф из библиотеки - <code>BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; graph</code>, а также прочую служебную информацию необходимую для дальнейших преобразований. В том числе поле <code>EdgeTypes</code>, содержащее словарь с классификацией ребер.</p>
 <h4 id="пример-применения-2">Пример применения</h4>
-<p>```cs var blocks = LinearToBaseBlock.Build(code); var cfg = new CFGraph(blocks); Console.WriteLine(cfg.EdgeTypes.ToString());</p>
-<h2 id="построение-дерева-доминаторов">Построение дерева доминаторов</h2>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="dt">var</span> blocks = LinearToBaseBlock.<span class="fu">Build</span>(code);
+<span class="dt">var</span> cfg = <span class="kw">new</span> <span class="fu">CFGraph</span>(blocks);
+Console.<span class="fu">WriteLine</span>(cfg.<span class="fu">EdgeTypes</span>.<span class="fu">ToString</span>());</code></pre></div>
+<h2 id="являются-ли-все-ли-отступающие-ребра-обратными">Являются ли все ли отступающие ребра обратными</h2>
 <h3 id="общие-сведения-1">Общие сведения</h3>
+<p>Ребро (a -&gt; b) является обратным, если b доминирует над a. Узел a доминирует над узлом b, если любой путь от входного узла графа к b проходит через a.</p>
+<h3 id="постановка-задачи">Постановка задачи</h3>
+<p>Необходимо было проверить, являются ли все отступающие рёбра обратными</p>
+<h3 id="входные-данные-3">Входные данные</h3>
+<p>Для решения используются отступающие рёбра графа (классификация была проведена в другой задаче) и дерево доминаторов (было построено в другой задаче)</p>
+<h3 id="выходные-данные-3">Выходные данные</h3>
+<p>Функция возвращает True, если все отступающие ребра обратные, иначе False</p>
+<h3 id="решение-задачи">Решение задачи</h3>
+<p>Из определений следует, что для решения задачи необходимо проверить, что для всех отступающих ребер (a -&gt; b) узел b доминирует над узлом a.</p>
+<p>Для решения в класс графа управления (CFGraph) был добавлен метод allRetreatingEdgesAreBackwards()</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">        <span class="kw">public</span> <span class="dt">bool</span> <span class="fu">allRetreatingEdgesAreBackwards</span>()
+        {
+            <span class="kw">return</span> EdgeTypes.<span class="fu">Where</span>(
+            edgeType =&gt; edgeType.<span class="fu">Value</span> == EdgeType.<span class="fu">Retreating</span>)
+                .<span class="fu">Select</span>(edgeType =&gt; edgeType.<span class="fu">Key</span>).<span class="fu">ToList</span>()
+                .<span class="fu">All</span>(edge =&gt; <span class="fu">isDominate</span>(edge.<span class="fu">Target</span>, edge.<span class="fu">Source</span>));
+        }</code></pre></div>
+<p>Для определения, является ли узел a доминирующим по отношению к узлу b, используется дерево доминаторов. Если существует путь от узла a к узлу b, то a доминирует над b.</p>
+<p>Для поиска пути в дереве доминаторов был реализован алгоритм DFS.</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">        <span class="kw">private</span> <span class="dt">bool</span> <span class="fu">isWayExists</span>(DominatorTreeNode from, DominatorTreeNode to)
+        {
+            <span class="kw">if</span> (from.<span class="fu">Equals</span>(to))
+                <span class="kw">return</span> <span class="kw">true</span>;
+
+            visited.<span class="fu">Add</span>(from);
+
+            <span class="dt">var</span> nodes = graph.<span class="fu">Edges</span>.<span class="fu">Where</span>(dtn =&gt; dtn.<span class="fu">Source</span>.<span class="fu">Equals</span>(from))
+    .<span class="fu">Select</span>(dtn =&gt; dtn.<span class="fu">Target</span>)
+    .<span class="fu">Where</span>(dtn =&gt; !visited.<span class="fu">Contains</span>(dtn)).<span class="fu">ToList</span>();
+
+            <span class="kw">foreach</span> (var node <span class="kw">in</span> nodes)
+                <span class="kw">if</span> (<span class="fu">isWayExists</span>(node, to))
+                    <span class="kw">return</span> <span class="kw">true</span>;
+            <span class="kw">return</span> <span class="kw">false</span>;
+        }</code></pre></div>
+<h2 id="для-каждого-обратного-ребра-найти-естественный-цикл">Для каждого обратного ребра найти естественный цикл</h2>
+<h3 id="общие-сведения-2">Общие сведения</h3>
+<p>Ребро (a -&gt; b) является обратным, если b доминирует над a. Для обратного ребра (a -&gt; b) естественный цикл - множество узлов, которые могут достичь a, не проходя через b.</p>
+<h3 id="постановка-задачи-1">Постановка задачи</h3>
+<p>Для каждого обратного ребра необходимо найти его естественный цикл</p>
+<h3 id="входные-данные-4">Входные данные</h3>
+<p>Для решения используются граф потока управления и его обратные ребра</p>
+<h3 id="выходные-данные-4">Выходные данные</h3>
+<p>Функция возвращает естественные циклы для всех обратных ребер графа</p>
+<h3 id="решение-задачи-1">Решение задачи</h3>
+<p>Для каждого обратного ребра (a -&gt; b) запустим алгоритм DFS, начиная с узла a по обратному графу , причём изначально b помечается уже посещенный, чтобы через него не проходил поиск</p>
+<p>В класс графа потока управления (CFGRaph) добавлена функция, находящая все обратные ребра, и определяющая для них естественные циклы</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">public</span> List&lt;List&lt;CFGNode&gt;&gt; <span class="fu">getNaturalCyclesForBackwardEdges</span>()
+{
+    <span class="kw">return</span> EdgeTypes
+      .<span class="fu">Where</span>(edgeType =&gt; edgeType.<span class="fu">Value</span> == EdgeType.<span class="fu">Retreating</span>)
+      .<span class="fu">Select</span>(edgeType =&gt; edgeType.<span class="fu">Key</span>)
+      .<span class="fu">Where</span>(edge =&gt; <span class="fu">isBackwardEdge</span>(edge))
+      .<span class="fu">Select</span>(edge =&gt; 
+         naturalCycleGraph.<span class="fu">findBetween</span>(edge.<span class="fu">Source</span>, edge.<span class="fu">Target</span>))
+      .<span class="fu">ToList</span>();
+}</code></pre></div>
+<p>Для определения естественного цикла, был реализован алгоритм DFS, который запоминает все пройденные узлы</p>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">public</span> List&lt;CFGNode&gt; <span class="fu">findBetween</span>(CFGNode from, CFGNode to)
+{
+    visitedNodes.<span class="fu">Clear</span>();
+    visitedNodes.<span class="fu">Add</span>(to);
+
+    <span class="fu">backDFS</span>(from);
+
+    <span class="kw">return</span> visitedNodes;
+}
+<span class="kw">private</span> <span class="dt">void</span> <span class="fu">backDFS</span>(CFGNode currentNode)
+{
+    <span class="kw">if</span> (!visitedNodes.<span class="fu">Contains</span>(currentNode))
+    visitedNodes.<span class="fu">Add</span>(currentNode);
+    
+    <span class="fu">getNodes</span>(currentNode).<span class="fu">ToList</span>()
+        .<span class="fu">Where</span>(node =&gt; !visitedNodes.<span class="fu">Contains</span>(node)).<span class="fu">ToList</span>()
+        .<span class="fu">ForEach</span>(node =&gt; <span class="fu">backDFS</span>(node));
+}</code></pre></div>
+<h2 id="построение-дерева-доминаторов">Построение дерева доминаторов</h2>
+<h3 id="общие-сведения-3">Общие сведения</h3>
 <p><strong>Определение</strong> <em>Дерево доминаторов</em> -- это дерево, в котором входной узел является корнем, а каждый узел <code>d</code>доминирует только над своими потомками в дереве.</p>
 <p>Для каждого узла графа потока управления при помощи итерационного алгоритма для задачи потока данных находятся все <em>доминаторы</em> -- такие узлы графа, которые присутствуют в любом пути от начала программы до данного узла. Далее, для каждого узла (кроме корня графа потока управления) выбирается непосредственный доминатор, который и объявляется родителем в дереве доминаторов.</p>
 <p>Таким образом, для построения дерева доминаторов на вход алгоритму необходимо подать только граф потока управления.</p>
