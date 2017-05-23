@@ -94,6 +94,20 @@ namespace UnitTestProject1
 
                                                 " }" +
                                                 "}";
+            public static readonly string regionSqeuenceSample = "while c1" +
+                                                    "{" +
+                                                    "d = a - d;" +
+                                                    "for m = (5+6)..a* b" +
+                                                    "{" +
+                                                    "c = a+b*3;" +
+                                                    "for i = 1..4 {" +
+                                                    "t = 10;" +
+                                                    "}" +
+                                                    "while cond {" +
+                                                    "w = 0;" +
+                                                    "}" +
+                                                    "}" +
+                                                    "}";
         }
     }
 }

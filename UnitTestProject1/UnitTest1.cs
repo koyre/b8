@@ -14,6 +14,7 @@ using LYtest.ActiveVars;
 using LYtest.Visitors;
 using ProgramTree;
 using LYtest.Optimize.AvailableExprAnalyzer;
+using LYtest.Region;
 
 namespace UnitTestProject1
 {
@@ -250,6 +251,21 @@ namespace UnitTestProject1
             var dt = new LYtest.DominatorTree.DominatorTree(cfg);
             var node = dt.GetRoot();
             Assert.AreEqual(dt.NumberOfVertices(), 4);
+        }
+
+        [TestMethod]
+        public void RegionSequenceTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.regionSqeuenceSample);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+
+            var regSeq = new RegionSequence(cfg);
+            var natCycles = cfg.getNaturalCyclesForBackwardEdges();
+            Assert.AreEqual(regSeq.Regions.Count, 24);
+            Assert.AreEqual(regSeq.Regions.Last().Header, cfg.GetVertices().ToList()[0]);
+            Assert.IsTrue(regSeq.Regions.Exists(r => natCycles[0][0] == r.Header));
         }
     }
 }
