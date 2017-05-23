@@ -77,10 +77,8 @@ namespace UnitTestProject1
                                                         "custom_label1:" +
                                                         "goto custom_label2;" +
                                                         "}" +
-                                                        "else {" +
                                                         "custom_label2:" +
-                                                        "goto custom_label1;" +
-                                                        "}";
+                                                        "goto custom_label1;";
 
         public static readonly string AvailableExprsSample = "a = b + c;" +
                                                 "b = a - d;" +
