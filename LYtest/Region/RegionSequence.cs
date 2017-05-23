@@ -50,6 +50,11 @@ namespace LYtest.Region
                 }
                 nc.RemoveAll(c => addedCyclesHeaders.Contains(c[0]));
             }
+            // cfg is natural cycle if there is cycle header equals first node of cfg
+            bool cfgIsNaturalCycle = cyclesHeaders.Contains(allNodes[0]);
+            // If cfg isn't natural cycle then add region contains all nodes and edges
+            if (!cfgIsNaturalCycle)
+                regions.Add(new BodyRegion(allNodes[0], allNodes, edges, NextName()));
         }
 
         private void AddCycle(List<CFGNode> cycle, List<Edge<CFGNode>> edges, HashSet<CFGNode> nodes)
