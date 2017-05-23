@@ -20,65 +20,44 @@ namespace LYtest.Region
         public RegionSequence(CFGraph cfg)
         {
             regions = new List<Region>();
+            // Get all nodes of cfg
             List<CFGNode> allNodes = cfg.GetVertices().ToList();
+            // Each node in cfg is leaf region
             foreach (var node in cfg.GetVertices())
             {
                 regions.Add(new LeafRegion(node,NextName()));
-             }
-            var nc = cfg.getNaturalCyclesForBackwardEdges();
-            List<Edge<CFGNode>> edges = cfg.EdgeTypes.Select(e => e.Key).ToList();
-            HashSet<CFGNode> cyclesHeaders = new HashSet<CFGNode>(nc.Select(c => c[0]));
-
-            HashSet <CFGNode> addedCyclesHeaders = new HashSet<CFGNode>();
-
-            // Find most inner cycles and create corresponding regions
-            foreach (var cycle in nc)
-            {
-                // Nodes of current cycle
-                var nodes = new HashSet<CFGNode>(cycle);
-                // Find all inner cycles in current (includes itself)
-                List<List<CFGNode>> innerCycles = nc.FindAll(c =>
-                {
-                    return (new HashSet<CFGNode>(c)).IsSubsetOf(nodes);
-                });
-                // Remove current node
-                innerCycles.Remove(cycle);
-                // If there are no inner cycles then add BodyRegion and LoopRegion
-                if (innerCycles.Count == 0)
-                {
-                    AddRightCycle(cycle, edges, nodes);
-                    addedCyclesHeaders.Add(cycle[0]);
-                }
             }
-            nc.RemoveAll(c => addedCyclesHeaders.Contains(c[0]));
+            var nc = cfg.getNaturalCyclesForBackwardEdges();
+            // All edges in cfg
+            List<Edge<CFGNode>> edges = cfg.EdgeTypes.Select(e => e.Key).ToList();
+            // Nodes which are headers of natural cycles
+            HashSet<CFGNode> cyclesHeaders = new HashSet<CFGNode>(nc.Select(c => c[0]));
+            // Headers of cycles. These cycles are added to list of regions
+            HashSet <CFGNode> addedCyclesHeaders = new HashSet<CFGNode>();
             while (nc.Count > 0)
             {
+                // List of cycles we can add into regions (there are no nonadded cycles inside)
                 List<List<CFGNode>> cyclesToAdd = nc.FindAll(c => c.Skip(1).All(node =>
                 {
-                    bool b = false;
-                    if (cyclesHeaders.Contains(node))
-                        b = addedCyclesHeaders.Contains(node);
-                    else
-                        b = true;
-                    return b;
+                    // If node is header of cycle then it should be added in list of regions
+                    return cyclesHeaders.Contains(node) ? addedCyclesHeaders.Contains(node) : true ;
                 }));
                 foreach (var cycle in cyclesToAdd)
                 {
                     var nodes = new HashSet<CFGNode>(cycle);
-                    AddRightCycle(cycle, edges, nodes);
+                    AddCycle(cycle, edges, nodes);
                     addedCyclesHeaders.Add(cycle[0]);
                 }
                 nc.RemoveAll(c => addedCyclesHeaders.Contains(c[0]));
             }
         }
 
-        private void AddRightCycle(List<CFGNode> cycle, List<Edge<CFGNode>> edges, HashSet<CFGNode> nodes)
+        private void AddCycle(List<CFGNode> cycle, List<Edge<CFGNode>> edges, HashSet<CFGNode> nodes)
         {
-            // Region is header and other nodes
             CFGNode header = cycle[0];
-            List<CFGNode> bodyNodes = cycle.Skip(1).ToList();
-            // Edges only for nodes into cycle
+            List<CFGNode> bodyNodes = cycle.ToList();
             List<Edge<CFGNode>> allEdgesInCycle = edges.Where(e => { return nodes.Contains(e.Source); }).ToList();
+            // Edges only for nodes into cycle
             List<Edge<CFGNode>> bodyEdgesInCycle = allEdgesInCycle.Where(e => { return e.Target != header; }).ToList();
             BodyRegion br = new BodyRegion(header, bodyNodes, bodyEdgesInCycle, NextName());
             LoopRegion lr = new LoopRegion(header, bodyNodes, allEdgesInCycle, br, NextName());

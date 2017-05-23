@@ -9,6 +9,7 @@ using LYtest.Visitors;
 using LYtest.BaseBlocks;
 using LYtest.CFG;
 using LYtest.Optimize.AvailableExprAnalyzer;
+using LYtest.Region;
 
 namespace LYtest
 {
@@ -66,6 +67,7 @@ namespace LYtest
 
             var f = cfg.allRetreatingEdgesAreBackwards();
             var r = cfg.getNaturalCyclesForBackwardEdges();
+            var rs = new RegionSequence(cfg);
             Console.ReadLine();
         }
 
