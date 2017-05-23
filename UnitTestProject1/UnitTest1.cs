@@ -165,28 +165,6 @@ namespace UnitTestProject1
 
             cfg.Blocks.ForEach(Console.WriteLine);
         }
-        
-        [TestMethod]
-        public void naturalCycleTest()
-        {
-            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
-            var code = ProgramTreeToLinear.Build(root);
-            var blocks = LinearToBaseBlock.Build(code);
-            var cfg = ListBlocksToCFG.Build(blocks);
-
-            var ncg = new NaturalCycleGraph(cfg);
-
-            var res = ncg.findBetween(6, 4);
-            res.Sort();
-            var expected = new List<int>() { 4, 6 };
-            CollectionAssert.AreEqual(res, expected);
-
-            var res1 = ncg.findBetween(13, 8);
-            res1.Sort();
-            var expected1 = new List<int>() { 8, 10, 11, 12, 13 };
-            CollectionAssert.AreEqual(res1, expected1);
-
-        }
 
         [TestMethod]
         public void LabelGotoTest()

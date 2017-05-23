@@ -215,5 +215,29 @@ namespace UnitTestProject1
             Console.WriteLine("\nDominator tree:");
             Console.WriteLine(dt.ToString());
         }
+
+        [TestMethod]
+        public void naturalCycleTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.sample1);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+            cfg.ShowCompact = true;
+            Console.WriteLine(cfg);
+            var ncg = new NaturalCycleGraph(cfg);
+            var res = ncg.findBetween(6, 4);
+            res.Sort();
+            var expected = new List<int>() { 4, 6 };
+            CollectionAssert.AreEqual(res, expected);
+
+            var res1 = ncg.findBetween(13, 8);
+
+            res1.Sort();
+            Console.Write("Cycle btw 13, 8: " + string.Join(", ", res1));
+            var expected1 = new List<int>() { 8, 10, 11, 12, 13 };
+            CollectionAssert.AreEqual(res1, expected1);
+
+        }
     }
 }
