@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LYtest.BaseBlocks;
+using QuickGraph;
+using LYtest.CFG;
 
 namespace LYtest.Region
 {
-    class LoopRegion : Region
+    public class LoopRegion : NonLeafRegion
     {
-        List<Region> regions;
         BodyRegion bodyReg;
-
-        public List<Region> Regions { get { return regions; } }
         public BodyRegion BodyReg { get { return bodyReg; } }
 
-        public LoopRegion(BaseBlock header, List<BaseBlock> blocks, List<Region> regions) : base (header, blocks)
+        public LoopRegion(CFGNode header, List<CFGNode> nodes, List<Edge<CFGNode>> edges, BodyRegion body, string name="loopR")
+            : base (header, nodes, edges, name)
         {
-            this.regions = regions;
+            bodyReg = body;
         }
     }
 }

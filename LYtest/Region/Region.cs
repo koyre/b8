@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LYtest.BaseBlocks;
+using LYtest.CFG;
 
 namespace LYtest.Region
 {
-    class Region
+    public class Region
     {
-        // Each region has at least 1 block inside
-        List<BaseBlock> blocks;
+        public CFGNode Header { get; }
+        public string Name { get; set; }
 
-        public BaseBlock Header { get; }
-        public List<BaseBlock> Blocks { get { return blocks; } }
-
-        public Region(BaseBlock header, List<BaseBlock> blocks)
+        public Region(CFGNode header)
         {
             Header = header;
-            this.blocks = blocks;
+        }
+
+        public Region(CFGNode header, string name="R")
+        {
+            Header = header;
+            Name = name;
+        }
+
+        public override string ToString()
+        {
+            return Header.ToString();
         }
     }
 }

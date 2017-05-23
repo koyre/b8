@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LYtest.BaseBlocks;
+using QuickGraph;
+using LYtest.CFG;
 
 namespace LYtest.Region
 {
-    class BodyRegion : Region
+    public class BodyRegion : NonLeafRegion
     {
-        List<Region> regions;
-        public List<Region> Regions { get { return regions; } }
-
-        public BodyRegion(BaseBlock header, List<BaseBlock> blocks, List<Region> regions) : base(header, blocks)
+        public BodyRegion(CFGNode header, List<CFGNode> nodes, List<Edge<CFGNode>> edges, string name="bodyR")
+            : base(header, nodes, edges, name)
         {
-            this.regions = regions;
         }
     }
 }
