@@ -11,16 +11,11 @@ namespace LYtest.Region
     public class NonLeafRegion : Region
     {
         List<CFGNode> nodes;
-        List<Edge<CFGNode>> edges;
-
         public List<CFGNode> Nodes { get { return nodes; } }
-        public List<Edge<CFGNode>> Edges { get { return edges; } }
 
-        public NonLeafRegion(CFGNode header, List<CFGNode> nodes, List<Edge<CFGNode>> edges, string name="R") : base(header)
+        public NonLeafRegion(CFGNode header, List<CFGNode> nodes, List<Edge<CFGNode>> edges, string name="R") : base(header, edges, name)
         {
             this.nodes = nodes;
-            this.edges = edges;
-            this.Name = name;
         }
 
         public override string ToString()

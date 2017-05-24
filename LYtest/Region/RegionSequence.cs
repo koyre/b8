@@ -22,14 +22,15 @@ namespace LYtest.Region
             regions = new List<Region>();
             // Get all nodes of cfg
             List<CFGNode> allNodes = cfg.GetVertices().ToList();
+            // All edges in cfg
+            List<Edge<CFGNode>> edges = cfg.EdgeTypes.Select(e => e.Key).ToList();
             // Each node in cfg is leaf region
             foreach (var node in cfg.GetVertices())
             {
-                regions.Add(new LeafRegion(node,NextName()));
+                var edgesFromNode = edges.FindAll(e => e.Target == node);
+                regions.Add(new LeafRegion(node, edges, NextName()));
             }
             var nc = cfg.getNaturalCyclesForBackwardEdges();
-            // All edges in cfg
-            List<Edge<CFGNode>> edges = cfg.EdgeTypes.Select(e => e.Key).ToList();
             // Nodes which are headers of natural cycles
             HashSet<CFGNode> cyclesHeaders = new HashSet<CFGNode>(nc.Select(c => c[0]));
             // Headers of cycles. These cycles are added to list of regions
