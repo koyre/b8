@@ -33,6 +33,8 @@ Credits:
 
 [Оценивание вклада](https://docs.google.com/spreadsheets/d/1zwSrdDSbisponjYzz7TZCQg_SJJkTMlZSLBGs8I0Lq4/edit#gid=0)
 
+[Анкета](https://docs.google.com/forms/d/e/1FAIpQLSe-7EiN9H7RFoCpuor3NleQ_B7fujx_x1fAGimw1Ynq41KmdQ/viewform?usp=send_form)
+
 Scientific Advisor: Mikhalkovich S.
 
 Tasks:
