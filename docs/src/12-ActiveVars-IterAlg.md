@@ -5,22 +5,22 @@
 Определить какие переменные являются активными(живыми) для каждого базового блока.
 
 ```csharp
- public sealed class ActiveVarsIterAlg : IterativeCommonAlg<HashSet<LabelValue>>
-  {
-        private readonly DefUseBuilder DefUse;
-        public ActiveVarsIterAlg(CFGraph g) : base(g)
-  }
+public sealed class ActiveVarsIterAlg : IterativeCommonAlg<HashSet<LabelValue>>
+{
+	private readonly DefUseBuilder DefUse;
+	public ActiveVarsIterAlg(CFGraph g) : base(g)
+}
 ```
 
 #### Реализация алгоритма
 Сначала получаем *Def*/*Use* информацию. Затем выполняем итерационный алгоритм.
 
 ```csharp
- public ActiveVarsIterAlg(CFGraph g) : base(g)
- {
-	 DefUse = new DefUseBuilder(g.Blocks);
-     ReverseRun();
- }
+public ActiveVarsIterAlg(CFGraph g) : base(g)
+{
+	DefUse = new DefUseBuilder(g.Blocks);
+	ReverseRun();
+}
 ```
 
 ```csharp
@@ -36,16 +36,16 @@ public virtual void ReverseRun()
 	while (cont)
 	{
 		cont = false;
-        foreach (var node in nodes)
-        {
-	        var childNodes = new List<CFGNode>();
-            if (node.directChild != null)
-            {
-	            childNodes.Add(node.directChild);
-            }
-	        Out[node] = MeetOp(childNodes);
-	        var prevIn = In[node];
-            var newIn = In[node] = TransferFunc(node);
+		foreach (var node in nodes)
+		{
+			var childNodes = new List<CFGNode>();
+			if (node.directChild != null)
+			{
+				childNodes.Add(node.directChild);
+			}
+			Out[node] = MeetOp(childNodes);
+			var prevIn = In[node];
+			var newIn = In[node] = TransferFunc(node);
 
 			if (ContCond(prevIn, newIn))
 				cont = true;
@@ -57,8 +57,8 @@ public virtual void ReverseRun()
 
 #### Пример использования
 ```csharp
-	var cfg = ListBlocksToCFG.Build(blocks);
-	var DefUse = new ActiveVarsIterAlg(cfg);
+var cfg = ListBlocksToCFG.Build(blocks);
+var DefUse = new ActiveVarsIterAlg(cfg);
 ```
 
 
