@@ -69,7 +69,8 @@ for (int i = 0 ; i < 10; i++)
 25. Восходящая часть алгоритма анализа на основе областей
 18. Нисходящая часть алгоритма анализа на основе областей
 
-
+## Зависимости задач друг от друга
+![enter image description here](https://github.com/DeKoyre/b8/blob/master/docs/tab.jpg)
 
 ## Полезные ссылки
 * [Справка по markdown](https://guides.github.com/features/mastering-markdown/)
