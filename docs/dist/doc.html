@@ -48,6 +48,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <body>
 <div id="TOC">
 <ul>
+<li><a href="#введение">Введение</a><ul>
+<li><a href="#структура-проекта">Структура проекта</a></li>
+<li><a href="#описание-синтаксиса">Описание синтаксиса</a></li>
+<li><a href="#вторая-версия-синтаксиса">Вторая версия синтаксиса</a></li>
+</ul></li>
 <li><a href="#генерация-трехадресного-кода">Генерация трехадресного кода</a><ul>
 <li><a href="#линейный-код">Линейный код</a></li>
 <li><a href="#условный-оператор">Условный оператор</a></li>
@@ -62,39 +67,108 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#выходные-данные">Выходные данные</a></li>
 <li><a href="#пример-применения">Пример применения</a></li>
 </ul></li>
-<li><a href="#достигающие-определения-вычисление-gen-и-kill">Достигающие определения: вычисление <code>gen</code> и <code>kill</code></a></li>
-<li><a href="#итерационный-алгоритм-для-достигающих-определений">Итерационный алгоритм для достигающих определений</a></li>
-<li><a href="#построить-на-cfg-глубинное-остовное-дерево-перенумеровав-элементы-в-порядке-обратном-посфиксному">Построить на CFG глубинное остовное дерево, перенумеровав элементы в порядке обратном посфиксному</a><ul>
+<li><a href="#доступные-выражения-внутри-бблоптимизации">Доступные выражения внутри ББЛ(+оптимизации)</a><ul>
+<li><a href="#постановка-задачи">Постановка задачи</a></li>
+<li><a href="#описание-алгортима">Описание алгортима</a></li>
 <li><a href="#входные-данные-1">Входные данные</a></li>
 <li><a href="#выходные-данные-1">Выходные данные</a></li>
-<li><a href="#пример-применения-1">Пример применения</a></li>
+<li><a href="#реализация-алгоритма">Реализация алгоритма</a></li>
 </ul></li>
-<li><a href="#классификация-ребер-графа-наступающие-отступающие-поперечные">Классификация ребер графа: наступающие, отступающие, поперечные</a><ul>
+<li><a href="#достигающие-определения-вычисление-gen-и-kill">Достигающие определения: вычисление <code>gen</code> и <code>kill</code></a></li>
+<li><a href="#итерационный-алгоритм-для-достигающих-определений">Итерационный алгоритм для достигающих определений</a></li>
+<li><a href="#живые-переменные-между-ббл-множества-use_b-и-def_b">Живые переменные между ББЛ, множества use_B и def_B</a><ul>
+<li><a href="#описание-задачи">Описание задачи</a></li>
+<li><a href="#описание-алгоритма">Описание алгоритма</a></li>
+<li><a href="#реализация-алгоритма-1">Реализация алгоритма</a></li>
+<li><a href="#пример-использования">Пример использования</a></li>
+</ul></li>
+<li><a href="#живые-переменные---итерационный-алгоритм">Живые переменные - итерационный алгоритм</a><ul>
+<li><a href="#постановка-задачи-1">Постановка задачи</a></li>
+<li><a href="#реализация-алгоритма-2">Реализация алгоритма</a></li>
+<li><a href="#пример-использования-1">Пример использования</a></li>
+</ul></li>
+<li><a href="#доступные-выражения-между-базовыми-блоками---множества-e_genb-и-e_killb">Доступные выражения между базовыми блоками - множества e_gen(b) и e_kill(b)</a><ul>
+<li><a href="#постановка-задачи-2">Постановка задачи</a></li>
+<li><a href="#описание-алгортима-1">Описание алгортима</a></li>
 <li><a href="#входные-данные-2">Входные данные</a></li>
 <li><a href="#выходные-данные-2">Выходные данные</a></li>
+<li><a href="#реализация-алгоритма-3">Реализация алгоритма</a></li>
+</ul></li>
+<li><a href="#доступные-выражения-итерационный-алгоритм">Доступные выражения, итерационный алгоритм</a><ul>
+<li><a href="#постановка-задачи-3">Постановка задачи</a></li>
+<li><a href="#описание-алгортима-2">Описание алгортима</a></li>
+<li><a href="#входные-данные-3">Входные данные</a></li>
+<li><a href="#выходные-данные-3">Выходные данные</a></li>
+<li><a href="#реализация-алгоритма-4">Реализация алгоритма</a></li>
+</ul></li>
+<li><a href="#построить-на-cfg-глубинное-остовное-дерево-перенумеровав-элементы-в-порядке-обратном-посфиксному">Построить на CFG глубинное остовное дерево, перенумеровав элементы в порядке обратном посфиксному</a><ul>
+<li><a href="#входные-данные-4">Входные данные</a></li>
+<li><a href="#выходные-данные-4">Выходные данные</a></li>
+<li><a href="#пример-применения-1">Пример применения</a></li>
+</ul></li>
+<li><a href="#передаточная-функция-для-реализации-распространения-констант.-распространение-констант-внутри-базового-блока">Передаточная функция для реализации распространения констант. Распространение констант внутри базового блока</a><ul>
+<li><a href="#постановка-задачи-4">Постановка задачи</a></li>
+<li><a href="#передаточная-функция">Передаточная функция</a></li>
+<li><a href="#пример-использования-протяжки-констант-внутри-базового-блока">Пример использования протяжки констант внутри базового блока</a></li>
+</ul></li>
+<li><a href="#классификация-ребер-графа-наступающие-отступающие-поперечные">Классификация ребер графа: наступающие, отступающие, поперечные</a><ul>
+<li><a href="#входные-данные-5">Входные данные</a></li>
+<li><a href="#выходные-данные-5">Выходные данные</a></li>
 <li><a href="#пример-применения-2">Пример применения</a></li>
 </ul></li>
 <li><a href="#являются-ли-все-ли-отступающие-ребра-обратными">Являются ли все ли отступающие ребра обратными</a><ul>
 <li><a href="#общие-сведения-1">Общие сведения</a></li>
-<li><a href="#постановка-задачи">Постановка задачи</a></li>
-<li><a href="#входные-данные-3">Входные данные</a></li>
-<li><a href="#выходные-данные-3">Выходные данные</a></li>
+<li><a href="#постановка-задачи-5">Постановка задачи</a></li>
+<li><a href="#входные-данные-6">Входные данные</a></li>
+<li><a href="#выходные-данные-6">Выходные данные</a></li>
 <li><a href="#решение-задачи">Решение задачи</a></li>
 </ul></li>
 <li><a href="#для-каждого-обратного-ребра-найти-естественный-цикл">Для каждого обратного ребра найти естественный цикл</a><ul>
 <li><a href="#общие-сведения-2">Общие сведения</a></li>
-<li><a href="#постановка-задачи-1">Постановка задачи</a></li>
-<li><a href="#входные-данные-4">Входные данные</a></li>
-<li><a href="#выходные-данные-4">Выходные данные</a></li>
+<li><a href="#постановка-задачи-6">Постановка задачи</a></li>
+<li><a href="#входные-данные-7">Входные данные</a></li>
+<li><a href="#выходные-данные-7">Выходные данные</a></li>
 <li><a href="#решение-задачи-1">Решение задачи</a></li>
 </ul></li>
 <li><a href="#построение-дерева-доминаторов">Построение дерева доминаторов</a><ul>
 <li><a href="#общие-сведения-3">Общие сведения</a></li>
 <li><a href="#реализация">Реализация</a></li>
-<li><a href="#пример-использования">Пример использования</a></li>
+<li><a href="#пример-использования-2">Пример использования</a></li>
+<li><a href="#описание-задачи-1">Описание задачи</a><ul>
+<li><a href="#входные-данные-8">Входные данные</a></li>
+</ul></li>
+<li><a href="#описание-реализации">Описание реализации</a></li>
+<li><a href="#пример-использования-3">Пример использования</a></li>
+</ul></li>
+<li><a href="#разработка-класса-область-с-разновидностями-область-тела-и-область-цикла">Разработка класса &quot;область&quot; с разновидностями &quot;область тела&quot; и &quot;область цикла&quot;</a><ul>
+<li><a href="#описание-задачи-2">Описание задачи</a></li>
+<li><a href="#описание-реализации-1">Описание реализации</a></li>
 </ul></li>
 </ul>
 </div>
+<h2 id="введение">Введение</h2>
+<p>Задача заключалась в разработке <em>оптимизирующего</em> компилятора для императивного языка программирования.</p>
+<p>В качестве базового языка использовался C#, генератор синтаксического анализатора Yacc и генератор лексического анализатора Lex.</p>
+<h3 id="структура-проекта">Структура проекта</h3>
+<p>Проект состоял из нескольких модулей.</p>
+<ol style="list-style-type: decimal">
+<li>Парсер и синтаксический анализатор -- строит AST (синтаксическое дерево) по исходному коду программы.</li>
+<li>Генератор трехадресного кода -- превращает AST в последовательность команд трехадресного кода</li>
+<li>Модуль для построения базовых блоков и CFG</li>
+<li>Модуль, совершающих анализ и преобразование CFG</li>
+<li>Модуль, реализующий набор итерационных алгоритмов</li>
+<li>Модуль анализирующий циклы в CFG</li>
+<li>Юнит тесты и примеры использования.</li>
+</ol>
+<h3 id="описание-синтаксиса">Описание синтаксиса</h3>
+<p>Переменные описываются первым присваиванием значения. Пр.: <code>a = 5</code></p>
+<p><code>;</code> - завершает описание.</p>
+<p>Цикл for: <code>for b = 1..10 {}</code></p>
+<p>Цикл while: <code>while a &lt; b {}</code></p>
+<p>Оператор if: <code>if a&lt;b {}</code></p>
+<p>Логические опирации: <code>and</code>, <code>or</code>, <code>not</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code></p>
+<h3 id="вторая-версия-синтаксиса">Вторая версия синтаксиса</h3>
+<p>используются <code>endif</code>, <code>endfor</code>, <code>endwhile</code> вместо <code>{}</code></p>
 <h2 id="генерация-трехадресного-кода">Генерация трехадресного кода</h2>
 <p>Интерфейс команды в трехадресном коде</p>
 <div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">    <span class="kw">public</span> <span class="kw">interface</span> IThreeAddressCode
@@ -236,6 +310,51 @@ graph.<span class="fu">AddVertexRange</span>(cfg_nodes);
 <h4 id="пример-применения">Пример применения</h4>
 <div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="dt">var</span> blocks = LinearToBaseBlock.<span class="fu">Build</span>(code);
 <span class="dt">var</span> cfg = <span class="kw">new</span> <span class="fu">CFGraph</span>(blocks);</code></pre></div>
+<h2 id="доступные-выражения-внутри-бблоптимизации">Доступные выражения внутри ББЛ(+оптимизации)</h2>
+<h3 id="постановка-задачи">Постановка задачи</h3>
+<p>Найти доступные выражения внутри базовых блоков.</p>
+<h3 id="описание-алгортима">Описание алгортима</h3>
+<p>Выражение Х+У доступно в точке P, если любой путь от начального узла к Р вычисля- ет Х+У и после такого вычисления и до достижения Р нет последующих присвоений Х или У. Блок генерирует выражение x+y, если он вычисляет x+y и не выполняет последующих переопределений x и y.</p>
+<div class="figure">
+<img src="https://pp.userapi.com/c637618/v637618517/55f10/wCXvDbqidx0.jpg" alt="enter image description here" />
+<p class="caption">enter image description here</p>
+</div>
+<h3 id="входные-данные-1">Входные данные</h3>
+<p>Базовый блок</p>
+<h3 id="выходные-данные-1">Выходные данные</h3>
+<p>Множество выражений</p>
+<h3 id="реализация-алгоритма">Реализация алгоритма</h3>
+<pre><code>public Expression(Operation op, IValue leftOper, IValue rightOper)
+        {
+            Op = op;
+            LeftOper = leftOper;
+            RightOper = rightOper;
+        }
+
+        public Expression()
+        {
+            LeftOper = null;
+            RightOper = null;
+            Op = Operation.NoOperation;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Expression)
+            {
+                Expression Other = (Expression)obj;
+
+                return Other.Op == this.Op &amp;&amp;
+                    //Коммутативный случай
+                    ((LinearHelper.IsBinOp(this.Op) || this.Op == Operation.Mult || this.Op == Operation.Plus) &amp;&amp;
+                    (Other.LeftOper.Equals(this.LeftOper) &amp;&amp; Other.RightOper.Equals(this.RightOper) || Other.LeftOper.Equals(this.RightOper) &amp;&amp; Other.RightOper.Equals(this.LeftOper)) ||
+                    //Некоммутативный случай
+                    Other.LeftOper.Equals(this.LeftOper) &amp;&amp; Other.RightOper.Equals(this.RightOper));
+            }
+            else
+                return false;
+        }</code></pre>
+<hr />
 <h2 id="достигающие-определения-вычисление-gen-и-kill">Достигающие определения: вычисление <code>gen</code> и <code>kill</code></h2>
 <p><strong>Определение</strong> <em>Множеством <code>gen_B</code></em> называется множество определений, генерируемых в базовом блоке <code>B</code>. <em>Множеством <code>kill_B</code></em> называется множество всех прочих определений тех же переменный во всей остальной программе.</p>
 <p>Эти множества входят в передаточную функцию для задачи о достигающих определениях, поэтому перед запуском итерационного алгоритма для нее необходимо вычислить эти множества для каждого блока.</p>
@@ -281,6 +400,234 @@ graph.<span class="fu">AddVertexRange</span>(cfg_nodes);
     <span class="kw">return</span> <span class="kw">new</span> HashSet&lt;LabelValue&gt;(nodes.<span class="fu">SelectMany</span>(n =&gt; Out[n]));
 }</code></pre></div>
 <p>Таким образом, на выходе мы имеем множества <code>In</code> и <code>Out</code> достигающих опрелений для входа и выхода каждого блока.</p>
+<h2 id="живые-переменные-между-ббл-множества-use_b-и-def_b">Живые переменные между ББЛ, множества use_B и def_B</h2>
+<h4 id="описание-задачи">Описание задачи</h4>
+<p>Построение def-use и use-def цепочки для блока.</p>
+<h4 id="описание-алгоритма">Описание алгоритма</h4>
+<p>Для каждого ББЛ: 1. берем левый операнд, если он не содержится в def - добавляем его в use. 2. Аналогично для правого операнда. 3. Добавляем в def переменную, если идет присваивание значения.</p>
+<h4 id="реализация-алгоритма-1">Реализация алгоритма</h4>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="fu">DefUseBuilder</span>(List&lt;IBaseBlock&gt; blocks)
+{
+    <span class="kw">foreach</span> (var block <span class="kw">in</span> blocks)
+    {
+        <span class="dt">var</span> defsB = <span class="kw">new</span> List&lt;Definition&gt;();
+        <span class="dt">var</span> usesB = <span class="kw">new</span> List&lt;Definition&gt;();
+
+        <span class="kw">foreach</span> (var t <span class="kw">in</span> block.<span class="fu">Enumerate</span>())
+        {
+            <span class="dt">var</span> leftOperand = t.<span class="fu">LeftOperand</span> <span class="kw">as</span> IdentificatorValue;
+            <span class="dt">var</span> rightOperand = t.<span class="fu">RightOperand</span> <span class="kw">as</span> IdentificatorValue;
+    
+            <span class="kw">if</span> (leftOperand != <span class="kw">null</span> &amp;&amp; !defsB.<span class="fu">Select</span>(e =&gt; e.<span class="fu">Item2</span>).<span class="fu">Contains</span>(leftOperand))
+            {
+                usesB.<span class="fu">Add</span>(Tuple.<span class="fu">Create</span>(t.<span class="fu">Label</span>, leftOperand));
+            }
+            <span class="kw">if</span> (rightOperand != <span class="kw">null</span> &amp;&amp; !defsB.<span class="fu">Select</span>(e =&gt; e.<span class="fu">Item2</span>).<span class="fu">Contains</span>(rightOperand))
+            {
+            usesB.<span class="fu">Add</span>(Tuple.<span class="fu">Create</span>(t.<span class="fu">Label</span>, rightOperand));
+            }
+
+            <span class="dt">var</span> def = t.<span class="fu">AsDefinition</span>();
+            <span class="kw">if</span> (def != <span class="kw">null</span>)
+            {
+                defsB.<span class="fu">Add</span>(Tuple.<span class="fu">Create</span>(t.<span class="fu">Label</span>, def));
+            }
+        }
+
+        Use[block] = usesB;
+        Def[block] = defsB;
+    }
+}</code></pre></div>
+<h4 id="пример-использования">Пример использования</h4>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs">DefUse = <span class="kw">new</span> <span class="fu">DefUseBuilder</span>(g.<span class="fu">Blocks</span>);</code></pre></div>
+<h2 id="живые-переменные---итерационный-алгоритм">Живые переменные - итерационный алгоритм</h2>
+<h4 id="постановка-задачи-1">Постановка задачи</h4>
+<p>Определить какие переменные являются активными(живыми) для каждого базового блока.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">sealed</span> <span class="kw">class</span> ActiveVarsIterAlg : IterativeCommonAlg&lt;HashSet&lt;LabelValue&gt;&gt;
+{
+    <span class="kw">private</span> <span class="kw">readonly</span> DefUseBuilder DefUse;
+    <span class="kw">public</span> <span class="fu">ActiveVarsIterAlg</span>(CFGraph g) : <span class="kw">base</span>(g)
+}</code></pre></div>
+<h4 id="реализация-алгоритма-2">Реализация алгоритма</h4>
+<p>Сначала получаем <em>Def</em>/<em>Use</em> информацию. Затем выполняем итерационный алгоритм.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="fu">ActiveVarsIterAlg</span>(CFGraph g) : <span class="kw">base</span>(g)
+{
+    DefUse = <span class="kw">new</span> <span class="fu">DefUseBuilder</span>(g.<span class="fu">Blocks</span>);
+    <span class="fu">ReverseRun</span>();
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">virtual</span> <span class="dt">void</span> <span class="fu">ReverseRun</span>()
+{
+    <span class="kw">foreach</span> (var b <span class="kw">in</span> graph.<span class="fu">GetVertices</span>().<span class="fu">Reverse</span>())
+        In[b] = Top;
+
+    <span class="dt">var</span> nodes = <span class="kw">new</span> HashSet&lt;CFGNode&gt;(graph.<span class="fu">GetVertices</span>().<span class="fu">Reverse</span>());
+
+    <span class="dt">var</span> cont = <span class="kw">true</span>;
+
+    <span class="kw">while</span> (cont)
+    {
+        cont = <span class="kw">false</span>;
+        <span class="kw">foreach</span> (var node <span class="kw">in</span> nodes)
+        {
+            <span class="dt">var</span> childNodes = <span class="kw">new</span> List&lt;CFGNode&gt;();
+            <span class="kw">if</span> (node.<span class="fu">directChild</span> != <span class="kw">null</span>)
+            {
+                childNodes.<span class="fu">Add</span>(node.<span class="fu">directChild</span>);
+            }
+            Out[node] = <span class="fu">MeetOp</span>(childNodes);
+            <span class="dt">var</span> prevIn = In[node];
+            <span class="dt">var</span> newIn = In[node] = <span class="fu">TransferFunc</span>(node);
+
+            <span class="kw">if</span> (<span class="fu">ContCond</span>(prevIn, newIn))
+                cont = <span class="kw">true</span>;
+        }
+    }
+}</code></pre></div>
+<h4 id="пример-использования-1">Пример использования</h4>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="dt">var</span> cfg = ListBlocksToCFG.<span class="fu">Build</span>(blocks);
+<span class="dt">var</span> DefUse = <span class="kw">new</span> <span class="fu">ActiveVarsIterAlg</span>(cfg);</code></pre></div>
+<h2 id="доступные-выражения-между-базовыми-блоками---множества-e_genb-и-e_killb">Доступные выражения между базовыми блоками - множества e_gen(b) и e_kill(b)</h2>
+<h3 id="постановка-задачи-2">Постановка задачи</h3>
+<p>Необходимо произвести анализ выражений для каждого блока с целью построения множеств E_Gen и E_Kill</p>
+<h3 id="описание-алгортима-1">Описание алгортима</h3>
+<p>Мы проходим по списку всех блоков и для каждого собираем множества. Результирующие множества для каждого блока записываем в словарь множеств, где ключом выступает имя блока. Каждый блок обрабатывается процедурой, которая хранит ассоциативный массив переменных и списков выражений, их использующих.</p>
+<h3 id="входные-данные-2">Входные данные</h3>
+<p>Базовый блок</p>
+<h3 id="выходные-данные-2">Выходные данные</h3>
+<p>Множество выражений</p>
+<h3 id="реализация-алгоритма-3">Реализация алгоритма</h3>
+<p>E_Gen - множество выражений, генерируемых в базовом блоке. E_Kill - множество выражений, уничтожаемых в базовом блоке</p>
+<p>Вызывается <code>genKills = new GenKillExprs(cfg);</code> и после этого в <code>genKills.Gen[block]</code> содержатся выражения, которые генерируются для этого блока В <code>genKills.Remove[block]</code> содержатся выражения, которые удаляются в этом блоке</p>
+<pre><code>public GenKillExprs(CFGraph cfg)
+        {
+            var blocks = cfg.Blocks;
+
+            foreach (var block in blocks)
+            {
+                BlockDefs[block] = new List&lt;StringValue&gt;();
+                Gen[block] = new List&lt;Expression&gt;();
+                Remove[block] = new List&lt;Expression&gt;();
+
+                var countOfElems = block.Enumerate().Count();
+
+                foreach (var elem in block.Enumerate().Reverse())
+                {
+                    if (elem.IsBinOp())
+                    {
+                        BlockDefs[block].Add(elem.Destination);
+
+                        if (elem.Operation != Operation.NoOperation)
+                        {
+                            var expr = new Expression(elem.Operation, elem.LeftOperand, elem.RightOperand);
+
+                            var hasThisExpr = AllExpressions.Any(iexpr =&gt; iexpr.Equals(expr));
+                            if (!hasThisExpr)
+                            {
+                                AllExpressions.Add(expr);
+                            }
+
+                            if (!BlockDefs[block].Contains(elem.LeftOperand) &amp;&amp; !BlockDefs[block].Contains(elem.RightOperand))
+                            {
+                                Gen[block].Add(expr);
+                            }
+                        }
+
+                    }
+                }
+
+            }</code></pre>
+<hr />
+<h2 id="доступные-выражения-итерационный-алгоритм">Доступные выражения, итерационный алгоритм</h2>
+<h3 id="постановка-задачи-3">Постановка задачи</h3>
+<p>Найти доступные выражения внутри базовых блоков.</p>
+<h3 id="описание-алгортима-2">Описание алгортима</h3>
+<pre><code>OUT [ВХОД] = 0; 
+for (каждый базовый блок В, отличный от входного) OUT [В] = U; 
+while (внесены изменения в OUT) 
+for (каждый базовый блок В, отличный от входного) { 
+IN [В] = Пр-предшественник В OUT [P]; 
+OUT [В] = e_genB U (IN [В] - е_кШв); 
+} </code></pre>
+<h3 id="входные-данные-3">Входные данные</h3>
+<p>Вход: граф потока, у которого для каждого блока В вычислены e_killB и e_genB.</p>
+<h3 id="выходные-данные-3">Выходные данные</h3>
+<p>Словари ins и outs, содержашие в себе множества для каждого блока, получившиеся на последней итерации алгоритма.</p>
+<pre><code>InBlocks[vertce.Value] = UnionNodes(InBlocks[vertce.Value], OutBlocks[parent.Value]);
+
+OutBlocks[vertce.Value] = new List&lt;Expression&gt;(genKills.AllExpressions);</code></pre>
+<h3 id="реализация-алгоритма-4">Реализация алгоритма</h3>
+<pre><code>class AvailableExprAnalyzer
+
+    {
+        public readonly Dictionary&lt;IBaseBlock, List&lt;Expression&gt;&gt; InBlocks = new Dictionary&lt;IBaseBlock, List&lt;Expression&gt;&gt;();
+        public readonly Dictionary&lt;IBaseBlock, List&lt;Expression&gt;&gt; OutBlocks = new Dictionary&lt;IBaseBlock, List&lt;Expression&gt;&gt;();
+        public readonly GenKillExprs genKills;
+
+        protected readonly CFGraph cfg;
+
+        public AvailableExprAnalyzer(CFGraph _cfg)
+        {
+            
+            cfg = _cfg;
+            // Генерируем e_gen и e_kills
+            genKills = new GenKillExprs(cfg);
+
+            // Инициализируем для всех ББЛ пустые списки с входными выражениями
+            foreach (var vertice in cfg.GetVertices())
+            {
+                InBlocks.Add(vertice.Value, new List&lt;Expression&gt;());
+            }
+        }
+
+        public void analyze()
+        {
+            var firstBlock = cfg.GetVertices().First();
+            var vertces = cfg.GetVertices();
+            // Инициализируем для кажлого ББЛ кроме прервого список выходных выражений равный U (множество всех выражений)
+            foreach (var vertce in vertces)
+            {
+                if (firstBlock != vertce.Value)
+                {
+                    OutBlocks[vertce.Value] = new List&lt;Expression&gt;(genKills.AllExpressions);
+                }
+            }
+
+            bool hasChanges = true;
+
+            while (hasChanges)
+            {
+                hasChanges = false;
+
+                foreach (var vertce in vertces)
+                {
+                    if (firstBlock != vertce.Value)
+                    {
+                        // Добавляем во входные выражения все выражения, которые выходят из родительских блоков
+                        foreach (var parent in vertce.ParentsNodes)
+                        {
+                            InBlocks[vertce.Value] = UnionNodes(InBlocks[vertce.Value], OutBlocks[parent.Value]);
+                        }
+
+                        //Копируем старый список выходных выражений для сравнения в будущем
+                        var oldOut = new List&lt;Expression&gt;(OutBlocks[vertce.Value]);
+
+                        // IN[B] - e_kill_B - убиваем в списке входных выражений те, которые будут убиты в текущем базовом блоке
+                        var resNodes = ResidualNodes(InBlocks[vertce.Value], genKills.Remove[vertce.Value]);
+
+                        // объединяем оставшиеся IN[B] с e_gen_B, т.е. все что осталось после кровавой резни между IN и e_kill объединяем с тем, что родилось в данном ББЛ 
+                        // Cохраняем это все как выходные выражения для текущего базового блока
+                        OutBlocks[vertce.Value] = UnionNodes(genKills.Gen[vertce.Value], resNodes);
+
+                        // Если мы поменяли список выходных вырожений, то мы обязаны снова пройти по всем блокам и пересчитать вход/выход, ибо наш вход опирается на выходы других блоков, которые могли быть изменены
+                        if (!EqualNodes(OutBlocks[vertce.Value], oldOut))
+                        {
+                            hasChanges = true;
+                        }
+                    }
+                }
+            }
+        }</code></pre>
+<hr />
 <h2 id="построить-на-cfg-глубинное-остовное-дерево-перенумеровав-элементы-в-порядке-обратном-посфиксному">Построить на CFG глубинное остовное дерево, перенумеровав элементы в порядке обратном посфиксному</h2>
 <p>Был создан класс <code>DepthSpanningTree</code>, который представляет собой остовное дерево CFG. Он базируется на библиотеке <a href="https://quickgraph.codeplex.com/">QuickGraph</a>, которая предоставляет понятный и многофункциональный интерфейс работы с графами.</p>
 <div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">  <span class="kw">public</span> <span class="kw">class</span> DepthSpanningTree
@@ -309,14 +656,49 @@ graph.<span class="fu">AddVertexRange</span>(cfg_nodes);
             <span class="dv">3</span>. <span class="fu">BuildTree</span>(потомок, счетчик)
         <span class="dv">2</span>. Занумеровать потомка
 }</code></pre></div>
-<h4 id="входные-данные-1">Входные данные</h4>
+<h4 id="входные-данные-4">Входные данные</h4>
 <p>Конструктору класса <code>DepthSpanningTree</code> подаётся на вход <code>CFGraph</code></p>
-<h4 id="выходные-данные-1">Выходные данные</h4>
+<h4 id="выходные-данные-4">Выходные данные</h4>
 <p>Экземпляр класса <code>DepthSpanningTree</code> хранит в себе граф из библиотеки - <code>BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; Tree</code>, а также прочую служебную информацию необходимую для дальнейших преобразований.</p>
 <h4 id="пример-применения-1">Пример применения</h4>
 <pre><code>var blocks = LinearToBaseBlock.Build(code);
 var cfg = new CFGraph(blocks);
 var dst = new DepthSpanningTree(cfg);</code></pre>
+<h2 id="передаточная-функция-для-реализации-распространения-констант.-распространение-констант-внутри-базового-блока">Передаточная функция для реализации распространения констант. Распространение констант внутри базового блока</h2>
+<h4 id="постановка-задачи-4">Постановка задачи</h4>
+<ol style="list-style-type: decimal">
+<li>Реализовать передаточную функцию для распространения констант.</li>
+<li>Реализовать распространение констант внутри базового блока.</li>
+</ol>
+<ul>
+<li><p>Передаточная функция для базового блока определяется следующим образом:</p>
+<pre><code>s - statement
+Если s - не присваивание =&gt; fb = I (тождественная функция)
+Если s - присваивание =&gt; {
+Для всех v =&gt; {
+    Если v!=x =&gt; m&#39;(v) = m(v)
+    Если v = x {
+        Если (statement: x := c){
+            m&#39;(x) = CONSTANT(c)
+        }
+        Если (statement: x := y &lt;operation&gt; z){
+            m&#39;(x) = m(y) &lt;operation&gt; m(z), если (m(z) == CONSTANT) &amp;&amp; (m(y) == CONSTANT)
+
+            m&#39;(x) = NAC, если (m(y) == NAC) || (m(z) == NAC)
+
+            m&#39;(x) = UNDEF, иначе
+        }
+    }
+} 
+}</code></pre></li>
+</ul>
+<p>На вход реализованной функции поступает строка адресного кода блока и текущая таблица констант. Возвращается новое значение переменной, ее принадлежность к одному из трех видов, в зависимости от данных в таблице в текущий момент: * NAC * UNDEF * CONSTANT</p>
+<h4 id="передаточная-функция">Передаточная функция</h4>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">private</span> VariableValue <span class="fu">CalculateTransmitionFunc</span>(IThreeAddressCode line, VariableConstantMap currentTable)</code></pre></div>
+<p>Для корректной проверки работы передаточной функции, в данной задаче было реализовано распространение констант внутри базового блока.</p>
+<h4 id="пример-использования-протяжки-констант-внутри-базового-блока">Пример использования протяжки констант внутри базового блока</h4>
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs">ConstantPropagation constProp = <span class="kw">new</span> <span class="fu">ConstantPropagation</span>();
+            <span class="dt">var</span> resBlock = constProp.<span class="fu">OptimizeBlock</span>(blocks[<span class="dv">0</span>] <span class="kw">as</span> BaseBlock);</code></pre></div>
 <h2 id="классификация-ребер-графа-наступающие-отступающие-поперечные">Классификация ребер графа: наступающие, отступающие, поперечные</h2>
 <p>Задача заключается в том, чтобы классифицировать все ребра <code>CFGraph</code>. Для решения данной задачи необходимо <a href="https://github.com/DeKoyre/b8/blob/master/docs/src/15-build_dst.md">DST</a></p>
 <p>Ребра бывают трех типов: 1. Наступающее ребро: если в существует такое же ребро в DST 2. Отступающее ребро: если в DST существует прямой путь из target в source 3. Поперечное ребро в иных случаях</p>
@@ -341,9 +723,9 @@ var dst = new DepthSpanningTree(cfg);</code></pre>
 }</code></pre></div>
 <p>Классификация ребер <code>CFGraph</code> происходит следующим образом: 1. Строим глубинное островное дерево для <code>CFGraph</code> 2. Проходим по всем ребрам в <code>CFGraph</code> и классифицируем их согласно определению</p>
 <p>Она вызывается в конструкторе CFGraph.</p>
-<h4 id="входные-данные-2">Входные данные</h4>
+<h4 id="входные-данные-5">Входные данные</h4>
 <p>Конструктору класса <code>CFGraph</code> подаётся на вход список базовых блоков трёхадресного кода (<code>List&lt;IBaseBlock&gt; blocks</code>).</p>
-<h4 id="выходные-данные-2">Выходные данные</h4>
+<h4 id="выходные-данные-5">Выходные данные</h4>
 <p>Экземпляр класса <code>CFGraph</code> хранит в себе граф из библиотеки - <code>BidirectionalGraph&lt;CFGNode, Edge&lt;CFGNode&gt;&gt; graph</code>, а также прочую служебную информацию необходимую для дальнейших преобразований. В том числе поле <code>EdgeTypes</code>, содержащее словарь с классификацией ребер.</p>
 <h4 id="пример-применения-2">Пример применения</h4>
 <div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="dt">var</span> blocks = LinearToBaseBlock.<span class="fu">Build</span>(code);
@@ -352,11 +734,11 @@ Console.<span class="fu">WriteLine</span>(cfg.<span class="fu">EdgeTypes</span>.
 <h2 id="являются-ли-все-ли-отступающие-ребра-обратными">Являются ли все ли отступающие ребра обратными</h2>
 <h3 id="общие-сведения-1">Общие сведения</h3>
 <p>Ребро (a -&gt; b) является обратным, если b доминирует над a. Узел a доминирует над узлом b, если любой путь от входного узла графа к b проходит через a.</p>
-<h3 id="постановка-задачи">Постановка задачи</h3>
+<h3 id="постановка-задачи-5">Постановка задачи</h3>
 <p>Необходимо было проверить, являются ли все отступающие рёбра обратными</p>
-<h3 id="входные-данные-3">Входные данные</h3>
+<h3 id="входные-данные-6">Входные данные</h3>
 <p>Для решения используются отступающие рёбра графа (классификация была проведена в другой задаче) и дерево доминаторов (было построено в другой задаче)</p>
-<h3 id="выходные-данные-3">Выходные данные</h3>
+<h3 id="выходные-данные-6">Выходные данные</h3>
 <p>Функция возвращает True, если все отступающие ребра обратные, иначе False</p>
 <h3 id="решение-задачи">Решение задачи</h3>
 <p>Из определений следует, что для решения задачи необходимо проверить, что для всех отступающих ребер (a -&gt; b) узел b доминирует над узлом a.</p>
@@ -389,11 +771,11 @@ Console.<span class="fu">WriteLine</span>(cfg.<span class="fu">EdgeTypes</span>.
 <h2 id="для-каждого-обратного-ребра-найти-естественный-цикл">Для каждого обратного ребра найти естественный цикл</h2>
 <h3 id="общие-сведения-2">Общие сведения</h3>
 <p>Ребро (a -&gt; b) является обратным, если b доминирует над a. Для обратного ребра (a -&gt; b) естественный цикл - множество узлов, которые могут достичь a, не проходя через b.</p>
-<h3 id="постановка-задачи-1">Постановка задачи</h3>
+<h3 id="постановка-задачи-6">Постановка задачи</h3>
 <p>Для каждого обратного ребра необходимо найти его естественный цикл</p>
-<h3 id="входные-данные-4">Входные данные</h3>
+<h3 id="входные-данные-7">Входные данные</h3>
 <p>Для решения используются граф потока управления и его обратные ребра</p>
-<h3 id="выходные-данные-4">Выходные данные</h3>
+<h3 id="выходные-данные-7">Выходные данные</h3>
 <p>Функция возвращает естественные циклы для всех обратных ребер графа</p>
 <h3 id="решение-задачи-1">Решение задачи</h3>
 <p>Для каждого обратного ребра (a -&gt; b) запустим алгоритм DFS, начиная с узла a по обратному графу , причём изначально b помечается уже посещенный, чтобы через него не проходил поиск</p>
@@ -473,9 +855,88 @@ Console.<span class="fu">WriteLine</span>(cfg.<span class="fu">EdgeTypes</span>.
 <li>Преобразованные вершины графа потока управления объявляются вершинами дерева доминаторов.</li>
 <li>Для каждой вершины: 1) находится ближайший доминатор (непосредственный) 2) доминатор объявляется предком текущей вершины, а сама вершина -- потомком доминатора 3) построенная дуга добавляется в дерево доминаторов</li>
 </ol>
-<h3 id="пример-использования">Пример использования</h3>
+<h3 id="пример-использования-2">Пример использования</h3>
 <p>Для использования дерева доминаторов достаточно лишь передать в конструктор класса <code>DominatorTree</code> в качестве аргумента граф потока управления программы:</p>
 <div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="dt">var</span> dt = <span class="kw">new</span> LYtest.<span class="fu">DominatorTree</span>.<span class="fu">DominatorTree</span>(cfg);</code></pre></div>
-<p>Класс <code>DominatorTree</code> предоставляет доступ к корню и вершинам дерева, а также к самой структуре <code>QuickGraph.BidirectionalGraph</code>, поэтому можно использовать все реализованные для этого класса алгоритмы. Кроме того, так как информация о предках и потомках узлов дерева хранится в самих узлах, то можно передвигаться по дереву непосредственно.</p>
+<p>Класс <code>DominatorTree</code> предоставляет доступ к корню и вершинам дерева, а также к самой структуре <code>QuickGraph.BidirectionalGraph</code>, поэтому можно использовать все реализованные для этого класса алгоритмы. Кроме того, так как информация о предках и потомках узлов дерева хранится в самих узлах, то можно передвигаться по дереву непосредственно. ## Формирование поседовательности областей R1,...,Rn в восходящем порядке</p>
+<h3 id="описание-задачи-1">Описание задачи</h3>
+<p>Необходимо построить восходящую последовательность областей R1,...,Rn, где первые k областей R1,...,Rk - области-листья, представляющие собой один узел графа. Затем естественные циклы упорядочиваются изнутри наружу, т.е. начиная с наиболее внутренних циклов. В итоге все естественные циклы сводятся к отельным узлам.</p>
+<h4 id="входные-данные-8">Входные данные</h4>
+<p>Приводимый граф потока. #### Выходные данные Список областей графа потока #### Описание алгоритма 1. Построить список листьев-областей, состоящий из отдельных узлов графа. 2. Неоднократно выбрать естественный цикл L, такой, что если существуют либые естественные циклы, содержащиеся в L, то тела и области этих цклов уже внесены в список. Добавить область тела, состоящую из тела L (без обратных ребер к заголовку L). Затем добавить область цикла L (содержит обратные ребра к заголовку L). 3. Если весь граф не представляет собой естественный цикл, добавляем в конец списка область, состоящую из всего графа потока целиком.</p>
+<h3 id="описание-реализации">Описание реализации</h3>
+<p>Для решения задачи был создан класс <code>RegionSequence</code> со следующим интерфейсом</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">class</span> RegionSequence
+{
+    List&lt;Region&gt; regions;
+    <span class="kw">public</span> List&lt;Region&gt; Regions { <span class="kw">get</span> { <span class="kw">return</span> regions; } }
+    <span class="kw">public</span> <span class="fu">RegionSequence</span>(CFGraph cfg) { ... }
+    ...
+}</code></pre></div>
+<p>Построение последовательности происходит в конструкторе класса, на вход которому подается приведенный граф управления.</p>
+<p>На первом этапе строятся области-листья для каждого узла графа.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs">List&lt;CFGNode&gt; allNodes = cfg.<span class="fu">GetVertices</span>().<span class="fu">ToList</span>();
+List&lt;Edge&lt;CFGNode&gt;&gt; edges = cfg.<span class="fu">EdgeTypes</span>.<span class="fu">Select</span>(e =&gt; e.<span class="fu">Key</span>).<span class="fu">ToList</span>();
+<span class="kw">foreach</span> (var node <span class="kw">in</span> cfg.<span class="fu">GetVertices</span>())
+{
+    <span class="dt">var</span> edgesFromNode = edges.<span class="fu">FindAll</span>(e =&gt; e.<span class="fu">Target</span> == node);
+    regions.<span class="fu">Add</span>(<span class="kw">new</span> <span class="fu">LeafRegion</span>(node, edges, <span class="fu">NextName</span>()));
+}</code></pre></div>
+<p>Затем ищутся все естествеенные циклы с помощью встроенного метода графа (<code>getNaturalCyclesForBackwardEdges()</code>). Также создаются множества <code>cyclesHeaders</code> (все заголовки найденных циклов) и <code>addedCyclesHeaders</code> (заголовки циклов, которые внесены в список областей) для удобства учета обработанных циклов.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="dt">var</span> nc = cfg.<span class="fu">getNaturalCyclesForBackwardEdges</span>();
+List&lt;Edge&lt;CFGNode&gt;&gt; edges = cfg.<span class="fu">EdgeTypes</span>.<span class="fu">Select</span>(e =&gt; e.<span class="fu">Key</span>).<span class="fu">ToList</span>();
+HashSet&lt;CFGNode&gt; cyclesHeaders = <span class="kw">new</span> HashSet&lt;CFGNode&gt;(nc.<span class="fu">Select</span>(c =&gt; c[<span class="dv">0</span>]));
+HashSet &lt;CFGNode&gt; addedCyclesHeaders = <span class="kw">new</span> HashSet&lt;CFGNode&gt;();</code></pre></div>
+<p>После чего, пока есть циклы, не добавленные в список областей: 1. Выбираются циклы, подходящие для обработки (заголовок принадлежит множеству заголовков добавленных циклов) 2. Для каждого найденного цикла в список областей добавляется область тела, а затем бласть цикла. 3. Обработанные циклы удаляются из списка недобавленных.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">while</span> (nc.<span class="fu">Count</span> &gt; <span class="dv">0</span>)
+{
+    List&lt;List&lt;CFGNode&gt;&gt; cyclesToAdd = nc.<span class="fu">FindAll</span>(c =&gt; c.<span class="fu">Skip</span>(<span class="dv">1</span>).<span class="fu">All</span>(node =&gt;
+    {    
+        <span class="kw">return</span> cyclesHeaders.<span class="fu">Contains</span>(node) ? addedCyclesHeaders.<span class="fu">Contains</span>(node) : <span class="kw">true</span> ;
+    }));
+    <span class="kw">foreach</span> (var cycle <span class="kw">in</span> cyclesToAdd)
+    {
+        <span class="dt">var</span> nodes = <span class="kw">new</span> HashSet&lt;CFGNode&gt;(cycle);
+        <span class="fu">AddCycle</span>(cycle, edges, nodes);
+        addedCyclesHeaders.<span class="fu">Add</span>(cycle[<span class="dv">0</span>]);
+    }
+    nc.<span class="fu">RemoveAll</span>(c =&gt; addedCyclesHeaders.<span class="fu">Contains</span>(c[<span class="dv">0</span>]));
+}</code></pre></div>
+<p>Последний шаг: если граф не представляется собой естественный цикл, то внести в список область, состаящую из всего графа (все узлы и ребра).</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="dt">bool</span> cfgIsNaturalCycle = cyclesHeaders.<span class="fu">Contains</span>(allNodes[<span class="dv">0</span>]);
+<span class="kw">if</span> (!cfgIsNaturalCycle)
+  regions.<span class="fu">Add</span>(<span class="kw">new</span> <span class="fu">BodyRegion</span>(allNodes[<span class="dv">0</span>], allNodes, edges, <span class="fu">NextName</span>()));</code></pre></div>
+<h3 id="пример-использования-3">Пример использования</h3>
+<p>Для создания последовательности областей нужно создать объект <code>RegionSequence</code> и передать на вход граф потока данных.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="dt">var</span> rs = <span class="kw">new</span> <span class="fu">RegionSequence</span>(cfg);</code></pre></div>
+<h2 id="разработка-класса-область-с-разновидностями-область-тела-и-область-цикла">Разработка класса &quot;область&quot; с разновидностями &quot;область тела&quot; и &quot;область цикла&quot;</h2>
+<h3 id="описание-задачи-2">Описание задачи</h3>
+<p><strong>Определение</strong> <em>Область</em> графа потока представляется собой набор узлов <em>N</em> и ребе <em>E</em>, таких, что: 1. Существует заголовок <em>h</em> из <em>N</em>, доминирующий над всеми узлами в <em>N</em>; 2. Если некоторый узел m может достичь узла <em>n</em> из <em>N</em>, минуя <em>h</em>, то <em>m</em> также входит в <em>N</em>; 3. <em>E</em> - множество всех ребер потока управления между узлами <em>n1</em> и <em>n2</em> из <em>N</em>, за исключением, возможно, некоторых ребер, входящих в <em>h</em>.</p>
+<p>Области подразделяются на следующие виды: 1. Каждый базовый блок рассматривается как область. Такая область называется <em>область-лист</em>. 2. <em>Область тела</em> представляет собой все узлы и ребра тела естественного цикла, за исключением обратных ребер к заголовку. 3. <em>Область цикла</em>. Отличается от области <em>области тела</em> тем, что включает в себя обратные ребра, ведущие к заголовку.</p>
+<h3 id="описание-реализации-1">Описание реализации</h3>
+<p>Базовый класс для областей - <code>Region</code>. Хранит свой ездинственный узел, он же является заголовком, и ребра, выходящие из этого узла.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">class</span> Region
+{
+  List&lt;Edge&lt;CFGNode&gt;&gt; edges;
+  <span class="kw">public</span> List&lt;Edge&lt;CFGNode&gt;&gt; Edges { <span class="kw">get</span> { <span class="kw">return</span> edges; } }
+  <span class="kw">public</span> CFGNode Header { <span class="kw">get</span>; }
+  <span class="kw">public</span> <span class="dt">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+}</code></pre></div>
+<p>От данного класса наследюся классы <code>LeafRegion</code> и <code>NonLeafRegion</code> для листовых и нелистовых областей соответственно. Их отличие состоит в том, что <code>NonLeafRegion</code> хранит список узлов, в то время как <code>LeafRegion</code> один узел - заголовок, который и является соответствющим узлом графа. <code>NonLeafRegion</code> также хранит список всех дуг графа, выходящих из узлов, принадлежащих области.</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">class</span> LeafRegion : Region
+{ }
+
+<span class="kw">public</span> <span class="kw">class</span> NonLeafRegion : Region
+{
+    List&lt;CFGNode&gt; nodes;
+    <span class="kw">public</span> List&lt;CFGNode&gt; Nodes { <span class="kw">get</span> { <span class="kw">return</span> nodes; } }
+}</code></pre></div>
+<p>От <code>NonLeafRegion</code> наследуются классы для <em>области тела</em> и <em>области цикла</em>: <code>BodyRegion</code> и <code>LoopRegion</code> (хранит в себе область тела).</p>
+<div class="sourceCode"><pre class="sourceCode csharp"><code class="sourceCode cs"><span class="kw">public</span> <span class="kw">class</span> BodyRegion : NonLeafRegion
+{ }
+
+<span class="kw">public</span> <span class="kw">class</span> LoopRegion : NonLeafRegion
+{
+    BodyRegion bodyReg;
+}</code></pre></div>
 </body>
 </html>

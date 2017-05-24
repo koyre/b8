@@ -31,12 +31,13 @@ Credits:
 | OE            | Ostapenko A.	   | Ermolaev D.       |
 | AE            | Aliev M.         | ~~Ermolinsky A.~~ |
 
+[Оценивание вклада](https://docs.google.com/spreadsheets/d/1zwSrdDSbisponjYzz7TZCQg_SJJkTMlZSLBGs8I0Lq4/edit#gid=0)
 
 Scientific Advisor: Mikhalkovich S.
 
 Tasks:
 
-RR  Rogov D.    Raskin A. 
+RR  Rogov D.    Raskin A.
 - [x] **Парсер v2**
 - [x] **Передаточная функция для реализации распространения констант**
 
