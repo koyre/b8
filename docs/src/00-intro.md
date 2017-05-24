@@ -39,6 +39,6 @@ and, or, not, ==, !=, >, <
 
 ### Вторая версия синтаксиса
 
-используются endif, endfor, endwhile вместо {}
+используются endif;, endfor;, endwhile; вместо {}
 
 
