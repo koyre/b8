@@ -15,6 +15,7 @@ using LYtest.Visitors;
 using ProgramTree;
 using LYtest.Optimize.AvailableExprAnalyzer;
 using QuickGraph.Graphviz;
+using LYtest.Optimize.ConstantPropagation;
 
 namespace UnitTestProject1
 {
@@ -239,5 +240,24 @@ namespace UnitTestProject1
             CollectionAssert.AreEqual(res1, expected1);
 
         }
+
+        [TestMethod]
+        public void ConstantPropagationTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.constantPropagationSample);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+
+            ConstantPropagation constProp = new ConstantPropagation();
+            var resBlock = constProp.OptimizeBlock(blocks[0] as BaseBlock);
+            string res = resBlock.ToString();
+            string expected1 = "%ulabel169: a := 3\n" +
+                               "%ulabel170: b := 4\n" +
+                               "%ulabel171: c := 3\n" + 
+                               "%ulabel172: d := 7\n" +
+                               "%ulabel173: e := 7\n";
+            Assert.AreEqual(res, expected1);
+        }
+
     }
 }

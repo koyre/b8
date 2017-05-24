@@ -156,6 +156,7 @@ namespace UnitTestProject1
             var tree = Parser.ParseString(Samples.SampleProgramText.sample1);
             var code = ProgramTreeToLinear.Build(tree);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            
             var cfg = ListBlocksToCFG.Build(blocks);
             Assert.AreEqual(cfg.GetRoot().ParentsNodes.Count, 0);
 
@@ -267,5 +268,6 @@ namespace UnitTestProject1
             Assert.AreEqual(regSeq.Regions.Last().Header, cfg.GetVertices().ToList()[0]);
             Assert.IsTrue(regSeq.Regions.Exists(r => natCycles[0][0] == r.Header));
         }
+
     }
 }

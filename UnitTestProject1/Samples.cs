@@ -108,6 +108,12 @@ namespace UnitTestProject1
                                                     "}" +
                                                     "}" +
                                                     "}";
+            public static readonly string constantPropagationSample =
+                                                    "a = 3;" +
+                                                    "b = 4;" +
+                                                    "c = a;" +
+                                                    "d = b + 3;" +
+                                                    "e = a + b;";
         }
     }
 }

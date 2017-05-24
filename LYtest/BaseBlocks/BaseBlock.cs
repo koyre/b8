@@ -18,7 +18,7 @@ namespace LYtest.BaseBlocks
         string ToString();
     }
     
-    class BaseBlock : IBaseBlock
+    public class BaseBlock : IBaseBlock
     {
         private readonly LinkedList<IThreeAddressCode> _elems = new LinkedList<IThreeAddressCode>();
 
