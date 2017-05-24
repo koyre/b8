@@ -28,12 +28,15 @@ public class RegionSequence
 ```
 Построение последовательности происходит в конструкторе класса, на вход которому подается приведенный граф управления.
 
-На первом этапе строятся области-листья для каждого узла графа
+На первом этапе строятся области-листья для каждого узла графа.
 
 ```csharp
+List<CFGNode> allNodes = cfg.GetVertices().ToList();
+List<Edge<CFGNode>> edges = cfg.EdgeTypes.Select(e => e.Key).ToList();
 foreach (var node in cfg.GetVertices())
 {
-    regions.Add(new LeafRegion(node,NextName()));
+    var edgesFromNode = edges.FindAll(e => e.Target == node);
+    regions.Add(new LeafRegion(node, edges, NextName()));
 }
 ```
 

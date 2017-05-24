@@ -14,12 +14,15 @@
 
 ### Описание реализации
 
-Базовый класс для областей - `Region`.
+Базовый класс для областей - `Region`. Хранит свой ездинственный узел, он же является заголовком, и ребра, выходящие из этого узла.
 
 ```csharp
 public class Region
 {
-    public CFGNode Header { get; }
+  List<Edge<CFGNode>> edges;
+  public List<Edge<CFGNode>> Edges { get { return edges; } }
+  public CFGNode Header { get; }
+  public string Name { get; set; }
 }
 ```
 
@@ -32,7 +35,7 @@ public class LeafRegion : Region
 public class NonLeafRegion : Region
 {
     List<CFGNode> nodes;
-    List<Edge<CFGNode>> edges;
+    public List<CFGNode> Nodes { get { return nodes; } }
 }
 ```
 
