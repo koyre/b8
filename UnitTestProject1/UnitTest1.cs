@@ -251,7 +251,43 @@ namespace UnitTestProject1
 
             var dt = new LYtest.DominatorTree.DominatorTree(cfg);
             var node = dt.GetRoot();
+            Console.WriteLine(dt.ToString());
+            Console.WriteLine(cfg.ToString());
             Assert.AreEqual(dt.NumberOfVertices(), 4);
+        }
+
+        [TestMethod]
+        public void DF_IDF_Test()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.domSample);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
+            var cfg = ListBlocksToCFG.Build(blocks);
+            Console.WriteLine(cfg.ToString());
+
+            var df = new DominanceFrontier(blocks);
+            var idf = df.ComputeIDF_ForEachBlock(blocks);
+            Console.WriteLine(df.ToString());
+            
+            foreach (var pair in idf)
+            {
+                Console.WriteLine("FOR BLOCK:");
+                Console.WriteLine(pair.Key.ToString());
+                Console.WriteLine("IDF WAS:");
+                foreach (var val in pair.Value)
+                {
+                    Console.WriteLine(val.ToString());
+                }
+                Console.WriteLine();
+            }
+
+
+            Console.WriteLine("FINAL IDF:");
+            var idf2 = df.ComputeIDF(blocks);
+            foreach (var value in idf2)
+            {
+                Console.WriteLine(value.ToString());
+            }
         }
 
         [TestMethod]
