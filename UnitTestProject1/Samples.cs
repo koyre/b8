@@ -114,6 +114,17 @@ namespace UnitTestProject1
                                                     "c = a;" +
                                                     "d = b + 3;" +
                                                     "e = a + b;";
+            public static readonly string symbolicAnalysisSample =
+                                                    "y = 3;" +
+                                                    "z = 5;" +
+                                                    "u = 9;" +
+                                                    "v = 6*u+1 + y;" +
+                                                    "y = 5 * z;" +
+                                                    "x = 4 + 3*y + z;";
+            public static readonly string symbolicAnalysisSample2 =
+                                                    "y = 9;" +
+                                                    "z = y+5;" +
+                                                    "x = 14 + 11*y + z;";
         }
     }
 }

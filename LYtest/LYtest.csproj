@@ -122,6 +122,8 @@
     <Compile Include="Region\Region.cs" />
     <Compile Include="Region\RegionSequence.cs" />
     <Compile Include="ShiftReduceParserCode.cs" />
+    <Compile Include="SymbolicAnalysis\SymbolicAnalysis.cs" />
+    <Compile Include="SymbolicAnalysis\SymbolicMap.cs" />
     <Compile Include="Visitors\IVisitor.cs" />
     <Compile Include="Visitors\LinearCodeVisitor.cs" />
   </ItemGroup>

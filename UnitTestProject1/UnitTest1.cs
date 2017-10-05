@@ -15,6 +15,7 @@ using LYtest.Visitors;
 using ProgramTree;
 using LYtest.Optimize.AvailableExprAnalyzer;
 using LYtest.Region;
+using LYtest.SymbolicAnalysis;
 
 namespace UnitTestProject1
 {
@@ -66,7 +67,7 @@ namespace UnitTestProject1
 
             // All labels different
             Assert.AreEqual(labels.Distinct().Count(), code.Count);
-            
+
 
             // All elems in blocks
             Assert.AreEqual(blocks.Select(b => b.Enumerate().Count()).Sum(), code.Count);
@@ -143,7 +144,7 @@ namespace UnitTestProject1
                                           "print (t);");
             var code = ProgramTreeToLinear.Build(root);
             var res = LinearInterpretator.Run(code);
-            
+
             Assert.AreEqual(res.Count, 2);
             Assert.AreEqual(res[0], 2);
             Assert.AreEqual(res[1], 9);
@@ -156,7 +157,7 @@ namespace UnitTestProject1
             var tree = Parser.ParseString(Samples.SampleProgramText.sample1);
             var code = ProgramTreeToLinear.Build(tree);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
-            
+
             var cfg = ListBlocksToCFG.Build(blocks);
             Assert.AreEqual(cfg.GetRoot().ParentsNodes.Count, 0);
 
@@ -189,7 +190,7 @@ namespace UnitTestProject1
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LYtest.BaseBlocks.LinearToBaseBlock.Build(code);
             var cfg = ListBlocksToCFG.Build(blocks);
-            
+
             var nodes = cfg.graph.Vertices.Select(n => n.Value);
             Assert.AreEqual(nodes.Count(), blocks.Count());
 
@@ -256,7 +257,7 @@ namespace UnitTestProject1
             Assert.AreEqual(dt.NumberOfVertices(), 4);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void DF_IDF_Test()
         {
             var root = Parser.ParseString(Samples.SampleProgramText.domSample);
@@ -268,7 +269,7 @@ namespace UnitTestProject1
             var df = new DominanceFrontier(blocks);
             var idf = df.ComputeIDF_ForEachBlock(blocks);
             Console.WriteLine(df.ToString());
-            
+
             foreach (var pair in idf)
             {
                 Console.WriteLine("FOR BLOCK:");
@@ -288,6 +289,85 @@ namespace UnitTestProject1
             {
                 Console.WriteLine(value.ToString());
             }
+        }*/
+
+        [TestMethod]
+        public void SymbolicAnalysisTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.symbolicAnalysisSample);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+
+            SymbolicAnalysis syman = new SymbolicAnalysis();
+            var map = syman.createMap(blocks[0] as BaseBlock);
+
+            Console.WriteLine("baseblock1");
+            Console.WriteLine("------");
+            foreach (var b in code)
+            {
+                Console.Write(b.ToString() + " ");
+                Console.WriteLine(b.Operation.ToString());
+            }
+            Console.WriteLine("------");
+
+            root = Parser.ParseString(Samples.SampleProgramText.symbolicAnalysisSample2);
+            code = ProgramTreeToLinear.Build(root);
+            blocks = LinearToBaseBlock.Build(code);
+
+            var map2 = syman.createMap(blocks[0] as BaseBlock);
+
+            Console.WriteLine("baseblock2");
+            Console.WriteLine("------");
+            foreach (var b in code)
+            {
+                Console.Write(b.ToString() + " ");
+                Console.WriteLine(b.Operation.ToString());
+            }
+            Console.WriteLine("------");
+
+
+            Console.WriteLine("symbolic map for block1");
+            Console.WriteLine("------");
+            foreach(var m in map.variableTable)
+            {
+                if (m.Key != null) Console.Write(m.Key.ToString() + " ");
+                if (m.Value.type != null) Console.WriteLine(m.Value.type.ToString());
+                Console.Write("Constants: ");
+                if (m.Value.value.constants != null) foreach(var v in m.Value.value.constants) Console.Write(v.ToString() + " ");
+                Console.Write("Variables: ");
+                if (m.Value.value.variables != null) foreach(var v in m.Value.value.variables) Console.Write(v.ToString() + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine("------");
+            
+            Console.WriteLine("symbolic map for block2");
+            Console.WriteLine("------");
+            foreach (var m in map2.variableTable)
+            {
+                if (m.Key != null) Console.Write(m.Key.ToString() + " ");
+                if (m.Value.type != null) Console.WriteLine(m.Value.type.ToString());
+                Console.Write("Constants: ");
+                if (m.Value.value.constants != null) foreach (var v in m.Value.value.constants) Console.Write(v.ToString() + " ");
+                Console.Write("Variables: ");
+                if (m.Value.value.variables != null) foreach (var v in m.Value.value.variables) Console.Write(v.ToString() + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine("------");
+
+            Console.WriteLine("Composition of map1 and map2 on x = 4 + 3*y + z; instruction");
+            var compmap = syman.Composition(code[code.Count-1], map2, map);
+            Console.WriteLine("------");
+            foreach (var m in compmap.variableTable)
+            {
+                if (m.Key != null) Console.Write(m.Key.ToString() + " ");
+                if (m.Value.type != null) Console.WriteLine(m.Value.type.ToString());
+                Console.Write("Constants: ");
+                if (m.Value.value.constants != null) foreach (var v in m.Value.value.constants) Console.Write(v.ToString() + " ");
+                Console.Write("Variables: ");
+                if (m.Value.value.variables != null) foreach (var v in m.Value.value.variables) Console.Write(v.ToString() + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine("------");
         }
 
         [TestMethod]
