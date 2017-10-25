@@ -20,6 +20,7 @@ namespace LYtest.LinearRepr.Values
         NotEqual,
         Equals,
         Print,
-        Println
+        Println,
+        Phi
     }
 }

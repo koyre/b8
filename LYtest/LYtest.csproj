@@ -109,6 +109,8 @@
     <Compile Include="Optimize\AvailableExprAnalyzer\Expression.cs" />
     <Compile Include="Optimize\ConstantPropagation\ConstantPropagation.cs" />
     <Compile Include="Optimize\ConstantPropagation\VariableConstantMap.cs" />
+    <Compile Include="Optimize\SSA\SsaConstruction.cs" />
+    <Compile Include="Optimize\SSA\SsaOptimization.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramTree.cs" />
