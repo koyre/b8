@@ -13,6 +13,7 @@ namespace LYtest.BaseBlocks
     {
         bool InsertAfter(IThreeAddressCode after, IThreeAddressCode newElem);
         void Append(IThreeAddressCode newElem);
+        void AppendFirst(IThreeAddressCode newElem);
         bool Remove(IThreeAddressCode elem);
         IEnumerable<IThreeAddressCode> Enumerate();
         string ToString();
@@ -35,6 +36,11 @@ namespace LYtest.BaseBlocks
         public void Append(IThreeAddressCode newElem)
         {
             _elems.AddLast(newElem);
+        }
+
+        public void AppendFirst(IThreeAddressCode newElem)
+        {
+            _elems.AddFirst(newElem);
         }
 
         public bool Remove(IThreeAddressCode elem)

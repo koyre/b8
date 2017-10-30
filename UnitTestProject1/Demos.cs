@@ -16,6 +16,8 @@ using ProgramTree;
 using LYtest.Optimize.AvailableExprAnalyzer;
 using QuickGraph.Graphviz;
 using LYtest.Optimize.ConstantPropagation;
+using LYtest.Optimize.SSA;
+using LYtest.Optimize.SSA.SsaOptimizations;
 
 namespace UnitTestProject1
 {
@@ -252,12 +254,55 @@ namespace UnitTestProject1
             Console.WriteLine(blocks[0]);
             var resBlock = constProp.OptimizeBlock(blocks[0] as BaseBlock);
             string res = resBlock.ToString();
-            string expected1 = "%ulabel169: a := 3\n" +
-                               "%ulabel170: b := 4\n" +
-                               "%ulabel171: c := 3\n" + 
-                               "%ulabel172: d := 7\n" +
-                               "%ulabel173: e := 7\n";
             Console.WriteLine(res);
+        }
+
+        [TestMethod]
+        public void SsaConstructionTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.ssaoptimizationSample2);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+            var cfg = new CFGraph(blocks);
+            Console.WriteLine(cfg.ToString());
+            SsaConstruction ssa = new SsaConstruction(cfg);
+            Console.WriteLine(ssa.SsaForm.ToString());
+        }
+
+        [TestMethod]
+        public void SsaConstantPropagationTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.ssaoptimizationSample2);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+            var cfg = new CFGraph(blocks);
+            Console.WriteLine(cfg.ToString());
+            SsaConstruction ssa = new SsaConstruction(cfg);
+            CFGraph ssaGraph = ssa.SsaForm;
+            Console.WriteLine(ssaGraph.ToString());
+
+            Console.WriteLine("Graph after constant propagation: ");
+            SsaConstantPropagation ssaConstantPropagation = new SsaConstantPropagation(ssaGraph);
+            ssaConstantPropagation.Launch();
+            Console.WriteLine(ssaConstantPropagation.OptimizedSsaGraph);
+        }
+
+        [TestMethod]
+        public void SsaCopyPropagationTest()
+        {
+            var root = Parser.ParseString(Samples.SampleProgramText.ssaoptimizationSample3);
+            var code = ProgramTreeToLinear.Build(root);
+            var blocks = LinearToBaseBlock.Build(code);
+            var cfg = new CFGraph(blocks);
+            Console.WriteLine(cfg.ToString());
+            SsaConstruction ssa = new SsaConstruction(cfg);
+            CFGraph ssaGraph = ssa.SsaForm;
+            Console.WriteLine(ssaGraph.ToString());
+
+            Console.WriteLine("Graph after copy propagation: ");
+            SsaCopyPropagation ssaCopyPropagation = new SsaCopyPropagation(ssaGraph);
+            ssaCopyPropagation.Launch();
+            Console.WriteLine(ssaCopyPropagation.OptimizedSsaGraph);
         }
 
     }

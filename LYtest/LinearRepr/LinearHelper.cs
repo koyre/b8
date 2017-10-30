@@ -46,6 +46,7 @@ namespace LYtest.LinearRepr
                 case Operation.Or:
                 case Operation.NotEqual:
                 case Operation.Equals:
+                case Operation.Phi:
                     return true;
                 default:
                     throw new ArgumentOutOfRangeException();

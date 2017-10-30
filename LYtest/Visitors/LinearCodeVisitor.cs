@@ -26,7 +26,8 @@ namespace LYtest.Visitors
                 {Operator.Neq, Operation.NotEqual },
                 {Operator.Eq, Operation.Equals },
                 {Operator.Or, Operation.Or },
-                {Operator.Div, Operation.Div }
+                {Operator.Div, Operation.Div },
+                {Operator.Phi, Operation.Phi }
                 // todo: по необходимости дополнить остальными значениями
             };
 

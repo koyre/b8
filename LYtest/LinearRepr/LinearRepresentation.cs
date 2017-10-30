@@ -53,8 +53,7 @@ namespace LYtest.LinearRepr
                 [Operation.Or] = "||",
                 [Operation.NotEqual] = "!=",
                 [Operation.Plus] = "+",
-                [Operation.Equals] = "==",
-
+                [Operation.Equals] = "=="
             };
 
             if (signs.ContainsKey(Operation))
@@ -82,6 +81,9 @@ namespace LYtest.LinearRepr
                         break;
                     case Operation.Println:
                         body = $"printLn {LeftOperand}";
+                        break;
+                    case Operation.Phi:
+                        body = $"{Destination} = {LeftOperand} IF WENT FROM: {RightOperand}";
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

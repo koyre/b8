@@ -125,6 +125,30 @@ namespace UnitTestProject1
                                                     "y = 9;" +
                                                     "z = y+5;" +
                                                     "x = 14 + 11*y + z;";
+            public static readonly string ssaoptimizationSample2 =
+                                                    "x = 5;" +
+                                                    "y = 1;" +
+                                                    "y = y;" +
+                                                    "x = x - 3;" +
+                                                    "if 5 {" +
+                                                    "y = x * 2;" +
+                                                    "w = y; }" +
+                                                    "else {" +
+                                                    "y = x - 3;" +
+                                                    "w = x + y; }" +
+                                                    "z = w;";
+            public static readonly string ssaoptimizationSample3 =
+                                                    "x = a;" +
+                                                    "y = a;" +
+                                                    "y = y;" +
+                                                    "x = x - 3;" +
+                                                    "if 5 {" +
+                                                    "y = x * 2;" +
+                                                    "w = a; }" +
+                                                    "else {" +
+                                                    "y = x - 3;" +
+                                                    "w = a; }" +
+                                                    "z = w;";
         }
     }
 }
