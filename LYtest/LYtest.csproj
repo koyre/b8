@@ -110,7 +110,6 @@
     <Compile Include="Optimize\ConstantPropagation\ConstantPropagation.cs" />
     <Compile Include="Optimize\ConstantPropagation\VariableConstantMap.cs" />
     <Compile Include="Optimize\SSA\SsaConstruction.cs" />
-    <Compile Include="Optimize\SSA\SsaOptimization.cs" />
     <Compile Include="Optimize\SSA\SsaVarsRenaming.cs" />
     <Compile Include="Optimize\SSA\SsaOptimizations\SsaConstantPropagation.cs" />
     <Compile Include="Optimize\SSA\SsaOptimizations\SsaCopyPropagation.cs" />

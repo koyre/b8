@@ -87,7 +87,7 @@ namespace LYtest.Optimize.SSA.SsaOptimizations
                             }
                         }
                     }
-                    RemoveInstructionFromGraph(graph, s);
+                    //RemoveInstructionFromGraph(graph, s);
                 }
                 
                 worklist.Remove(s);

@@ -264,8 +264,10 @@ namespace UnitTestProject1
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LinearToBaseBlock.Build(code);
             var cfg = new CFGraph(blocks);
+            Console.WriteLine("###--------- Input CF Graph ---------###");
             Console.WriteLine(cfg.ToString());
             SsaConstruction ssa = new SsaConstruction(cfg);
+            Console.WriteLine("###--------- Output SSA Graph ---------###");
             Console.WriteLine(ssa.SsaForm.ToString());
         }
 
@@ -276,12 +278,15 @@ namespace UnitTestProject1
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LinearToBaseBlock.Build(code);
             var cfg = new CFGraph(blocks);
+            Console.WriteLine("###--------- Input CF Graph ---------###");
             Console.WriteLine(cfg.ToString());
+
             SsaConstruction ssa = new SsaConstruction(cfg);
             CFGraph ssaGraph = ssa.SsaForm;
+            Console.WriteLine("###--------- Constructed SSA Graph ---------###");
             Console.WriteLine(ssaGraph.ToString());
 
-            Console.WriteLine("Graph after constant propagation: ");
+            Console.WriteLine("###--------- Output SSA Graph after constant propagation ---------###");
             SsaConstantPropagation ssaConstantPropagation = new SsaConstantPropagation(ssaGraph);
             ssaConstantPropagation.Launch();
             Console.WriteLine(ssaConstantPropagation.OptimizedSsaGraph);
@@ -294,14 +299,16 @@ namespace UnitTestProject1
             var code = ProgramTreeToLinear.Build(root);
             var blocks = LinearToBaseBlock.Build(code);
             var cfg = new CFGraph(blocks);
+            Console.WriteLine("###--------- Input CF Graph ---------###");
             Console.WriteLine(cfg.ToString());
             SsaConstruction ssa = new SsaConstruction(cfg);
             CFGraph ssaGraph = ssa.SsaForm;
+            Console.WriteLine("###--------- Constructed SSA Graph ---------###");
             Console.WriteLine(ssaGraph.ToString());
-
-            Console.WriteLine("Graph after copy propagation: ");
+            
             SsaCopyPropagation ssaCopyPropagation = new SsaCopyPropagation(ssaGraph);
             ssaCopyPropagation.Launch();
+            Console.WriteLine("###--------- Output SSA Graph after copy propagation ---------###");
             Console.WriteLine(ssaCopyPropagation.OptimizedSsaGraph);
         }
 
