@@ -51,7 +51,7 @@ namespace LYtest.Optimize.SSA
             foreach (var str in currentNode.Value.Enumerate())
             {
                 //Если встретили фи-функцию, переименовываем ее левую часть
-                if (isPhi(str.LeftOperand as IdentificatorValue) && str.Operation == Operation.Assign)
+                if (Utilities.IsPhiAssignment(str))
                 {
                     IdentificatorValue curVar = str.Destination as IdentificatorValue;
                     GenName(curVar);
@@ -59,7 +59,7 @@ namespace LYtest.Optimize.SSA
                     str.Destination = new IdentificatorValue(str.Destination.Value + varCounter.ToString());
                 }
                 //Переименовываем use переменные в правой части присваиваний
-                if (!isPhi(str.LeftOperand as IdentificatorValue) && str.Operation != Operation.Phi)
+                if (!Utilities.IsPhiIdentificator(str.LeftOperand as IdentificatorValue) && str.Operation != Operation.Phi)
                 { 
                     if (str.RightOperand is IdentificatorValue)
                     {
@@ -90,7 +90,7 @@ namespace LYtest.Optimize.SSA
                 foreach (var s in child.Value.Enumerate())
                 {
                     //Если встретили фи-функцию, переименовываем ее левую часть
-                    if (isPhi(s.LeftOperand as IdentificatorValue) && s.Operation == Operation.Assign)
+                    if (Utilities.IsPhiAssignment(s))
                     {
                         //Ищем строку соответствующей фи-функции и переименовываем переменную в ее левой части
                         foreach (var line in child.Value.Enumerate()
@@ -138,12 +138,7 @@ namespace LYtest.Optimize.SSA
             counters[v] = i + 1;
         }
 
-        private bool isPhi(IdentificatorValue ident)
-        {
-            return ident != null 
-                && ident.Value.Count() >= 3
-                && ident.Value.Substring(0, 3) == "phi";
-        }
+        
 
         private HashSet<IdentificatorValue> GetAllVariables(CFGraph inputGraph)
         {
@@ -152,8 +147,17 @@ namespace LYtest.Optimize.SSA
             {
                 foreach (var line in block.Enumerate())
                 {
-                    if (LinearHelper.AsDefinition(line) != null && !isPhi(line.LeftOperand.Value as IdentificatorValue))
-                        variables.Add(line.Destination as IdentificatorValue);
+                    //if (LinearHelper.AsDefinition(line) != null && !Utilities.IsPhiIdentificator(line.LeftOperand.Value as IdentificatorValue))
+                    //    variables.Add(line.Destination as IdentificatorValue);
+                    if (LinearHelper.AsDefinition(line) != null && !Utilities.IsPhiIdentificator(line.LeftOperand.Value as IdentificatorValue))
+                    {
+                        if (line.LeftOperand is IdentificatorValue)
+                            variables.Add(line.LeftOperand as IdentificatorValue);
+                        if (line.RightOperand is IdentificatorValue)
+                            variables.Add(line.RightOperand as IdentificatorValue);
+                        if (line.Destination is IdentificatorValue)
+                            variables.Add(line.Destination as IdentificatorValue);
+                    }
                 }
             }
             return variables;
