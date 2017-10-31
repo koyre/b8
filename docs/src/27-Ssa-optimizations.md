@@ -24,6 +24,30 @@ phi1 = 5 if went from label3
 Осуществляется в два этапа:
 1). Фи-функции в вышеописанной форме расставляются во все блоки, в которые входит больше одной дуги управляющего графа
 2). Осуществляется переименование переменных за счет стеков, содержащих порядковый номер для каждой последующей переменной
-<img src="https://yadi.sk/i/CExrze033PGHyT" alt="">
+<img src="https://github.com/AvakGor/temp/blob/master/alg1.png" alt="">
 
 ## Оптимизации по ssa форме
+**Распространение констант:** 
+1). Фи-функции вида: 
+```csharp
+v = phi1 
+phi1 = 3 if went form label1 
+phi1 = 3 if went from label2 
+заменяется на v = 3. 
+```
+2). Все определяемые константы протягиваются по графу 
+3). В случае бинарных операций с константами, выполняется свертка констант
+
+<img src="https://github.com/AvakGor/temp/blob/master/opt1.JPG" alt="">
+
+**Распространение копий:**
+1). Фи-функции вида: 
+```csharp
+V = phi1 
+Phi1 = a if went from label1 
+Phi1 =a if went from label2 
+```
+Заменяются на v = a 
+2). Все определяемые переменные протягиваются по графу 
+
+<img src="https://github.com/AvakGor/temp/blob/master/opt2.JPG" alt="">
